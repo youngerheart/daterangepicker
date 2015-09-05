@@ -1,0 +1,25 @@
+{
+  "name": "daterangepicker",
+  "version": "0.0.1",
+  "homepage": "https://github.com/youngerheart/daterangepicker",
+  "authors": [
+    "youngerheart"
+  ],
+  "description": "a simple daterangepicker",
+  "main": "server.js",
+  "keywords": [
+    "daterangepicker"
+  ],
+  "license": "PRIVATE",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "moment": "^2.2.6",
+    "moment-range": "^2.0.3"
+  }
+}
