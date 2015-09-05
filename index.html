@@ -2,10 +2,21 @@
 <html>
   <head>
     <title>daterangepicker demo</title>
+    <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="dist/base.css">
   </head>
   <body>
     <div id="daterangepicker"></div>
   </body>
+  <script type="text/javascript" src="bower_components/moment/min/moment-with-locales.js"></script>
+  <script type="text/javascript" src="bower_components/moment-range/dist/moment-range.js"></script>
   <script type="text/javascript" src="dist/index.js"></script>
+  <script type="text/javascript">
+    var config = {
+      lang: 'zh-cn'
+    }
+    var el = document.getElementById('daterangepicker');
+    var drp = DateRangePicker.init(el, config);
+    console.log(drp);
+  </script>
 </html>
