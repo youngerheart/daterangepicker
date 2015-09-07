@@ -1,27 +1,34 @@
+var createElement = require('./tools/createElement');
 // 传入元素，参数，初始化之
 
 var today = moment();
 
-function Calendar(el) {
+function Calendar(el, params) {
+  // 渲染header, 再渲染多个月份的日历
   this.el = el;
+  this.calNum = params.numberOfCalendars;
   this.current = moment().date(1);
   this.draw();
 }
 
 Calendar.prototype.draw = function() {
 
-  this.drawHeader();
-
-  this.drawMonth();
+  // 清空之前的数据
+  this.month = [];
+  this.el.innerHTML = '';
+  this.current = this.current.subtract(this.calNum - 1, 'month')
+  for(var i = 0; i < this.calNum; i++) {
+    this.current = this.current.date(1).add(i, 'month');
+    this.drawHeader(i, this.calNum);
+    this.drawMonth(i);
+  }
 }
 
-Calendar.prototype.drawHeader = function() {
+Calendar.prototype.drawHeader = function(i, calNum) {
   var self = this;
-  if (!this.header) {
-
-    this.header = createElement('div', 'drp-header');
-    this.title = createElement('div', 'drp-month', this.current.format('MMM YYYY'));
-
+  this.header = createElement('div', 'drp-header');
+  this.title = createElement('div', 'drp-month', this.current.format('MMM YYYY'));
+  if(!i) {
     var right = createElement('div', 'drp-right');
     right.addEventListener('click', function() {
       self.nextMonth();
@@ -31,34 +38,23 @@ Calendar.prototype.drawHeader = function() {
     left.addEventListener('click', function() {
       self.prevMonth();
     });
-
-    this.header.appendChild(this.title);
     this.header.appendChild(right);
     this.header.appendChild(left);
-    this.el.appendChild(this.header);
-    this.drawWeekDays();
   }
 
+  this.header.appendChild(this.title);
+  
+  this.el.appendChild(this.header);
+  this.drawWeekDays();
   this.title.innerHTML = this.current.format('MMM YYYY');
 }
 
-Calendar.prototype.drawMonth = function() {
-
-  if (this.month) {
-    this.oldMonth = this.month;
-    this.oldMonth.parentNode.removeChild(this.oldMonth);
-    this.month = createElement('div', 'drp-month');
-    this.backFill();
-    this.currentMonth();
-    this.fowardFill();
-    this.el.appendChild(this.month);
-  } else {
-    this.month = createElement('div', 'drp-month');
-    this.el.appendChild(this.month);
-    this.backFill();
-    this.currentMonth();
-    this.fowardFill();
-  }
+Calendar.prototype.drawMonth = function(num) {
+  this.month.push(createElement('div', 'drp-month'));
+  this.backFill();
+  this.currentMonth();
+  this.fowardFill();
+  this.el.appendChild(this.month[this.month.length - 1]);
 }
 
 Calendar.prototype.backFill = function() {
@@ -101,7 +97,7 @@ Calendar.prototype.currentMonth = function() {
 Calendar.prototype.getWeek = function(day) {
   if (!this.week || day.day() === 0) {
     this.week = createElement('div', 'drp-week');
-    this.month.appendChild(this.week);
+    this.month[this.month.length - 1].appendChild(this.week);
   }
 }
 
@@ -156,15 +152,5 @@ Calendar.prototype.prevMonth = function() {
   this.draw();
 }
 
-function createElement(tagName, className, innerText) {
-  var element = document.createElement(tagName);
-  if (className) {
-    element.className = className;
-  }
-  if (innerText) {
-    element.innderText = element.textContent = innerText;
-  }
-  return element;
-}
 
 module.exports = Calendar;

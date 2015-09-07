@@ -1,8 +1,11 @@
 var Calendar = require('./Calendar');
+var createElement = require('./tools/createElement');
+
 
 function DateRangePicker(el, params) {
   el.className = 'drp';
-  this.calendar = new Calendar(el);
+  // 绘制Calendar
+  this.calendar = new Calendar(el, params);
 }
 
 module.exports = DateRangePicker;
