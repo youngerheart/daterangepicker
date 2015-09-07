@@ -110,7 +110,6 @@ Calendar.prototype.drawDay = function(day) {
 
   //Day Number
   var number = createElement('div', 'drp-day-number', day.format('DD'));
-
   outer.appendChild(number);
   this.week.appendChild(outer);
 }
