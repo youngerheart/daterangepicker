@@ -75,7 +75,7 @@ gulp.task('build', function(done) {
 
 gulp.task('dev', [ 'build' ], function(done) {
   runSequence([ 'watch' ], done);
-  console.log('请访问dt.test.ele.me');
+  console.log('请访问index.html');
 });
 
 gulp.task('deploy', function(done) {

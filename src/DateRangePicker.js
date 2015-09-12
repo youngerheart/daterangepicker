@@ -1,16 +1,19 @@
-var Calendar = require('./Calendar');
-var createElement = require('./tools/createElement');
-var bind = require('./events/bind');
-var clickEvents = require('./events/click');
+const Calendar = require('./Calendar');
+const createElement = require('./tools/createElement');
+const bind = require('./events/bind');
+const clickEvents = require('./events/click');
+const PubSub = require('./tools/pubsub');
 
-function DateRangePicker(el, params) {
-  this.init(el, params);
-  // 其中应该保留有用的信息
+function DateRangePicker(el, config) {
+  this.init(el, config);
+  // 保留有用的信息
+  PubSub.set('config', config);
+  PubSub.set('focusElements', [])
 }
 
-DateRangePicker.prototype.init = function(el, params) {
+DateRangePicker.prototype.init = function(el, config) {
   // 绘制Calendar
-  new Calendar(el, params);
+  new Calendar(el, config.numberOfCalendars);
   el.className = 'drp';
   el.addEventListener('click', function(e) {
     bind(e, clickEvents);

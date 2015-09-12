@@ -3,10 +3,10 @@ var createElement = require('./tools/createElement');
 
 var today = moment();
 
-function Calendar(el, params) {
+function Calendar(el, number) {
   // 渲染header, 再渲染多个月份的日历
   this.el = el;
-  this.calNum = params.numberOfCalendars;
+  this.calNum = number;
   this.current = moment().date(1);
   this.draw();
 }
@@ -110,6 +110,7 @@ Calendar.prototype.drawDay = function(day) {
 
   //Day Number
   var number = createElement('div', 'drp-day-number', day.format('DD'));
+  number.setAttribute('date', day.format('YYYY-MM-DD'));
   outer.appendChild(number);
   this.week.appendChild(outer);
 }
