@@ -1,7 +1,7 @@
 const Calendar = require('./Calendar');
 const createElement = require('./tools/createElement');
 const bind = require('./events/bind');
-const clickEvents = require('./events/click');
+const {click, hover} = require('./events/events');
 const PubSub = require('./tools/pubsub');
 
 function DateRangePicker(el, config) {
@@ -13,10 +13,15 @@ function DateRangePicker(el, config) {
 
 DateRangePicker.prototype.init = function(el, config) {
   // 绘制Calendar
+  click.target = el;
+  hover.target = el;
   new Calendar(el, config.numberOfCalendars);
   el.className = 'drp';
-  el.addEventListener('click', function(e) {
-    bind(e, clickEvents);
+  el.addEventListener('click', (e) => {
+    bind(e, click);
+  });
+  el.addEventListener('mouseover', (e) => {
+    bind(e, hover);
   });
 };
 
