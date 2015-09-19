@@ -32,12 +32,7 @@ const exchangeClass = (el, target) => {
       item.className += focusStr;
       focusElements.push(item);
     });
-  }
-};
-
-const exchangeRange = (date) => {
-  if(moment(firstChoose).isBefore(date)) {
-
+    PubSub.set('focusElements', focusElements);
   }
 };
 
