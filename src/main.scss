@@ -95,6 +95,12 @@
   &.focus {
     color: #fff;
     background-color: #ed5434;
+  }
+  &.active {
+    color: #fff;
+    background-color: #8cace2;
+  }
+  &.focus, &.active {
     &.start {
       width: 30px;
       padding-left: 6px;

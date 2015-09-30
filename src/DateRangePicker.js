@@ -1,8 +1,8 @@
+const PubSub = require('expubsub');
 const Calendar = require('./Calendar');
 const createElement = require('./tools/createElement');
 const bind = require('./events/bind');
 const {click, hover} = require('./events/events');
-const PubSub = require('./tools/pubsub');
 
 function DateRangePicker(el, config) {
   this.init(el, config);
