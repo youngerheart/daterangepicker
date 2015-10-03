@@ -1,6 +1,6 @@
 const PubSub = require('expubsub');
 const Calendar = require('./Calendar');
-const createElement = require('./tools/createElement');
+const createElement = require('./tools/element').create;
 const bind = require('./events/bind');
 const {click, hover} = require('./events/events');
 

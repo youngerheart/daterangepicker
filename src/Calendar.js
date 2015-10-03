@@ -1,4 +1,5 @@
-var createElement = require('./tools/createelement');
+var PubSub = require('expubsub');
+var createElement = require('./tools/element').create;
 // 传入元素，参数，初始化之
 
 var today = moment();
@@ -144,12 +145,14 @@ Calendar.prototype.nextMonth = function() {
   this.current.add(1, 'months');
   this.next = true;
   this.draw();
+  PubSub.emit('monthChange', this.el);
 }
 
 Calendar.prototype.prevMonth = function() {
   this.current.subtract(1, 'months');
   this.next = false;
   this.draw();
+  PubSub.emit('monthChange', this.el);
 }
 
 
