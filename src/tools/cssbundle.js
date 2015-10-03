@@ -4,19 +4,22 @@ module.exports = {
   },
 
   addClass(el, className) {
+    var oldname = el.className;
     var classArr = className.split(' ');
     classArr.forEach((item) => {
-      if(!this.hasClass(el, item)) el.className += (' ' + item);
+      if(!this.hasClass(el, item)) {
+        oldname += (' ' + item);
+      }
     });
-    console.log(classArr, el.className);
+    el.className = oldname;
   },
 
   removeClass(el, className) {
+    var oldname = el.className;
     var classArr = className.split(' ');
-    console.log(classArr, el.className);
     classArr.forEach((item) => {
-      if(this.hasClass(el, className)) el.className = el.className.replace(className, '').trim();
+      if(this.hasClass(el, item)) oldname = oldname.replace(item, '').trim();
     });
-    console.log(el.className);
+    el.className = oldname;
   }
 };
