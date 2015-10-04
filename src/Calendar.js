@@ -1,4 +1,5 @@
-var createElement = require('./tools/createElement');
+var PubSub = require('expubsub');
+var createElement = require('./tools/element').create;
 // 传入元素，参数，初始化之
 
 var today = moment();
@@ -131,7 +132,7 @@ Calendar.prototype.drawWeekDays = function(el) {
   // 获取一个星期的每一天
   var weekdays = [];
   for(var i = 0; i < 7; i++) {
-    weekdays.push(moment().weekday(i).format('ddd'));
+    weekdays.push(moment().weekday(i - 1).format('ddd'));
   }
   weekdays.forEach(function(weekday) {
     var day = createElement('span', 'drp-day', weekday);
@@ -144,12 +145,14 @@ Calendar.prototype.nextMonth = function() {
   this.current.add(1, 'months');
   this.next = true;
   this.draw();
+  PubSub.emit('monthChange', this.el);
 }
 
 Calendar.prototype.prevMonth = function() {
   this.current.subtract(1, 'months');
   this.next = false;
   this.draw();
+  PubSub.emit('monthChange', this.el);
 }
 
 
