@@ -2,37 +2,20 @@ const PubSub = require('expubsub');
 const getEBA = require('./../tools/getElementsByAttribute');
 const CB = require('./../tools/cssbundle');
 const EL = require('./../tools/element');
-
-const getDate = (el) => {
-  return el.getAttribute('date');
-};
-
-const getConfig = (key) => {
-  return PubSub.get('config')[key];
-};
-
-const isType = (str) => {
-  return getConfig('type') === str;
-};
+const getter = require('./../tools/getter');
 
 var targetElements = []; // single时储存的点击元素
 var rangeElements = [[], [], []]; // range，terminal时储存的元素
 var firstItem = null;
-var classArr = ['start', 'segment', 'end'];
 var range = null;
 var interval = null;
 
-const classFunc = (i) => {
-  return (firstItem ? 'active ' : 'focus ') + classArr[i];
-};
-
-
 PubSub.on('reload', (target) => {
-  if(!range) range = getConfig('range');
-  if(!interval && isType('terminal')) {
+  if(!range) range = getter.config('range');
+  if(!interval && getter.isType('terminal')) {
     interval = range.diff('days');
   }
-  rangeElements = EL.choose(rangeElements, range.start.format('YYYY-MM-DD'), range.end.format('YYYY-MM-DD'), target, classFunc);
+  rangeElements = EL.choose(rangeElements, getter.format(range.start), getter.format(range.end), target, firstItem);
 });
 
 const exChangeElement = () => {
@@ -53,7 +36,7 @@ const exchangeClass = (el, target, className) => {
   });
   if(!CB.hasClass(el, className)) {
     targetElements = [];
-    getEBA(target, 'date', getDate(el)).forEach((item) => {
+    getEBA(target, 'date', getter.getDate(el)).forEach((item) => {
       CB.addClass(item, className);
       targetElements.push(item);
     });
@@ -65,21 +48,17 @@ module.exports = {
   click: {
     target: null,
     'drp-day-number'(el) {
-      var selectFunc = getConfig('onSelect');
+      var selectFunc = getter.config('onSelect');
       // 直接返回这个时间的moment对象并设置class
-      var chooseItem = getDate(el);
-      if(isType('single')) {
+      var chooseItem = getter.getDate(el);
+      if(getter.isType('single')) {
         if(selectFunc) selectFunc(moment(chooseItem));
         exchangeClass(el, this.target, 'focus');
-      } else if(isType('range')) {
+      } else if(getter.isType('range')) {
         if(!firstItem) {
           // 清除已经focus的
           if(range) {
-            range.by('days', (moment) => {
-              getEBA(this.target, 'date', moment.format('YYYY-MM-DD')).forEach((item) => {
-                CB.removeClass(item, 'focus start end segment');
-              });
-            });
+            EL.clear(this.target, range);
           }
           range = null
           rangeElements = [[], [], []];
@@ -92,14 +71,10 @@ module.exports = {
           if(selectFunc) selectFunc(range);
           firstItem = null;
         }
-      } else if(isType('terminal')) {
+      } else if(getter.isType('terminal')) {
         // 清除已经focus的
         if(range) {
-          range.by('days', (moment) => {
-            getEBA(this.target, 'date', moment.format('YYYY-MM-DD')).forEach((item) => {
-              CB.removeClass(item, 'focus start end segment');
-            });
-          });
+          EL.clear(this.target, range);
         }
         range = moment.range([chooseItem, firstItem]);
         // 更换样式
@@ -112,7 +87,7 @@ module.exports = {
   hover: {
     target: null,
     'drp-day-number'(el) {
-      var hoverItem = getDate(el);
+      var hoverItem = getter.getDate(el);
       if(!this.target) return;
       getEBA(this.target, 'date', hoverItem).forEach((item) => {
         if(item !== el) {
@@ -122,16 +97,16 @@ module.exports = {
           });
         }
       });
-      if(isType('range') && firstItem) {
+      if(getter.isType('range') && firstItem) {
         if(moment(firstItem).isBefore(hoverItem)) {
-          rangeElements = EL.choose(rangeElements, firstItem, hoverItem, this.target, classFunc);
+          rangeElements = EL.choose(rangeElements, firstItem, hoverItem, this.target, firstItem);
         } else {
-          rangeElements = EL.choose(rangeElements, hoverItem, firstItem, this.target, classFunc);
+          rangeElements = EL.choose(rangeElements, hoverItem, firstItem, this.target, firstItem);
         }
       }
-      if(isType('terminal')) {
-        firstItem = moment(hoverItem).add(interval, 'days').format('YYYY-MM-DD');
-        rangeElements = EL.choose(rangeElements, hoverItem, firstItem, this.target, classFunc);
+      if(getter.isType('terminal')) {
+        firstItem = getter.format(moment(hoverItem).add(interval, 'days'));
+        rangeElements = EL.choose(rangeElements, hoverItem, firstItem, this.target, firstItem);
       }
     }
   }
