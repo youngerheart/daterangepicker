@@ -5,10 +5,9 @@ const bind = require('./events/bind');
 const {click, hover} = require('./events/events');
 
 function DateRangePicker(el, config) {
-  this.init(el, config);
   // 保留有用的信息
   PubSub.set('config', config);
-  PubSub.set('focusElements', [])
+  this.init(el, config);
 }
 
 DateRangePicker.prototype.init = function(el, config) {
@@ -23,6 +22,9 @@ DateRangePicker.prototype.init = function(el, config) {
   el.addEventListener('mouseover', (e) => {
     bind(e, hover);
   });
+  if(config.type === 'range' || config.type === 'terminal') {
+    PubSub.emit('reload', el);
+  }
 };
 
 

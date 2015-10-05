@@ -7,29 +7,33 @@ const getDate = (el) => {
   return el.getAttribute('date');
 };
 
-const getConfig = () => {
-  return PubSub.get('config');
+const getConfig = (key) => {
+  return PubSub.get('config')[key];
 };
 
 const isType = (str) => {
-  return getConfig().type === str;
+  return getConfig('type') === str;
 };
 
-var targetElements = [];
-var rangeElements = [[], [], []];
+var targetElements = []; // single时储存的点击元素
+var rangeElements = [[], [], []]; // range，terminal时储存的元素
 var firstItem = null;
 var classArr = ['start', 'segment', 'end'];
-var range = {};
-
-PubSub.on('monthChange', (target) => {
-  if(range.start) {
-    changeClass(range.start.format('YYYY-MM-DD'), range.end.format('YYYY-MM-DD'), target);
-  }
-});
+var range = null;
+var interval = null;
 
 const classFunc = (i) => {
   return (firstItem ? 'active ' : 'focus ') + classArr[i];
 };
+
+
+PubSub.on('reload', (target) => {
+  if(!range) range = getConfig('range');
+  if(!interval && isType('terminal')) {
+    interval = range.diff('days');
+  }
+  rangeElements = EL.choose(rangeElements, range.start.format('YYYY-MM-DD'), range.end.format('YYYY-MM-DD'), target, classFunc);
+});
 
 const exChangeElement = () => {
   var name = '';
@@ -39,42 +43,6 @@ const exChangeElement = () => {
       item.className = name;
     });
   });
-};
-
-const changeClass = (startItem, endItem, target) => {
-  var newStartEls = [];
-  var newSegmentEls = [];
-  var newEndEls = [];
-  var thatRange = moment.range(startItem, endItem);
-  thatRange.by('days', (moment) => {
-    var arr = getEBA(target, 'date', moment.format('YYYY-MM-DD'));
-    if(moment.isAfter(startItem)) {
-      if(moment.isBefore(endItem)) {
-        // 这里是过程
-        newSegmentEls = newSegmentEls.concat(arr);
-      } else {
-        // 这里是结束
-        newEndEls = newEndEls.concat(arr);
-      }
-    } else {
-      // 这里是start
-      newStartEls = newStartEls.concat(arr);
-    }
-  });
-  if(!newStartEls.length) {
-    newStartEls = newEndEls;
-  } else if(!newEndEls.length) {
-    newEndEls = newStartEls;
-  }
-  // 去除老的，增加新的，最后赋值
-  var newRangeElements = [newStartEls, newSegmentEls, newEndEls];
-  rangeElements = EL.change(rangeElements, newRangeElements, classFunc);
-  // 如果起始重合
-  if(newStartEls[0] === newEndEls[0]) {
-    newStartEls.forEach((item) => {
-      CB.removeClass(item, 'start end segment')
-    });
-  }
 };
 
 const exchangeClass = (el, target, className) => {
@@ -97,43 +65,56 @@ module.exports = {
   click: {
     target: null,
     'drp-day-number'(el) {
-      var selectFunc = getConfig().onSelect;
+      var selectFunc = getConfig('onSelect');
+      // 直接返回这个时间的moment对象并设置class
+      var chooseItem = getDate(el);
       if(isType('single')) {
-        // 直接返回这个时间的moment对象并设置class
-        var dateStr = getDate(el);
-        if(selectFunc) selectFunc(moment(dateStr));
+        if(selectFunc) selectFunc(moment(chooseItem));
         exchangeClass(el, this.target, 'focus');
       } else if(isType('range')) {
         if(!firstItem) {
           // 清除已经focus的
-          if(range.start) {
+          if(range) {
             range.by('days', (moment) => {
               getEBA(this.target, 'date', moment.format('YYYY-MM-DD')).forEach((item) => {
                 CB.removeClass(item, 'focus start end segment');
               });
             });
           }
-          range = {};
+          range = null
           rangeElements = [[], [], []];
-          firstItem = getDate(el);
+          firstItem = chooseItem;
           exchangeClass(el, this.target, 'active');
-        } else if(isType('range')) {
-          var chooseItem = getDate(el);
-          range = moment(firstItem).isBefore(chooseItem) ? moment.range([firstItem, chooseItem]) : moment().range([chooseItem, firstItem]);
+        } else {
+          range = moment(firstItem).isBefore(chooseItem) ? moment.range([firstItem, chooseItem]) : moment.range([chooseItem, firstItem]);
           // 更换样式
           exChangeElement();
           if(selectFunc) selectFunc(range);
           firstItem = null;
-        } else if(isType('terminal')) {
         }
+      } else if(isType('terminal')) {
+        // 清除已经focus的
+        if(range) {
+          range.by('days', (moment) => {
+            getEBA(this.target, 'date', moment.format('YYYY-MM-DD')).forEach((item) => {
+              CB.removeClass(item, 'focus start end segment');
+            });
+          });
+        }
+        range = moment.range([chooseItem, firstItem]);
+        // 更换样式
+        exChangeElement();
+        if(selectFunc) selectFunc(range);
+        firstItem = null;
       }
     }
   },
   hover: {
     target: null,
     'drp-day-number'(el) {
+      var hoverItem = getDate(el);
       if(!this.target) return;
-      getEBA(this.target, 'date', getDate(el)).forEach((item) => {
+      getEBA(this.target, 'date', hoverItem).forEach((item) => {
         if(item !== el) {
           CB.addClass(item, 'hover');
           el.addEventListener('mouseout', () => {
@@ -142,15 +123,15 @@ module.exports = {
         }
       });
       if(isType('range') && firstItem) {
-        var hoverItem = getDate(el);
         if(moment(firstItem).isBefore(hoverItem)) {
-          changeClass(firstItem, hoverItem, this.target);
-        } else if(moment(hoverItem).isBefore(firstItem)) {
-          changeClass(hoverItem, firstItem, this.target);
+          rangeElements = EL.choose(rangeElements, firstItem, hoverItem, this.target, classFunc);
         } else {
-          // 清除其他class
-          changeClass(firstItem, hoverItem, this.target);
+          rangeElements = EL.choose(rangeElements, hoverItem, firstItem, this.target, classFunc);
         }
+      }
+      if(isType('terminal')) {
+        firstItem = moment(hoverItem).add(interval, 'days').format('YYYY-MM-DD');
+        rangeElements = EL.choose(rangeElements, hoverItem, firstItem, this.target, classFunc);
       }
     }
   }

@@ -15,14 +15,13 @@
     var configs = {
       lang: 'zh-cn', // 当前使用语言
       numberOfCalendars: 2, // 显示多少个月的日历
-      type: 'range', // single, range, terminal 是单选，选择时间区域，还是规定时间区域改变时间起止
-      range: null, // 已经选定的momentrange区间，仅在terminal时有效
+      type: 'terminal', // single, range, terminal 是单选，选择时间区域，还是规定时间区域改变时间起止
+      range: moment.range(['2015-10-01', '2015-10-04']), // 已经选定的momentrange区间，仅在range与terminal时有效
       onSelect: function(date) {
-        console.log(date);
+        //console.log(date);
       }
     }
     var el = document.getElementById('daterangepicker');
     var drp = DateRangePicker.init(el, configs);
-    console.log(drp);
   </script>
 </html>

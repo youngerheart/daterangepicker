@@ -145,14 +145,14 @@ Calendar.prototype.nextMonth = function() {
   this.current.add(1, 'months');
   this.next = true;
   this.draw();
-  PubSub.emit('monthChange', this.el);
+  PubSub.emit('reload', this.el);
 }
 
 Calendar.prototype.prevMonth = function() {
   this.current.subtract(1, 'months');
   this.next = false;
   this.draw();
-  PubSub.emit('monthChange', this.el);
+  PubSub.emit('reload', this.el);
 }
 
 
