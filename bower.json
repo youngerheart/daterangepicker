@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "moment": "^2.2.6",
-    "moment-range": "^2.0.3"
+    "moment-range": "^2.0.3",
+    "angular": "1.2.28"
   }
 }
