@@ -7,14 +7,6 @@ module.exports = {
     return el.getAttribute('date');
   },
 
-  config(key) {
-    return PubSub.get('config')[key];
-  },
-
-  isType(str) {
-    return this.config('type') === str;
-  },
-
   format(moment) {
     return moment.format('YYYY-MM-DD');
   },

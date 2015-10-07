@@ -15,7 +15,7 @@ dev: install
 	@gulp dev
 
 deploy: install
-	@rm -rf ./dist/deploy && gulp deploy; \
+	@rm -rf ./min && gulp deploy; \
 
 install:
 	@hash="cache-daterangepicker-$$(cat Makefile package.json bower.json | openssl sha1 | tail -c33)"; \

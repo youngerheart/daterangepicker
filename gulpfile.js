@@ -4,9 +4,9 @@ var minifyCss = require('gulp-minify-css');
 var browserify = require('gulp-browserify');
 var babelify = require('babelify');
 var concat  = require('gulp-concat');
+var uglify = require('gulp-uglify');
 var runSequence = require('run-sequence');
 var usemin = require('gulp-usemin');
-var rev = require('gulp-rev');
 var eslint = require('gulp-eslint');
 var autoprefixer = require('gulp-autoprefixer');
 
@@ -25,10 +25,10 @@ var lazyWatch = function(glob, task) {
 
 gulp.task('usemin', function() {
   return gulp.src('index.html').pipe(usemin({
-    js: [rev()],
-    libjs: [rev()],
-    css: [minifyCss(), rev()]
-  })).pipe(gulp.dest('dist/deploy'));
+    libjs: [uglify()],
+    js: [uglify()],
+    css: [minifyCss()]
+  })).pipe(gulp.dest('min'));
 });
 
 gulp.task('compile.css', function(done) {

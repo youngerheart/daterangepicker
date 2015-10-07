@@ -1,6 +1,6 @@
 const CB = require('./cssbundle');
 const getEBA = require('./getElementsByAttribute');
-const {classArr, classFunc, format} = require('./getter');
+const {classArr, classFunc, format, getDate} = require('./getter');
 
 module.exports = {
   create(tagName, className, innerText) {
@@ -84,5 +84,33 @@ module.exports = {
         CB.removeClass(item, 'focus ' + classArr[i]);
       });
     });
+  },
+
+  exChange(rangeElements) {
+    var name = '';
+    rangeElements.forEach((els) => {
+      els.forEach((item) => {
+        name = item.className.replace('active', 'focus').replace('active', '');
+        item.className = name;
+      });
+    });
+    return rangeElements;
+  },
+
+
+  exchangeClass(targetElements, el, target, className) {
+    className = className || '';
+    targetElements.forEach((oldEl) => {
+      if(oldEl === el) return;
+      if(oldEl) CB.removeClass(oldEl, className);
+    });
+    if(!CB.hasClass(el, className)) {
+      targetElements = [];
+      getEBA(target, 'date', getDate(el)).forEach((item) => {
+        CB.addClass(item, className);
+        targetElements.push(item);
+      });
+    }
+    return targetElements;
   }
 };
