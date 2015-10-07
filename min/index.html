@@ -3,22 +3,15 @@
   <head>
     <title>daterangepicker demo</title>
     <meta charset="utf-8">
-    <!-- build:css daterangepicker.min.css -->
-    <link rel="stylesheet" type="text/css" href="dist/base.css">
-    <!-- endbuild -->
+    <link rel="stylesheet" href="daterangepicker.min.css"/>
   </head>
   <body>
     <div id="drp-single"></div>
     <div id="drp-range"></div>
     <div id="drp-terminal"></div>
   </body>
-  <!-- build:libjs daterangepicker-lib.min.js -->
-  <script type="text/javascript" src="bower_components/moment/min/moment-with-locales.js"></script>
-  <script type="text/javascript" src="bower_components/moment-range/dist/moment-range.js"></script>
-  <!-- endbuild -->
-  <!-- build:js daterangepicker.min.js -->
-  <script type="text/javascript" src="dist/index.js"></script>
-  <!-- endbuild -->
+  <script src="daterangepicker-lib.min.js"></script>
+  <script src="daterangepicker.min.js"></script>
   <script type="text/javascript">
     var configs1 = {
       lang: 'zh-cn', // 当前使用语言

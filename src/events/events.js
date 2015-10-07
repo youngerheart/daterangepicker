@@ -2,155 +2,80 @@ const PubSub = require('expubsub');
 const getEBA = require('./../tools/getElementsByAttribute');
 const CB = require('./../tools/cssbundle');
 const EL = require('./../tools/element');
-
-const getDate = (el) => {
-  return el.getAttribute('date');
-};
-
-const getConfig = () => {
-  return PubSub.get('config');
-};
-
-const isType = (str) => {
-  return getConfig().type === str;
-};
-
-var targetElements = [];
-var rangeElements = [[], [], []];
-var firstItem = null;
-var classArr = ['start', 'segment', 'end'];
-var range = {};
-
-PubSub.on('monthChange', (target) => {
-  if(range.start) {
-    changeClass(range.start.format('YYYY-MM-DD'), range.end.format('YYYY-MM-DD'), target);
-  }
-});
-
-const classFunc = (i) => {
-  return (firstItem ? 'active ' : 'focus ') + classArr[i];
-};
-
-const exChangeElement = () => {
-  var name = '';
-  rangeElements.forEach((els) => {
-    els.forEach((item) => {
-      name = item.className.replace('active', 'focus');
-      item.className = name;
-    });
-  });
-};
-
-const changeClass = (startItem, endItem, target) => {
-  var newStartEls = [];
-  var newSegmentEls = [];
-  var newEndEls = [];
-  var thatRange = moment.range(startItem, endItem);
-  thatRange.by('days', (moment) => {
-    var arr = getEBA(target, 'date', moment.format('YYYY-MM-DD'));
-    if(moment.isAfter(startItem)) {
-      if(moment.isBefore(endItem)) {
-        // 这里是过程
-        newSegmentEls = newSegmentEls.concat(arr);
-      } else {
-        // 这里是结束
-        newEndEls = newEndEls.concat(arr);
-      }
-    } else {
-      // 这里是start
-      newStartEls = newStartEls.concat(arr);
-    }
-  });
-  if(!newStartEls.length) {
-    newStartEls = newEndEls;
-  } else if(!newEndEls.length) {
-    newEndEls = newStartEls;
-  }
-  // 去除老的，增加新的，最后赋值
-  var newRangeElements = [newStartEls, newSegmentEls, newEndEls];
-  rangeElements = EL.change(rangeElements, newRangeElements, classFunc);
-  // 如果起始重合
-  if(newStartEls[0] === newEndEls[0]) {
-    newStartEls.forEach((item) => {
-      CB.removeClass(item, 'start end segment')
-    });
-  }
-};
-
-const exchangeClass = (el, target, className) => {
-  className = className || '';
-  targetElements.forEach((oldEl) => {
-    if(oldEl === el) return;
-    if(oldEl) CB.removeClass(oldEl, className);
-  });
-  if(!CB.hasClass(el, className)) {
-    targetElements = [];
-    getEBA(target, 'date', getDate(el)).forEach((item) => {
-      CB.addClass(item, className);
-      targetElements.push(item);
-    });
-    PubSub.set('targetElements', targetElements);
-  }
-};
+const getter = require('./../tools/getter');
 
 module.exports = {
+  reload(that) {
+    var {range, config, rangeElements, interval, el, firstItem} = that;
+    if(!range) that.range = config.range;
+    if(!interval && config.type === 'terminal') {
+      that.interval = that.range.diff('days');
+    }
+    that.rangeElements = EL.choose(rangeElements, getter.format(that.range.start), getter.format(that.range.end), el, firstItem);
+  },
   click: {
-    target: null,
-    'drp-day-number'(el) {
-      var selectFunc = getConfig().onSelect;
-      if(isType('single')) {
-        // 直接返回这个时间的moment对象并设置class
-        var dateStr = getDate(el);
-        if(selectFunc) selectFunc(moment(dateStr));
-        exchangeClass(el, this.target, 'focus');
-      } else if(isType('range')) {
+    'drp-day-number'(target, that) {
+      var {range, config, rangeElements, el, firstItem, targetElements, interval} = that;
+      var selectFunc = config.onSelect;
+      // 直接返回这个时间的moment对象并设置class
+      var chooseItem = getter.getDate(target);
+      if(config.type === 'single') {
+        if(selectFunc) selectFunc(moment(chooseItem));
+        that.targetElements = EL.exchangeClass(targetElements, target, el, 'focus');
+      } else if(config.type === 'range') {
         if(!firstItem) {
           // 清除已经focus的
-          if(range.start) {
-            range.by('days', (moment) => {
-              getEBA(this.target, 'date', moment.format('YYYY-MM-DD')).forEach((item) => {
-                CB.removeClass(item, 'focus start end segment');
-              });
-            });
+          if(range) {
+            EL.clear(el, range);
           }
-          range = {};
-          rangeElements = [[], [], []];
-          firstItem = getDate(el);
-          exchangeClass(el, this.target, 'active');
-        } else if(isType('range')) {
-          var chooseItem = getDate(el);
-          range = moment(firstItem).isBefore(chooseItem) ? moment.range([firstItem, chooseItem]) : moment().range([chooseItem, firstItem]);
+          that.range = null;
+          that.firstItem = chooseItem;
+          chooseItem = getEBA(target, 'date', firstItem);
+          that.rangeElements = [chooseItem, [], chooseItem];
+          that.targetElements = EL.exchangeClass(targetElements, target, el, 'active');
+        } else {
+          that.range = moment(firstItem).isBefore(chooseItem) ? moment.range([firstItem, chooseItem]) : moment.range([chooseItem, firstItem]);
           // 更换样式
-          exChangeElement();
-          if(selectFunc) selectFunc(range);
-          firstItem = null;
-        } else if(isType('terminal')) {
+          EL.exChange(rangeElements);
+          if(selectFunc) selectFunc(that.range);
+          that.firstItem = null;
         }
+      } else if(config.type === 'terminal') {
+        // 清除已经focus的
+        if(range) {
+          EL.clear(el, range);
+        }
+        that.range = moment.range([chooseItem, firstItem]);
+        // 更换样式
+        EL.exChange(rangeElements);
+        if(selectFunc) selectFunc(that.range);
+        that.firstItem = null;
       }
     }
   },
   hover: {
-    target: null,
-    'drp-day-number'(el) {
-      if(!this.target) return;
-      getEBA(this.target, 'date', getDate(el)).forEach((item) => {
-        if(item !== el) {
+    'drp-day-number'(target, that) {
+      var {range, config, rangeElements, el, firstItem, targetElements, interval} = that;
+      var hoverItem = getter.getDate(target);
+      if(!el) return;
+      getEBA(el, 'date', hoverItem).forEach((item) => {
+        if(item !== target) {
           CB.addClass(item, 'hover');
-          el.addEventListener('mouseout', () => {
+          target.addEventListener('mouseout', () => {
             CB.removeClass(item, 'hover');
           });
         }
       });
-      if(isType('range') && firstItem) {
-        var hoverItem = getDate(el);
+      if(config.type === 'range' && firstItem) {
         if(moment(firstItem).isBefore(hoverItem)) {
-          changeClass(firstItem, hoverItem, this.target);
-        } else if(moment(hoverItem).isBefore(firstItem)) {
-          changeClass(hoverItem, firstItem, this.target);
+          that.rangeElements = EL.choose(rangeElements, firstItem, hoverItem, el, firstItem);
         } else {
-          // 清除其他class
-          changeClass(firstItem, hoverItem, this.target);
+          that.rangeElements = EL.choose(rangeElements, hoverItem, firstItem, el, firstItem);
         }
+      }
+      if(config.type === 'terminal') {
+        that.firstItem = getter.format(moment(hoverItem).add(interval, 'days'));
+        that.rangeElements = EL.choose(rangeElements, hoverItem, that.firstItem, el, that.firstItem);
       }
     }
   }
