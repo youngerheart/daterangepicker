@@ -98,19 +98,17 @@ module.exports = {
   },
 
 
-  exchangeClass(targetElements, el, target, className) {
+  exchangeClass(targetElements, date, el, className) {
     className = className || '';
     targetElements.forEach((oldEl) => {
-      if(oldEl === el) return;
+      if(getDate(oldEl) === date) return;
       if(oldEl) CB.removeClass(oldEl, className);
     });
-    if(!CB.hasClass(el, className)) {
-      targetElements = [];
-      getEBA(target, 'date', getDate(el)).forEach((item) => {
-        CB.addClass(item, className);
-        targetElements.push(item);
-      });
-    }
+    targetElements = [];
+    getEBA(el, 'date', date).forEach((item) => {
+      CB.addClass(item, className);
+      targetElements.push(item);
+    });
     return targetElements;
   }
 };

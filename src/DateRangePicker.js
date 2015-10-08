@@ -12,6 +12,7 @@ function DateRangePicker(el, config) {
   this.rangeElements = [[], [], []]; // range，terminal时储存的元素
   this.firstItem = null;
   this.range = null;
+  this.date = null;
   this.interval = null;
   this.init();
 }
@@ -19,7 +20,9 @@ function DateRangePicker(el, config) {
 DateRangePicker.prototype.init = function() {
   // 绘制Calendar
   var {el, config} = this;
-  new Calendar(el, config.numberOfCalendars);
+  new Calendar(this, () => {
+    reload(this);
+  });
   el.className = 'drp';
   el.addEventListener('click', (e) => {
     bind(e, click, this);
@@ -27,9 +30,7 @@ DateRangePicker.prototype.init = function() {
   el.addEventListener('mouseover', (e) => {
     bind(e, hover, this);
   });
-  if(config.type === 'range' || config.type === 'terminal') {
-    reload(this);
-  }
+  reload(this);
 };
 
 
