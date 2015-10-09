@@ -3,6 +3,23 @@ const getEBA = require('./getElementsByAttribute');
 const {classArr, classFunc, format, getDate} = require('./getter');
 
 module.exports = {
+  hasChild(parent, child) {
+    var result = false;
+    var walk = (node) => {
+      if(node === child) {
+        result = true;
+      }
+      if(node.childNodes && node.childNodes.length) {
+        walk(node.childNodes[0]);
+      }
+      if(node.nextSibling) {
+        walk(node.nextSibling)
+      }
+    };
+    walk(parent);
+    return result;
+  },
+
   create(tagName, className, innerText) {
     var element = document.createElement(tagName);
     if (className) {
