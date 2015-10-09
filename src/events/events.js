@@ -89,5 +89,12 @@ module.exports = {
         that.rangeElements = EL.choose(rangeElements, hoverItem, that.firstItem, el, that.firstItem);
       }
     }
+  },
+  leave(that) {
+    var {config, rangeElements, targetElements} = that;
+    if(config.type === 'range' || config.type === 'terminal') {
+      // 清除active的元素
+      EL.clearRange(rangeElements, targetElements);
+    }
   }
 };

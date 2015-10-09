@@ -1,8 +1,8 @@
 const PubSub = require('expubsub');
 const Calendar = require('./Calendar');
-const createElement = require('./tools/element').create;
 const bind = require('./events/bind');
-const {click, hover, reload} = require('./events/events');
+const {click, hover, reload, leave} = require('./events/events');
+const leaveEvent = require('./tools/mouseleave');
 
 function DateRangePicker(el, config) {
   // 保留有用的信息
@@ -29,9 +29,14 @@ DateRangePicker.prototype.init = function() {
   });
   el.addEventListener('mouseover', (e) => {
     bind(e, hover, this);
+    if(!leaveEvent.getTarget(el)) leaveEvent.setTarget(el);
+  });
+  leaveEvent.add(el, () => {
+    leave(this);
   });
   reload(this);
 };
+
 
 
 module.exports = DateRangePicker;
