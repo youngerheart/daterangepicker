@@ -1,12 +1,39 @@
 # daterangepicker
 a simple daterangepicker
 
-## 为何要做这个
-现在碰到的棘手的问题就是一个angular项目和react项目都需要用到时间选择器，然而找了下，daterangepicker基本上都是基于某种框架实现的，功能也不是很完全，想要fork别人的代码，然而npm之类不给力，还要看源码。干脆=_=自己写个吧。
+## What achieved 
+1. calendar component base on moment.js
+2. date simple picker
+3. date range picker
+4. date terminal picker
+
+## Usage
+
+* This component relies on moment and moment-range, so you should include them first
+
+* Include js and css in `/dist` by tag , you can also require js by `require('date-range-picker')`
+
+      var configs1 = {
+        lang: 'zh-cn', // using language
+        numberOfCalendars: 1, // displaying month number
+        type: 'single', // single, range, terminal
+        date: '2015-10-01', // default date for type single
+        range: ['2015-10-01', '2015-10-08'], default range for type range or terminal
+        onSelect: function(date/range) {
+          //...
+        } // callback after select, return date or range with moment and moment-range object
+      }
+      /**
+      * Get a dom object named such as el1 first
+      */
+      var drp1 = new DateRangePicker(el1, configs1);
+      console.log(drp1.date) // current date for type
+      console.log(drp1.range) // current range for type range and terminal
+
+## Develop
+
+      $ git clone && make dev
 
 ## TODO
-1. 基于moment.js实现日历控件(已完成！)
-2. 不依赖任何控件，但可以方便的转换为angular directive或者react component
-3. 实现时间单选(已完成！)
-4. 实现时间区域选择
-5. 规定时间区域后，不改变间隔天数的情况下改变起止时间
+
+Easily transform to angular directive or react component (in new project)

@@ -31,7 +31,7 @@ gulp.task('compile.css', function(done) {
 
 gulp.task('compile.js', function() {
   return gulp
-  .src('./index.js')
+  .src('./src/index.js')
   .pipe(browserify({
     transform: [babelify]
   }))

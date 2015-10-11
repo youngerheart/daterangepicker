@@ -1,4 +1,3 @@
-const PubSub = require('expubsub');
 const Calendar = require('./Calendar');
 const bind = require('./events/bind');
 const {click, hover, reload, leave} = require('./events/events');

@@ -79,7 +79,7 @@ var configs3 = {
   type: 'terminal',
   range: ['2015-10-03', '2015-10-07'],
   onSelect: function(date) {
-    console.log(date);
+    // ...
   }
 }
         </pre>
@@ -127,11 +127,11 @@ var configs3 = {
       }
     }
     var el1 = el('drp-single');
-    var drp1 = DateRangePicker.init(el1, configs1);
+    var drp1 = new DateRangePicker(el1, configs1);
     var el2 = el('drp-range');
-    var drp2 = DateRangePicker.init(el2, configs2);
+    var drp2 = new DateRangePicker(el2, configs2);
     var el3 = el('drp-terminal');
-    var drp3 = DateRangePicker.init(el3, configs3);
+    var drp3 = new DateRangePicker(el3, configs3);
 
     var input1 = el('drp-single-value');
     var input2 = el('drp-range-value');

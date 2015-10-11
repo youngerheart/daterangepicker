@@ -1,5 +1,3 @@
-const PubSub = require('expubsub');
-
 module.exports = {
   classArr: ['start', 'segment', 'end'],
 

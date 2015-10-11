@@ -1,4 +1,3 @@
-const PubSub = require('expubsub');
 const getEBA = require('./../tools/getElementsByAttribute');
 const CB = require('./../tools/cssbundle');
 const EL = require('./../tools/element');
