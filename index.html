@@ -1,83 +1,145 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html>
   <head>
-    <meta charset="UTF-8">
-    <title>Daterangepicker by youngerheart</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <title>daterangepicker demo</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="dist/daterangepicker.min.css">
+    <style>
+      html, body {margin: 0;}
+      html {font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+      .transform {transform:rotate(45deg); -ms-transform:rotate(45deg); -moz-transform:rotate(45deg);-webkit-transform:rotate(45deg);-o-transform:rotate(45deg);}
+      .forkme {text-decoration: none; position: absolute; right: -60px; top: 40px; z-index: 999; line-height: 40px; background-color: #56ad35; color: #fff; width: 240px; font-size: 18px; font-weight: bold; text-align: center; box-shadow: 0 0 5px #888888;}
+      .header {font-size: 30px; line-height: 50px; text-align: center; background: #cb3837; color: #fff;}
+      .item {position: relative; margin-top: 20px; padding: 20px; background-color: #fcfcfc; border: #eee solid; border-width: 1px 0;}
+      .item-title {position: relative; margin-bottom: 20px; padding-left: 30px;}
+      .item-title-text {font-size: 24px;}
+      .item-title-value {line-height: 36px; border-radius: 3px; color: #fff; font-weight: bold; background-color: #ed5434; display: inline-block; padding: 0 10px;margin-left: 10px;}
+      .item-desc {position: absolute; top: 70px; left: 400px; right: 20px; vertical-align: top; padding: 10px; border: 3px #fff solid; color: #fff; background-color: #333;}
+      .item-desc pre {font-family: Menlo,Monaco,Consolas,"Courier New",monospace;}
+    </style>
   </head>
   <body>
-    <section class="page-header">
-      <h1 class="project-name">Daterangepicker</h1>
-      <h2 class="project-tagline">a simple daterangepicker</h2>
-      <a href="https://github.com/youngerheart/daterangepicker" class="btn">View on GitHub</a>
-      <a href="https://github.com/youngerheart/daterangepicker/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/youngerheart/daterangepicker/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
-
-    <section class="main-content">
-      <h1>
-<a id="daterangepicker" class="anchor" href="#daterangepicker" aria-hidden="true"><span class="octicon octicon-link"></span></a>daterangepicker</h1>
-
-<p>a simple daterangepicker</p>
-
-<h2>
-<a id="what-achieved" class="anchor" href="#what-achieved" aria-hidden="true"><span class="octicon octicon-link"></span></a>What achieved</h2>
-
-<ol>
-<li>calendar component base on moment.js</li>
-<li>date simple picker</li>
-<li>date range picker</li>
-<li>date terminal picker</li>
-</ol>
-
-<h2>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
-
-<p>This component relies on moment and moment-range, so you should include them first</p>
-
-<p>Include js and css in <code>/dist</code> by tag , you can also require js by <code>require('date-range-picker')</code></p>
-
-<pre><code>  var configs1 = {
-    lang: 'zh-cn', // using language
-    numberOfCalendars: 1, // displaying month number
-    type: 'single', // single, range, terminal
-    date: '2015-10-01', // default date for type single
-    range: ['2015-10-01', '2015-10-08'], default range for type range or terminal
-    onSelect: function(date/range) {
-      //...
-    } // callback after select, return date or range with moment and moment-range object
+    <a target="_blank" href="https://github.com/youngerheart/daterangepicker" title="Forkme on github" class="forkme transform">Forkme on github</a>
+    <div class="header">
+      daterangepicker demo
+    </div>
+    <div class="item">
+      <div class="item-title">
+        <span class='item-title-text'>date-single-picker</span>
+        <span id='drp-single-value' class="item-title-value"></span>
+      </div>
+      <div id="drp-single"></div>
+      <div class="item-desc">
+        <pre>
+var configs1 = {
+  lang: 'zh-cn',
+  numberOfCalendars: 1,
+  type: 'single',
+  date: '2015-10-01',
+  onSelect: function(date) {
+    // ...
   }
-  /**
-  * Get a dom object named such as el1 first
-  */
-  var drp1 = new DateRangePicker(el1, configs1);
-  console.log(drp1.date) // current date for type
-  console.log(drp1.range) // current range for type range and terminal
-</code></pre>
-
-<h2>
-<a id="develop" class="anchor" href="#develop" aria-hidden="true"><span class="octicon octicon-link"></span></a>Develop</h2>
-
-<pre><code>  $ git clone &amp;&amp; make dev
-</code></pre>
-
-<h2>
-<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO</h2>
-
-<p>Easily transform to angular directive or react component (in new project)</p>
-
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/youngerheart/daterangepicker">Daterangepicker</a> is maintained by <a href="https://github.com/youngerheart">youngerheart</a>.</span>
-
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
-
-    </section>
-
-  
+}
+DateRangePicker.init(el1, configs1);
+        </pre>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-title">
+        <span class='item-title-text'>date-range-picker</span>
+        <span id='drp-range-value' class="item-title-value"></span>
+      </div>
+      <div id="drp-range"></div>
+      <div class="item-desc">
+        <pre>
+var configs2 = {
+  lang: 'en',
+  numberOfCalendars: 2,
+  type: 'range',
+  date: ['2015-10-01', '2015-10-04'],
+  onSelect: function(date) {
+    // ...
+  }
+}
+DateRangePicker.init(el2, configs2);
+        </pre>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-title">
+        <span class='item-title-text'>date-terminal-picker</span>
+        <span id='drp-terminal-value' class="item-title-value"></span>
+      </div>
+      <div id="drp-terminal"></div>
+      <div class="item-desc">
+        <pre>
+var configs3 = {
+  lang: 'fr',
+  numberOfCalendars: 3,
+  type: 'terminal',
+  range: ['2015-10-03', '2015-10-07'],
+  onSelect: function(date) {
+    // ...
+  }
+}
+        </pre>
+      </div>
+    </div>
   </body>
+  <script type="text/javascript" src="bower_components/moment/min/moment-with-locales.js"></script>
+  <script type="text/javascript" src="bower_components/moment-range/dist/moment-range.js"></script>
+  <script type="text/javascript" src="dist/daterangepicker.min.js"></script>
+  <script type="text/javascript">
+    var el = function(name) {return document.getElementById(name);};
+    var setValue = function(el, moment) {
+      if(moment.start) {
+        el.innerHTML = 'Total: ' + moment.start.format('YYYY-MM-DD') + '~' + moment.end.format('YYYY-MM-DD');
+      } else {
+        el.innerHTML = 'Total: ' + moment.format('YYYY-MM-DD');
+      }
+    };
+
+    var configs1 = {
+      lang: 'zh-cn', // 当前使用语言
+      numberOfCalendars: 1, // 显示多少个月的日历
+      type: 'single', // single, range, terminal 是单选，选择时间区域，还是规定时间区域改变时间起止
+      date: '2015-10-01', // 已经选定的momentrange区间，仅在range与terminal时有效
+      onSelect: function(date) {
+        setValue(input1, date);
+      }
+    }
+    var configs2 = {
+      lang: 'en',
+      numberOfCalendars: 2,
+      type: 'range',
+      range: ['2015-10-01', '2015-10-04'],
+      onSelect: function(range) {
+        setValue(input2, range);
+      }
+    }
+    var configs3 = {
+      lang: 'fr',
+      numberOfCalendars: 3,
+      type: 'terminal',
+      range: ['2015-10-03', '2015-10-07'],
+      onSelect: function(range) {
+        setValue(input3, range);
+      }
+    }
+    var el1 = el('drp-single');
+    var drp1 = new DateRangePicker(el1, configs1);
+    var el2 = el('drp-range');
+    var drp2 = new DateRangePicker(el2, configs2);
+    var el3 = el('drp-terminal');
+    var drp3 = new DateRangePicker(el3, configs3);
+
+    var input1 = el('drp-single-value');
+    var input2 = el('drp-range-value');
+    var input3 = el('drp-terminal-value');
+
+    setValue(input1, drp1.date);
+    setValue(input2, drp2.range);
+    setValue(input3, drp3.range);
+
+  </script>
 </html>
