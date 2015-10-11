@@ -6,12 +6,23 @@ const getter = require('./../tools/getter');
 
 module.exports = {
   reload(that) {
-    var {range, config, rangeElements, interval, el, firstItem} = that;
-    if(!range) that.range = config.range;
-    if(!interval && config.type === 'terminal') {
-      that.interval = that.range.diff('days');
+    var {range, config, rangeElements, interval, el, firstItem, targetElements} = that;
+    if(config.type === 'single') {
+      that.date = config.date ? moment(config.date) : null;
+    } else {
+      that.date = null;
     }
-    that.rangeElements = EL.choose(rangeElements, getter.format(that.range.start), getter.format(that.range.end), el, firstItem);
+    if(!range && (config.type === 'range' || config.type === 'terminal')) {
+      that.range = config.range ? moment.range(config.range) : null;
+      if(!interval && config.type === 'terminal') {
+        that.interval = that.range.diff('days');
+      }
+    }
+    if(config.type === 'range' || config.type === 'terminal') {
+      that.rangeElements = EL.choose(rangeElements, getter.format(that.range.start), getter.format(that.range.end), el, firstItem);
+    } else {
+      that.targetElements = EL.exchangeClass(targetElements, getter.format(that.date), el, 'focus');
+    }
   },
   click: {
     'drp-day-number'(target, that) {
@@ -21,7 +32,7 @@ module.exports = {
       var chooseItem = getter.getDate(target);
       if(config.type === 'single') {
         if(selectFunc) selectFunc(moment(chooseItem));
-        that.targetElements = EL.exchangeClass(targetElements, target, el, 'focus');
+        that.targetElements = EL.exchangeClass(targetElements, chooseItem, el, 'focus');
       } else if(config.type === 'range') {
         if(!firstItem) {
           // 清除已经focus的
@@ -30,9 +41,9 @@ module.exports = {
           }
           that.range = null;
           that.firstItem = chooseItem;
+          that.targetElements = EL.exchangeClass(targetElements, chooseItem, el, 'active');
           chooseItem = getEBA(target, 'date', firstItem);
           that.rangeElements = [chooseItem, [], chooseItem];
-          that.targetElements = EL.exchangeClass(targetElements, target, el, 'active');
         } else {
           that.range = moment(firstItem).isBefore(chooseItem) ? moment.range([firstItem, chooseItem]) : moment.range([chooseItem, firstItem]);
           // 更换样式
@@ -77,6 +88,13 @@ module.exports = {
         that.firstItem = getter.format(moment(hoverItem).add(interval, 'days'));
         that.rangeElements = EL.choose(rangeElements, hoverItem, that.firstItem, el, that.firstItem);
       }
+    }
+  },
+  leave(that) {
+    var {config, rangeElements, targetElements} = that;
+    if(config.type === 'range' || config.type === 'terminal') {
+      // 清除active的元素
+      EL.clearRange(rangeElements, targetElements);
     }
   }
 };

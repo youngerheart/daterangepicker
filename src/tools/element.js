@@ -3,6 +3,23 @@ const getEBA = require('./getElementsByAttribute');
 const {classArr, classFunc, format, getDate} = require('./getter');
 
 module.exports = {
+  hasChild(parent, child) {
+    var result = false;
+    var walk = (node) => {
+      if(node === child) {
+        result = true;
+      }
+      if(node.childNodes && node.childNodes.length) {
+        walk(node.childNodes[0]);
+      }
+      if(node.nextSibling) {
+        walk(node.nextSibling)
+      }
+    };
+    walk(parent);
+    return result;
+  },
+
   create(tagName, className, innerText) {
     var element = document.createElement(tagName);
     if (className) {
@@ -86,11 +103,34 @@ module.exports = {
     });
   },
 
+  clearRange(rangeElements, targetElements) {
+    var className;
+    rangeElements.forEach((els, i) => {
+      els.forEach((item) => {
+        switch(i) {
+          case 0:
+            className = 'active start';
+            break;
+          case 1:
+            className = 'active segment';
+            break;
+          case 2:
+            className = 'active end';
+            break;
+        }
+        CB.removeClass(item, className);
+      });
+    });
+    targetElements.forEach((item) => {
+      CB.removeClass(item, 'active');
+    });
+  },
+
   exChange(rangeElements) {
     var name = '';
     rangeElements.forEach((els) => {
       els.forEach((item) => {
-        name = item.className.replace('active', 'focus').replace('active', '');
+        name = item.className.replace('active', 'focus').replace('active', '').trim();
         item.className = name;
       });
     });
@@ -98,19 +138,17 @@ module.exports = {
   },
 
 
-  exchangeClass(targetElements, el, target, className) {
+  exchangeClass(targetElements, date, el, className) {
     className = className || '';
     targetElements.forEach((oldEl) => {
-      if(oldEl === el) return;
+      if(getDate(oldEl) === date) return;
       if(oldEl) CB.removeClass(oldEl, className);
     });
-    if(!CB.hasClass(el, className)) {
-      targetElements = [];
-      getEBA(target, 'date', getDate(el)).forEach((item) => {
-        CB.addClass(item, className);
-        targetElements.push(item);
-      });
-    }
+    targetElements = [];
+    getEBA(el, 'date', date).forEach((item) => {
+      CB.addClass(item, className);
+      targetElements.push(item);
+    });
     return targetElements;
   }
 };

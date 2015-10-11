@@ -6,6 +6,9 @@
     <!-- build:css daterangepicker.min.css -->
     <link rel="stylesheet" type="text/css" href="dist/base.css">
     <!-- endbuild -->
+    <style>
+
+    </style>
   </head>
   <body>
     <div id="drp-single"></div>
@@ -22,9 +25,9 @@
   <script type="text/javascript">
     var configs1 = {
       lang: 'zh-cn', // 当前使用语言
-      numberOfCalendars: 2, // 显示多少个月的日历
+      numberOfCalendars: 1, // 显示多少个月的日历
       type: 'single', // single, range, terminal 是单选，选择时间区域，还是规定时间区域改变时间起止
-      range: moment.range(['2015-10-01', '2015-10-04']), // 已经选定的momentrange区间，仅在range与terminal时有效
+      date: '2015-10-01', // 已经选定的momentrange区间，仅在range与terminal时有效
       onSelect: function(date) {
         console.log(date);
       }
@@ -33,16 +36,16 @@
       lang: 'zh-cn', // 当前使用语言
       numberOfCalendars: 2, // 显示多少个月的日历
       type: 'range', // single, range, terminal 是单选，选择时间区域，还是规定时间区域改变时间起止
-      range: moment.range(['2015-10-01', '2015-10-04']), // 已经选定的momentrange区间，仅在range与terminal时有效
+      range: ['2015-10-01', '2015-10-04'], // 已经选定的momentrange区间，仅在range与terminal时有效
       onSelect: function(date) {
         console.log(date);
       }
     }
     var configs3 = {
       lang: 'zh-cn', // 当前使用语言
-      numberOfCalendars: 2, // 显示多少个月的日历
+      numberOfCalendars: 3, // 显示多少个月的日历
       type: 'terminal', // single, range, terminal 是单选，选择时间区域，还是规定时间区域改变时间起止
-      range: moment.range(['2015-10-03', '2015-10-07']), // 已经选定的momentrange区间，仅在range与terminal时有效
+      range: ['2015-10-03', '2015-10-07'], // 已经选定的momentrange区间，仅在range与terminal时有效
       onSelect: function(date) {
         console.log(date);
       }

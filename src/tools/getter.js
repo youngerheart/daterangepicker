@@ -7,8 +7,8 @@ module.exports = {
     return el.getAttribute('date');
   },
 
-  format(moment) {
-    return moment.format('YYYY-MM-DD');
+  format(date) {
+    return date.format('YYYY-MM-DD');
   },
 
   classFunc(firstItem, classStr) {

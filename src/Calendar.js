@@ -1,14 +1,16 @@
-var PubSub = require('expubsub');
-var createElement = require('./tools/element').create;
+const PubSub = require('expubsub');
+const createElement = require('./tools/element').create;
 // 传入元素，参数，初始化之
 
-var today = moment();
+const today = moment();
 
-function Calendar(el, number) {
+function Calendar(that, callback) {
   // 渲染header, 再渲染多个月份的日历
+  var {el, config} = that;
   this.el = el;
-  this.calNum = number;
-  this.current = moment().date(1);
+  this.calNum = config.numberOfCalendars;
+  this.current = config.range ? moment(config.range[0]) : (config.date ? moment(config.date) : moment());
+  this.reload = callback;
   this.draw();
 }
 
@@ -17,15 +19,15 @@ Calendar.prototype.draw = function() {
   // 清空之前的数据
   this.month = [];
   this.el.innerHTML = '';
-  this.current = this.current.subtract(this.calNum - 1, 'month')
+  this.current = this.current.subtract(Math.ceil(this.calNum / 2), 'month');
   for(var i = 0; i < this.calNum; i++) {
-    this.current = this.current.date(1).add(i, 'month');
-    this.drawHeader(i, this.calNum);
+    this.current = this.current.date(1).add(1, 'month');
+    this.drawHeader(i);
     this.drawMonth(i);
   }
 }
 
-Calendar.prototype.drawHeader = function(i, calNum) {
+Calendar.prototype.drawHeader = function(i) {
   var self = this;
   this.header = createElement('div', 'drp-header');
   this.title = createElement('div', 'drp-month', this.current.format('MMM YYYY'));
@@ -142,17 +144,17 @@ Calendar.prototype.drawWeekDays = function(el) {
 }
 
 Calendar.prototype.nextMonth = function() {
-  this.current.add(1, 'months');
+  this.current.subtract(Math.floor(this.calNum / 2) - 1, 'months');
   this.next = true;
   this.draw();
-  PubSub.emit('reload', this.el);
+  this.reload();
 }
 
 Calendar.prototype.prevMonth = function() {
-  this.current.subtract(1, 'months');
+  this.current.subtract(Math.floor(this.calNum / 2) + 1, 'months');
   this.next = false;
   this.draw();
-  PubSub.emit('reload', this.el);
+  this.reload();
 }
 
 

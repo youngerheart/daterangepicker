@@ -1,8 +1,8 @@
 const PubSub = require('expubsub');
 const Calendar = require('./Calendar');
-const createElement = require('./tools/element').create;
 const bind = require('./events/bind');
-const {click, hover, reload} = require('./events/events');
+const {click, hover, reload, leave} = require('./events/events');
+const leaveEvent = require('./tools/mouseleave');
 
 function DateRangePicker(el, config) {
   // 保留有用的信息
@@ -12,6 +12,7 @@ function DateRangePicker(el, config) {
   this.rangeElements = [[], [], []]; // range，terminal时储存的元素
   this.firstItem = null;
   this.range = null;
+  this.date = null;
   this.interval = null;
   this.init();
 }
@@ -19,18 +20,23 @@ function DateRangePicker(el, config) {
 DateRangePicker.prototype.init = function() {
   // 绘制Calendar
   var {el, config} = this;
-  new Calendar(el, config.numberOfCalendars);
+  new Calendar(this, () => {
+    reload(this);
+  });
   el.className = 'drp';
   el.addEventListener('click', (e) => {
     bind(e, click, this);
   });
   el.addEventListener('mouseover', (e) => {
     bind(e, hover, this);
+    if(!leaveEvent.getTarget(el)) leaveEvent.setTarget(el);
   });
-  if(config.type === 'range' || config.type === 'terminal') {
-    reload(this);
-  }
+  leaveEvent.add(el, () => {
+    leave(this);
+  });
+  reload(this);
 };
+
 
 
 module.exports = DateRangePicker;
