@@ -9,9 +9,11 @@ a simple daterangepicker
 
 ## Usage
 
-* This component relies on moment and moment-range, so you should include them first
+This component relies on moment and moment-range, so you should include them first
 
-* Include js and css in `/dist` by tag , you can also require js by `require('date-range-picker')`
+Include js and css in `/dist` by tag , you can also require js by `require('date-range-picker')`
+
+
 
       var configs1 = {
         lang: 'zh-cn', // using language
@@ -29,6 +31,7 @@ a simple daterangepicker
       var drp1 = new DateRangePicker(el1, configs1);
       console.log(drp1.date) // current date for type
       console.log(drp1.range) // current range for type range and terminal
+
 
 ## Develop
 
