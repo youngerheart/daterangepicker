@@ -1,6 +1,9 @@
 # daterangepicker
 a simple daterangepicker
 
+## DEMO
+[Click here](http://youngerheart.github.io/daterangepicker/)
+
 ## What achieved 
 1. calendar component base on moment.js
 2. date simple picker
