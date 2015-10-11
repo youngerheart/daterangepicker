@@ -1,4 +1,3 @@
-const PubSub = require('expubsub');
 const Calendar = require('./Calendar');
 const bind = require('./events/bind');
 const {click, hover, reload, leave} = require('./events/events');
@@ -20,6 +19,7 @@ function DateRangePicker(el, config) {
 DateRangePicker.prototype.init = function() {
   // 绘制Calendar
   var {el, config} = this;
+  moment.locale(config.lang || 'zh-cn');
   new Calendar(this, () => {
     reload(this);
   });

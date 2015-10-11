@@ -1,4 +1,3 @@
-const PubSub = require('expubsub');
 const createElement = require('./tools/element').create;
 // 传入元素，参数，初始化之
 

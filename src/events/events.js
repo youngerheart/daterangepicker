@@ -1,4 +1,3 @@
-const PubSub = require('expubsub');
 const getEBA = require('./../tools/getElementsByAttribute');
 const CB = require('./../tools/cssbundle');
 const EL = require('./../tools/element');
@@ -95,6 +94,9 @@ module.exports = {
     if(config.type === 'range' || config.type === 'terminal') {
       // 清除active的元素
       EL.clearRange(rangeElements, targetElements);
+      that.rangeElements = [[], [], []];
+      that.targetElements = [];
+      that.firstItem = null;
     }
   }
 };
