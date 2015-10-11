@@ -95,6 +95,9 @@ module.exports = {
     if(config.type === 'range' || config.type === 'terminal') {
       // 清除active的元素
       EL.clearRange(rangeElements, targetElements);
+      that.rangeElements = [[], [], []];
+      that.targetElements = [];
+      that.firstItem = null;
     }
   }
 };

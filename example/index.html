@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>daterangepicker demo</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../dist/daterangepicker.min.css">
+    <style>
+      html, body {margin: 0;}
+      html {font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+      .transform {transform:rotate(45deg); -ms-transform:rotate(45deg); -moz-transform:rotate(45deg);-webkit-transform:rotate(45deg);-o-transform:rotate(45deg);}
+      .forkme {text-decoration: none; position: absolute; right: -60px; top: 40px; z-index: 999; line-height: 40px; background-color: #56ad35; color: #fff; width: 240px; font-size: 18px; font-weight: bold; text-align: center; box-shadow: 0 0 5px #888888;}
+      .header {font-size: 30px; line-height: 50px; text-align: center; background: #cb3837; color: #fff;}
+      .item {position: relative; margin-top: 20px; padding: 20px; background-color: #fcfcfc; border: #eee solid; border-width: 1px 0;}
+      .item-title {position: relative; margin-bottom: 20px; padding-left: 30px;}
+      .item-title-text {font-size: 24px;}
+      .item-title-value {line-height: 36px; border-radius: 3px; color: #fff; font-weight: bold; background-color: #ed5434; display: inline-block; padding: 0 10px;margin-left: 10px;}
+      .item-desc {position: absolute; top: 70px; left: 400px; right: 20px; vertical-align: top; padding: 10px; border: 3px #fff solid; color: #fff; background-color: #333;}
+      .item-desc pre {font-family: Menlo,Monaco,Consolas,"Courier New",monospace;}
+    </style>
+  </head>
+  <body>
+    <a target="_blank" href="https://github.com/youngerheart/daterangepicker" title="Forkme on github" class="forkme transform">Forkme on github</a>
+    <div class="header">
+      daterangepicker demo
+    </div>
+    <div class="item">
+      <div class="item-title">
+        <span class='item-title-text'>date-single-picker</span>
+        <span id='drp-single-value' class="item-title-value"></span>
+      </div>
+      <div id="drp-single"></div>
+      <div class="item-desc">
+        <pre>
+var configs1 = {
+  lang: 'zh-cn',
+  numberOfCalendars: 1,
+  type: 'single',
+  date: '2015-10-01',
+  onSelect: function(date) {
+    // ...
+  }
+}
+DateRangePicker.init(el1, configs1);
+        </pre>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-title">
+        <span class='item-title-text'>date-range-picker</span>
+        <span id='drp-range-value' class="item-title-value"></span>
+      </div>
+      <div id="drp-range"></div>
+      <div class="item-desc">
+        <pre>
+var configs2 = {
+  lang: 'en',
+  numberOfCalendars: 2,
+  type: 'range',
+  date: ['2015-10-01', '2015-10-04'],
+  onSelect: function(date) {
+    // ...
+  }
+}
+DateRangePicker.init(el2, configs2);
+        </pre>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-title">
+        <span class='item-title-text'>date-terminal-picker</span>
+        <span id='drp-terminal-value' class="item-title-value"></span>
+      </div>
+      <div id="drp-terminal"></div>
+      <div class="item-desc">
+        <pre>
+var configs3 = {
+  lang: 'fr',
+  numberOfCalendars: 3,
+  type: 'terminal',
+  range: ['2015-10-03', '2015-10-07'],
+  onSelect: function(date) {
+    console.log(date);
+  }
+}
+        </pre>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="../bower_components/moment/min/moment-with-locales.js"></script>
+  <script type="text/javascript" src="../bower_components/moment-range/dist/moment-range.js"></script>
+  <script type="text/javascript" src="../dist/daterangepicker.min.js"></script>
+  <script type="text/javascript">
+    var el = function(name) {return document.getElementById(name);};
+    var setValue = function(el, moment) {
+      if(moment.start) {
+        el.innerHTML = 'Total: ' + moment.start.format('YYYY-MM-DD') + '~' + moment.end.format('YYYY-MM-DD');
+      } else {
+        el.innerHTML = 'Total: ' + moment.format('YYYY-MM-DD');
+      }
+    };
+
+    var configs1 = {
+      lang: 'zh-cn', // 当前使用语言
+      numberOfCalendars: 1, // 显示多少个月的日历
+      type: 'single', // single, range, terminal 是单选，选择时间区域，还是规定时间区域改变时间起止
+      date: '2015-10-01', // 已经选定的momentrange区间，仅在range与terminal时有效
+      onSelect: function(date) {
+        setValue(input1, date);
+      }
+    }
+    var configs2 = {
+      lang: 'en',
+      numberOfCalendars: 2,
+      type: 'range',
+      range: ['2015-10-01', '2015-10-04'],
+      onSelect: function(range) {
+        setValue(input2, range);
+      }
+    }
+    var configs3 = {
+      lang: 'fr',
+      numberOfCalendars: 3,
+      type: 'terminal',
+      range: ['2015-10-03', '2015-10-07'],
+      onSelect: function(range) {
+        setValue(input3, range);
+      }
+    }
+    var el1 = el('drp-single');
+    var drp1 = DateRangePicker.init(el1, configs1);
+    var el2 = el('drp-range');
+    var drp2 = DateRangePicker.init(el2, configs2);
+    var el3 = el('drp-terminal');
+    var drp3 = DateRangePicker.init(el3, configs3);
+
+    var input1 = el('drp-single-value');
+    var input2 = el('drp-range-value');
+    var input3 = el('drp-terminal-value');
+
+    setValue(input1, drp1.date);
+    setValue(input2, drp2.range);
+    setValue(input3, drp3.range);
+
+  </script>
+</html>

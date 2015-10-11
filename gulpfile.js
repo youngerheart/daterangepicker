@@ -1,14 +1,13 @@
 var gulp = require('gulp');
 var sass = require('gulp-ruby-sass');
 var minifyCss = require('gulp-minify-css');
+var rename = require("gulp-rename");
 var browserify = require('gulp-browserify');
 var babelify = require('babelify');
 var concat  = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var runSequence = require('run-sequence');
-var usemin = require('gulp-usemin');
 var eslint = require('gulp-eslint');
-var autoprefixer = require('gulp-autoprefixer');
 
 var lazyWatch = function(glob, task) {
   return function() {
@@ -23,30 +22,21 @@ var lazyWatch = function(glob, task) {
   };
 };
 
-gulp.task('usemin', function() {
-  return gulp.src('index.html').pipe(usemin({
-    libjs: [uglify()],
-    js: [uglify()],
-    css: [minifyCss()]
-  })).pipe(gulp.dest('min'));
-});
-
 gulp.task('compile.css', function(done) {
   return sass('./src/main.scss', {style: 'expanded'})
-  .pipe(autoprefixer({
-      browsers: ['last 2 versions'],
-      cascade: false
-  }))
-  .pipe(concat('base.css'))
+  .pipe(minifyCss({compatibility: 'ie8'}))
+  .pipe(rename('daterangepicker.min.css'))
   .pipe(gulp.dest('dist'));
 });
 
 gulp.task('compile.js', function() {
   return gulp
-  .src(['./index.js'])
+  .src('./index.js')
   .pipe(browserify({
     transform: [babelify]
   }))
+  .pipe(uglify({mangle: false}))
+  .pipe(rename('daterangepicker.min.js'))
   .pipe(gulp.dest('dist'));
 });
 
@@ -75,11 +65,7 @@ gulp.task('build', function(done) {
 
 gulp.task('dev', [ 'build' ], function(done) {
   runSequence([ 'watch' ], done);
-  console.log('请访问index.html');
-});
-
-gulp.task('deploy', function(done) {
-  runSequence('compile', 'usemin', done);
+  console.log('请访问example/index.html');
 });
 
 gulp.task('help', function() {
