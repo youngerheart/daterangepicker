@@ -1,6 +1,6 @@
 {
-  "name": "'date-range-picker'",
-  "version": "0.0.1",
+  "name": "date-range-picker",
+  "version": "0.0.2",
   "description": "a simple daterangepicker",
   "main": "src/DateRangePicker.js",
   "scripts": {
@@ -8,17 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/youngerheart/daterangepicker.git"
+    "url": "https://github.com/ElemeFE/daterangepicker.git"
   },
   "keywords": [
     "daterangepicker"
   ],
   "author": "youngerheart",
-  "license": "PRIVATE",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/youngerheart/daterangepicker/issues"
+    "url": "https://github.com/ElemeFE/daterangepicker/issues"
   },
-  "homepage": "https://github.com/youngerheart/daterangepicker",
+  "homepage": "https://github.com/ElemeFE/daterangepicker",
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-concat": "^2.5.2",
