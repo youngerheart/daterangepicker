@@ -7,6 +7,7 @@ function Calendar(that, callback) {
   // 渲染header, 再渲染多个月份的日历
   var {el, config} = that;
   this.el = el;
+  this.lang = config.lang;
   this.calNum = config.numberOfCalendars;
   this.current = config.range ? moment(config.range[0]) : (config.date ? moment(config.date) : moment());
   this.reload = callback;
@@ -14,7 +15,7 @@ function Calendar(that, callback) {
 }
 
 Calendar.prototype.draw = function() {
-
+  moment.locale(this.lang);
   // 清空之前的数据
   this.month = [];
   this.el.innerHTML = '';
