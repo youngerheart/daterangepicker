@@ -54,6 +54,7 @@ var configs1 = {
   lang: 'zh-cn',
   numberOfCalendars: 1,
   type: 'single',
+  time: true,
   date: '2015-10-01',
   onSelect: function(date) {
     // ...
@@ -75,6 +76,7 @@ var configs2 = {
   lang: 'en',
   numberOfCalendars: 2,
   type: 'range',
+  time: true,
   date: ['2015-10-01', '2015-10-04'],
   onSelect: function(date) {
     // ...
@@ -113,15 +115,16 @@ var drp3 = new DateRangePicker(el3, configs3);
     var el = function(name) {return document.getElementById(name);};
     var setValue = function(el, moment) {
       if(moment.start) {
-        el.innerHTML = 'Total: ' + moment.start.format('YYYY-MM-DD') + '~' + moment.end.format('YYYY-MM-DD');
+        el.innerHTML = 'Total: ' + moment.start.format('YYYY-MM-DD HH:mm') + '~' + moment.end.format('YYYY-MM-DD HH:mm');
       } else {
-        el.innerHTML = 'Total: ' + moment.format('YYYY-MM-DD');
+        el.innerHTML = 'Total: ' + moment.format('YYYY-MM-DD HH:mm');
       }
     };
 
     var configs1 = {
       lang: 'zh-cn', // 当前使用语言
       numberOfCalendars: 1, // 显示多少个月的日历
+      time: true,
       type: 'single', // single, range, terminal 是单选，选择时间区域，还是规定时间区域改变时间起止
       date: '2015-10-01', // 已经选定的momentrange区间，仅在range与terminal时有效
       onSelect: function(date) {
@@ -131,6 +134,7 @@ var drp3 = new DateRangePicker(el3, configs3);
     var configs2 = {
       lang: 'en',
       numberOfCalendars: 2,
+      time: true,
       type: 'range',
       range: ['2015-10-01', '2015-10-04'],
       onSelect: function(range) {
