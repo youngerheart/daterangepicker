@@ -123,6 +123,92 @@
 }
 
 .drp-today {
-    color: #428bca;
-    font-weight: normal;
+  color: #428bca;
+  font-weight: normal;
+}
+
+.drp-time {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.drp-time-text {
+  font-weight: bold;
+}
+
+.drp-time-input {
+  width: 100px;
+  -webkit-appearance: none;
+  margin: 18px 2px;
+  &:focus {
+    outline: none;
+  }
+  &::-webkit-slider-runnable-track {
+    height: 8.4px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #3071a9;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+  }
+  &::-webkit-slider-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 26px;
+    width: 12px;
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -9px;
+  }
+  &::-moz-range-track {
+    height: 8.4px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 1px 1px 1px #333, 0px 0px 1px #333;
+    background: #3071a9;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+  }
+  &::-moz-range-thumb {
+    box-shadow: 1px 1px 1px #333, 0px 0px 1px #333;
+    border: 1px solid #000000;
+    height: 26px;
+    width: 12px;
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+  }
+  &::-ms-track {
+    height: 8.4px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: transparent;
+  }
+  &::-ms-fill-lower {
+    background: #2a6495;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #333, 0px 0px 1px #333;
+  }
+  &::-ms-fill-upper {
+    background: #3071a9;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #333, 0px 0px 1px #333;
+  }
+  &::-ms-thumb {
+    box-shadow: 1px 1px 1px #333, 0px 0px 1px #333;
+    border: 1px solid #000000;
+    height: 26px;
+    width: 12px;
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+  }
 }

@@ -25,8 +25,7 @@ module.exports = {
   },
   click: {
     'drp-day-number'(target, that) {
-      var {range, config, rangeElements, el, firstItem, targetElements, interval} = that;
-      var selectFunc = config.onSelect;
+      var {range, config, rangeElements, el, firstItem, targetElements, interval, selectFunc} = that;
       // 直接返回这个时间的moment对象并设置class
       var chooseItem = getter.getDate(target);
       if(config.type === 'single') {
