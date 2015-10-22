@@ -22,6 +22,7 @@ Include js and css in `/dist` by tag , you can also require js by `require('date
         lang: 'zh-cn', // using language
         numberOfCalendars: 1, // displaying month number
         type: 'single', // single, range, terminal
+        time: true, // display hours and minutes or not
         date: '2015-10-01', // default date for type single
         range: ['2015-10-01', '2015-10-08'], default range for type range or terminal
         onSelect: function(date/range) {

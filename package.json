@@ -1,6 +1,6 @@
 {
   "name": "date-range-picker",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "a simple daterangepicker",
   "main": "src/DateRangePicker.js",
   "scripts": {
