@@ -6,23 +6,42 @@
     <link rel="stylesheet" type="text/css" href="dist/daterangepicker.min.css">
     <style>
       html, body {margin: 0;}
-      html {font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif; overflow-x: hidden;}
+      html {font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif; overflow-x: hidden; margin-top: 20px;}
       .transform {transform:rotate(45deg); -ms-transform:rotate(45deg); -moz-transform:rotate(45deg);-webkit-transform:rotate(45deg);-o-transform:rotate(45deg);}
-      .forkme {text-decoration: none; position: absolute; right: -60px; top: 40px; z-index: 999; line-height: 40px; background-color: #56ad35; color: #fff; width: 240px; font-size: 18px; font-weight: bold; text-align: center; box-shadow: 0 0 5px #888888;}
-      .header {font-size: 30px; line-height: 50px; text-align: center; background: #cb3837; color: #fff;}
-      .item {position: relative; margin-top: 20px; padding: 20px; background-color: #fcfcfc; border: #eee solid; border-width: 1px 0;}
+      .forkme {text-decoration: none; position: fixed; right: -60px; top: 40px; z-index: 999; line-height: 40px; background-color: #56ad35; color: #fff; width: 240px; font-size: 18px; font-weight: bold; text-align: center; box-shadow: 0 0 5px #888888; z-index: 3;}
+      .header {color: #cb3837;line-height: 50px; position: fixed; top: 0px; left: 0px; right: 0px; z-index: 2; background: rgba(255, 255, 255, .9); box-shadow: 0 0 15px 3px rgba(0, 0, 0, .05);}
+      .header-title {margin-left: 50px; font-size: 30px;}
+      .header-link {color: #cb3837; margin-left: 30px; text-decoration: none; font-size: 20px;}
+      .header-link:hover {color: #ffa5a4}
+      .item {position: relative; margin-top: 55px; padding: 20px; background-color: #fcfcfc; border: #eee solid; border-width: 1px 0;}
       .item-title {position: relative; margin-bottom: 20px; padding-left: 30px;}
       .item-title-text {font-size: 24px;}
       .item-title-value {line-height: 36px; border-radius: 3px; color: #fff; font-weight: bold; background-color: #ed5434; display: inline-block; padding: 0 10px;margin-left: 10px;}
-      .item-desc {position: absolute; top: 70px; left: 400px; right: 20px; vertical-align: top; padding: 10px; border: 3px #fff solid; color: #fff; background-color: #333;}
+      .item-tag {padding: 0 0 30px 30px; font-size: 20px; width: 300px;}
+      .item-desc {overflow: auto; position: absolute; top: 70px; left: 400px; right: 20px; vertical-align: top; padding: 10px; border: 3px #fff solid; color: #fff; background-color: #333;}
+      .item-desc-fix {top: 20px;}
       .item-desc pre {font-family: Menlo,Monaco,Consolas,"Courier New",monospace;}
+      .drp-day-number.focus {color: #fff; background-color: #ed5434;}
+      .drp-day-number.active {color: #fff; background-color: #8cace2;}
     </style>
   </head>
   <body>
     <a target="_blank" href="https://github.com/youngerheart/daterangepicker" title="Forkme on github" class="forkme transform">Forkme on github</a>
     <div class="header">
-      daterangepicker demo
+      <span class="header-title">daterangepicker demo</span>
+      <a class="header-link" href="#top">css guide</a>
+      <a class="header-link" href="#config">js config</a>
     </div>
+    <div class="item">
+      <div class='item-tag'>You should add basic stylesheet first, for focus (such as orange) and active (such as blue) items.</div>
+      <div class="item-desc item-desc-fix">
+        <pre>
+.drp-day-number.focus {color: #fff; background-color: #ed5434;}
+.drp-day-number.active {color: #fff; background-color: #8cace2;}
+        </pre>
+      </div>
+    </div>
+    <div id="config"></div>
     <div class="item">
       <div class="item-title">
         <span class='item-title-text'>date-single-picker</span>
@@ -35,6 +54,7 @@ var configs1 = {
   lang: 'zh-cn',
   numberOfCalendars: 1,
   type: 'single',
+  time: true,
   date: '2015-10-01',
   onSelect: function(date) {
     // ...
@@ -56,6 +76,7 @@ var configs2 = {
   lang: 'en',
   numberOfCalendars: 2,
   type: 'range',
+  time: true,
   date: ['2015-10-01', '2015-10-04'],
   onSelect: function(date) {
     // ...
@@ -94,15 +115,16 @@ var drp3 = new DateRangePicker(el3, configs3);
     var el = function(name) {return document.getElementById(name);};
     var setValue = function(el, moment) {
       if(moment.start) {
-        el.innerHTML = 'Total: ' + moment.start.format('YYYY-MM-DD') + '~' + moment.end.format('YYYY-MM-DD');
+        el.innerHTML = 'Total: ' + moment.start.format('YYYY-MM-DD HH:mm') + '~' + moment.end.format('YYYY-MM-DD HH:mm');
       } else {
-        el.innerHTML = 'Total: ' + moment.format('YYYY-MM-DD');
+        el.innerHTML = 'Total: ' + moment.format('YYYY-MM-DD HH:mm');
       }
     };
 
     var configs1 = {
       lang: 'zh-cn', // 当前使用语言
       numberOfCalendars: 1, // 显示多少个月的日历
+      time: true,
       type: 'single', // single, range, terminal 是单选，选择时间区域，还是规定时间区域改变时间起止
       date: '2015-10-01', // 已经选定的momentrange区间，仅在range与terminal时有效
       onSelect: function(date) {
@@ -112,6 +134,7 @@ var drp3 = new DateRangePicker(el3, configs3);
     var configs2 = {
       lang: 'en',
       numberOfCalendars: 2,
+      time: true,
       type: 'range',
       range: ['2015-10-01', '2015-10-04'],
       onSelect: function(range) {
