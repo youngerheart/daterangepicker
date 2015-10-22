@@ -35,7 +35,7 @@ gulp.task('compile.js', function() {
   .pipe(browserify({
     transform: [babelify]
   }))
-  .pipe(uglify({mangle: false}))
+  .pipe(uglify())
   .pipe(rename('daterangepicker.min.js'))
   .pipe(gulp.dest('dist'));
 });
