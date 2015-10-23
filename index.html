@@ -55,7 +55,7 @@ var configs1 = {
   numberOfCalendars: 1,
   type: 'single',
   time: true,
-  date: '2015-10-01',
+  date: moment('2015-10-01'),
   onSelect: function(date) {
     // ...
   }
@@ -77,7 +77,7 @@ var configs2 = {
   numberOfCalendars: 2,
   type: 'range',
   time: true,
-  date: ['2015-10-01', '2015-10-04'],
+  date: moment.range(['2015-10-01', '2015-10-04']),
   onSelect: function(date) {
     // ...
   }
@@ -98,7 +98,7 @@ var configs3 = {
   lang: 'fr',
   numberOfCalendars: 3,
   type: 'terminal',
-  range: ['2015-10-03', '2015-10-07'],
+  range: moment.range(['2015-10-03', '2015-10-07']),
   onSelect: function(date) {
     // ...
   }
@@ -126,7 +126,7 @@ var drp3 = new DateRangePicker(el3, configs3);
       numberOfCalendars: 1, // 显示多少个月的日历
       time: true,
       type: 'single', // single, range, terminal 是单选，选择时间区域，还是规定时间区域改变时间起止
-      date: '2015-10-01', // 已经选定的momentrange区间，仅在range与terminal时有效
+      date: moment('2015-10-01'), // 已经选定的momentrange区间，仅在range与terminal时有效
       onSelect: function(date) {
         setValue(input1, date);
       }
@@ -136,7 +136,7 @@ var drp3 = new DateRangePicker(el3, configs3);
       numberOfCalendars: 2,
       time: true,
       type: 'range',
-      range: ['2015-10-01', '2015-10-04'],
+      range: moment.range(['2015-10-01', '2015-10-04']),
       onSelect: function(range) {
         setValue(input2, range);
       }
@@ -145,7 +145,7 @@ var drp3 = new DateRangePicker(el3, configs3);
       lang: 'fr',
       numberOfCalendars: 3,
       type: 'terminal',
-      range: ['2015-10-03', '2015-10-07'],
+      range: moment.range(['2015-10-03', '2015-10-07']),
       onSelect: function(range) {
         setValue(input3, range);
       }
