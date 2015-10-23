@@ -4,14 +4,14 @@ const EL = require('./../tools/element');
 const getter = require('./../tools/getter');
 
 module.exports = {
-  reload(that) {
+  reload(that, isInit) {
     var {date, range, config, rangeElements, interval, el, firstItem, targetElements} = that;
-    if(!date && config.type === 'single') {
+    if(isInit && config.type === 'single') {
       that.date = config.date ? moment(config.date) : null;
     } else if(config.type !== 'single') {
       that.date = null;
     }
-    if(!range && (config.type === 'range' || config.type === 'terminal')) {
+    if(isInit && (config.type === 'range' || config.type === 'terminal')) {
       that.range = config.range ? moment.range(config.range) : null;
       if(!interval && config.type === 'terminal') {
         that.interval = that.range.diff('days');

@@ -57,7 +57,7 @@ class DateRangePicker {
     leaveEvent.add(el, () => {
       leave(this);
     });
-    reload(this);
+    reload(this, true);
   };
 }
 
