@@ -10,6 +10,11 @@ a simple daterangepicker
 3. date range picker
 4. date terminal picker
 
+**compatibility for IE**
+
+* because of using browserify, if you don't need hour and minute picker, it supports IE9.
+* if you need hour and minute picker, because of using range input, it supports IE10.
+
 ## Usage
 
 This component relies on moment and moment-range, so you should include them first
