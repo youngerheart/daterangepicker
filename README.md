@@ -12,8 +12,8 @@ a simple daterangepicker
 
 **compatibility for IE**
 
-* because of using browserify, if you don't need hour and minute picker, it supports IE9.
-* if you need hour and minute picker, because of using range input, it supports IE10.
+* Because of using browserify, if you don't need hour and minute picker, it supports IE9.
+* If you need hour and minute picker, because of using range input, it supports IE10.
 
 ## Usage
 
