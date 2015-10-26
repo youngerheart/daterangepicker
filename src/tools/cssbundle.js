@@ -12,10 +12,11 @@ module.exports = {
     var oldname = el.className;
     var classArr = className.split(' ');
     if(!this.hasClass(el, className)) {
+      oldname = oldname.trim();
       classArr.forEach((item) => {
         oldname += (' ' + item);
       });
-      el.className = oldname;
+      el.className = oldname.trim();
     }
   },
 
@@ -24,9 +25,10 @@ module.exports = {
     var classArr = className.split(' ');
     if(this.hasClass(el, className)) {
       classArr.forEach((item) => {
-        oldname = oldname.replace(item, '').trim();
+        var reg = new RegExp('(\\s|^)' + item + '(\\s|$)');
+        oldname = oldname.replace(reg, ' ');
       });
-      el.className = oldname;
+      el.className = oldname.trim();
     }
   }
 };

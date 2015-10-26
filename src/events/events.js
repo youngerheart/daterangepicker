@@ -4,14 +4,14 @@ const EL = require('./../tools/element');
 const getter = require('./../tools/getter');
 
 module.exports = {
-  reload(that) {
-    var {range, config, rangeElements, interval, el, firstItem, targetElements} = that;
-    if(config.type === 'single') {
+  reload(that, isInit) {
+    var {date, range, config, rangeElements, interval, el, firstItem, targetElements} = that;
+    if(isInit && config.type === 'single') {
       that.date = config.date ? moment(config.date) : null;
-    } else {
+    } else if(config.type !== 'single') {
       that.date = null;
     }
-    if(!range && (config.type === 'range' || config.type === 'terminal')) {
+    if(isInit && (config.type === 'range' || config.type === 'terminal')) {
       that.range = config.range ? moment.range(config.range) : null;
       if(!interval && config.type === 'terminal') {
         that.interval = that.range.diff('days');
@@ -25,12 +25,12 @@ module.exports = {
   },
   click: {
     'drp-day-number'(target, that) {
-      var {range, config, rangeElements, el, firstItem, targetElements, interval} = that;
-      var selectFunc = config.onSelect;
+      var {range, config, rangeElements, el, firstItem, targetElements, interval, selectFunc} = that;
       // 直接返回这个时间的moment对象并设置class
       var chooseItem = getter.getDate(target);
       if(config.type === 'single') {
-        if(selectFunc) selectFunc(moment(chooseItem));
+        that.date = moment(chooseItem);
+        if(selectFunc) selectFunc(that.date);
         that.targetElements = EL.exchangeClass(targetElements, chooseItem, el, 'focus');
       } else if(config.type === 'range') {
         if(!firstItem) {
