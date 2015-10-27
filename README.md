@@ -28,8 +28,8 @@ Include js and css in `/dist` by tag , you can also require js by `require('date
         numberOfCalendars: 1, // displaying month number
         type: 'single', // single, range, terminal
         time: true, // display hours and minutes or not
-        date: '2015-10-01', // default date for type single
-        range: ['2015-10-01', '2015-10-08'], default range for type range or terminal
+        date: moment('2015-10-01'), // default date for type single
+        range: moment.range(['2015-10-01', '2015-10-08']), default range for type range or terminal
         onSelect: function(date/range) {
           //...
         } // callback after select, return date or range with moment and moment-range object
@@ -40,6 +40,8 @@ Include js and css in `/dist` by tag , you can also require js by `require('date
       var drp1 = new DateRangePicker(el1, configs1);
       console.log(drp1.date) // current date for type
       console.log(drp1.range) // current range for type range and terminal
+      console.log(drp1.time.hours) // current hours array
+      console.log(drp1.time.minutes) // current minutes array
 
 
 ## Develop

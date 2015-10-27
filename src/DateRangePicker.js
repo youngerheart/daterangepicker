@@ -14,8 +14,8 @@ class DateRangePicker {
     this.targetElements = []; // single时储存的点击元素
     this.rangeElements = [[], [], []]; // range，terminal时储存的元素
     this.firstItem = null;
-    this.range = range ? moment.range(range) : null;
-    this.date = date ? moment(date) : null;
+    this.range = range || null;
+    this.date = date || null;
     this.interval = null;
     this.time = null;
     this.selectFunc = onSelect ? (date) => {
@@ -57,6 +57,7 @@ class DateRangePicker {
     leaveEvent.add(el, () => {
       leave(this);
     });
+
     reload(this, true);
   };
 }

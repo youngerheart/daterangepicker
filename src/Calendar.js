@@ -9,7 +9,7 @@ class Calendar{
     var {el, config} = that;
     this.el = el;
     this.calNum = config.numberOfCalendars;
-    this.current = config.range ? moment(config.range[0]) : (config.date ? moment(config.date) : moment());
+    this.current = that.range ? moment(that.range.start) : (this.date ? moment(this.date) : moment());
     this.reload = callback;
     this.draw();
   }

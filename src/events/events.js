@@ -6,16 +6,11 @@ const getter = require('./../tools/getter');
 module.exports = {
   reload(that, isInit) {
     var {date, range, config, rangeElements, interval, el, firstItem, targetElements} = that;
-    if(isInit && config.type === 'single') {
-      that.date = config.date ? moment(config.date) : null;
-    } else if(config.type !== 'single') {
+    if(isInit && config.type !== 'single') {
+      that.interval = that.range.diff('days');
       that.date = null;
-    }
-    if(isInit && (config.type === 'range' || config.type === 'terminal')) {
-      that.range = config.range ? moment.range(config.range) : null;
-      if(!interval && config.type === 'terminal') {
-        that.interval = that.range.diff('days');
-      }
+    } else if (isInit && config.type === 'range' || config.type === 'terminal') {
+      that.range = null;
     }
     if(config.type === 'range' || config.type === 'terminal') {
       that.rangeElements = EL.choose(rangeElements, getter.format(that.range.start), getter.format(that.range.end), el, firstItem);
