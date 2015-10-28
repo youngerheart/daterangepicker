@@ -8,7 +8,7 @@ let walk = (node, func) => {
   }
 };
 
-// 查找指定元素中含有某个属性的项
+// 查找指定元素中含有某个属性的项//quertselectall
 let getElementsByAttribute = (el, attr, value) => {
   let results = [];
   walk(el, (node) => {

@@ -1,6 +1,29 @@
-const CB = require('./cssbundle');
 const getEBA = require('./getElementsByAttribute');
 const {classArr, classFunc, format, getDate} = require('./getter');
+
+const containsAll = (el, classNameArr) => {
+  var pass = true;
+  classNameArr.forEach((className) => {
+    if(!el.classList.contains(className)) pass = false;
+  });
+  return pass;
+}
+
+const removeAll = (el, classNameArr) => {
+  var list = el.classList;
+  if(containsAll(el, classNameArr)) {
+    var nameArr = el.className.split(' ');
+    classNameArr.forEach((item) => {
+      let index = nameArr.indexOf(item);
+      if(index !== -1) nameArr.splice(index, 1);
+    });
+    if(nameArr.length === 2) {
+      list.remove('active');
+    } else{
+      list.remove(...classNameArr);
+    } 
+  }
+}
 
 module.exports = {
   hasChild(parent, child) {
@@ -41,14 +64,14 @@ module.exports = {
       if(moment.isAfter(startItem)) {
         if(moment.isBefore(endItem)) {
           // 这里是过程
-          newSegmentEls = newSegmentEls.concat(arr);
+          newSegmentEls.push(...arr);
         } else {
           // 这里是结束
-          newEndEls = newEndEls.concat(arr);
+          newEndEls.push(...arr);
         }
       } else {
         // 这里是start
-        newStartEls = newStartEls.concat(arr);
+        newStartEls.push(...arr);
       }
     });
     // 去除老的，增加新的，最后赋值
@@ -57,7 +80,7 @@ module.exports = {
     // 如果起始重合
     if(newStartEls[0] === newEndEls[0]) {
       newStartEls.forEach((item) => {
-        CB.removeClass(item, 'start end segment')
+        item.classList.add('start', 'end', 'segment');
       });
     }
     return rangeElements;
@@ -67,16 +90,18 @@ module.exports = {
     var className = null;
     // 全部清除
     rangeElements.forEach((els, i) => {
-      className = classFunc(firstItem, classArr[i]);
+      className = classFunc(firstItem, classArr[i]).split(' ');
       els.forEach((item) => {
-        if(CB.hasClass(item, className)) CB.removeClass(item, className);
+        removeAll(item, className);
       });
     });
     // 全部增加
     newRangeElements.forEach((els, i) => {
-      className = classFunc(firstItem, classArr[i]);
+      className = classFunc(firstItem, classArr[i]).split(' ');
       els.forEach((item) => {
-        if(!CB.hasClass(item, className) || rangeElements[0] === rangeElements[2]) CB.addClass(item, className);
+        if(!containsAll(item, className) || rangeElements[0] === rangeElements[2]) {
+          item.classList.add(...className);
+        }
       });
     });
     return newRangeElements;
@@ -101,7 +126,7 @@ module.exports = {
       }
       els = getEBA(target, 'date', momentStr);
       els.forEach((item) => {
-        CB.removeClass(item, 'focus ' + classArr[i]);
+        removeAll(item, ['focus', classArr[i]]);
       });
     });
   },
@@ -112,20 +137,20 @@ module.exports = {
       els.forEach((item) => {
         switch(i) {
           case 0:
-            className = 'active start';
+            className = ['active', 'start'];
             break;
           case 1:
-            className = 'active segment';
+            className = ['active', 'segment'];
             break;
           case 2:
-            className = 'active end';
+            className = ['active', 'end'];
             break;
         }
-        CB.removeClass(item, className);
+        removeAll(item, className);
       });
     });
     targetElements.forEach((item) => {
-      CB.removeClass(item, 'active');
+      removeAll(item, ['active']);
     });
   },
 
@@ -145,11 +170,11 @@ module.exports = {
     className = className || '';
     targetElements.forEach((oldEl) => {
       if(getDate(oldEl) === date) return;
-      if(oldEl) CB.removeClass(oldEl, className);
+      if(oldEl) removeAll(oldEl, className);
     });
     targetElements = [];
     getEBA(el, 'date', date).forEach((item) => {
-      CB.addClass(item, className);
+      item.classList.add(className);
       targetElements.push(item);
     });
     return targetElements;

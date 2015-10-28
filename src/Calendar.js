@@ -9,8 +9,11 @@ class Calendar{
     var {el, config} = that;
     this.el = el;
     this.calNum = config.numberOfCalendars;
-    this.current = that.range ? moment(that.range.start) : (this.date ? moment(this.date) : moment());
+    this.current = that.range
+                   ? moment(that.range.start)
+                   : this.date ? moment(this.date) : moment();// if
     this.reload = callback;
+    this.lang = config.lang;
     this.draw();
   }
 
@@ -19,6 +22,7 @@ class Calendar{
     this.month = [];
     this.el.innerHTML = '';
     this.current = this.current.subtract(Math.ceil(this.calNum / 2), 'month');
+    moment.locale(this.lang || 'zh-cn');
     for(var i = 0; i < this.calNum; i++) {
       this.current = this.current.date(1).add(1, 'month');
       this.drawHeader(i);
@@ -27,18 +31,17 @@ class Calendar{
   }
 
   drawHeader(i) {
-    var self = this;
     this.header = createElement('div', 'drp-header');
     this.title = createElement('div', 'drp-month', this.current.format('MMM YYYY'));
     if(!i) {
       var right = createElement('div', 'drp-right');
-      right.addEventListener('click', function() {
-        self.nextMonth();
+      right.addEventListener('click', () => {
+        this.nextMonth();
       });
 
       var left = createElement('div', 'drp-left');
-      left.addEventListener('click', function() {
-        self.prevMonth();
+      left.addEventListener('click', () => {
+        this.prevMonth();
       });
       this.header.appendChild(right);
       this.header.appendChild(left);
@@ -104,7 +107,6 @@ class Calendar{
   }
 
   drawDay(day) {
-    var self = this;
     this.getWeek(day);
 
     //Outer Day
@@ -128,16 +130,15 @@ class Calendar{
   }
 
   drawWeekDays(el) {
-    var self = this;
     this.weekDays = createElement('div', 'drp-week-days')
     // 获取一个星期的每一天
     var weekdays = [];
     for(var i = 0; i < 7; i++) {
       weekdays.push(moment().weekday(i - 1).format('ddd'));
     }
-    weekdays.forEach(function(weekday) {
+    weekdays.forEach((weekday) => {
       var day = createElement('span', 'drp-day', weekday);
-      self.weekDays.appendChild(day);
+      this.weekDays.appendChild(day);
     })
     this.el.appendChild(this.weekDays);
   }

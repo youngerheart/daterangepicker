@@ -1,5 +1,4 @@
 const getEBA = require('./../tools/getElementsByAttribute');
-const CB = require('./../tools/cssbundle');
 const EL = require('./../tools/element');
 const getter = require('./../tools/getter');
 
@@ -15,7 +14,7 @@ module.exports = {
     if(config.type === 'range' || config.type === 'terminal') {
       that.rangeElements = EL.choose(rangeElements, getter.format(that.range.start), getter.format(that.range.end), el, firstItem);
     } else {
-      that.targetElements = EL.exchangeClass(targetElements, getter.format(that.date), el, 'focus');
+      that.targetElements = EL.exchangeClass(targetElements, getter.format(that.date), el, ['focus']);
     }
   },
   click: {
@@ -26,7 +25,7 @@ module.exports = {
       if(config.type === 'single') {
         that.date = moment(chooseItem);
         if(selectFunc) selectFunc(that.date);
-        that.targetElements = EL.exchangeClass(targetElements, chooseItem, el, 'focus');
+        that.targetElements = EL.exchangeClass(targetElements, chooseItem, el, ['focus']);
       } else if(config.type === 'range') {
         if(!firstItem) {
           // 清除已经focus的
@@ -35,8 +34,8 @@ module.exports = {
           }
           that.range = null;
           that.firstItem = chooseItem;
-          that.targetElements = EL.exchangeClass(targetElements, chooseItem, el, 'active');
-          chooseItem = getEBA(target, 'date', firstItem);
+          that.targetElements = EL.exchangeClass(targetElements, chooseItem, el, ['active']);
+          chooseItem = getEBA(target, 'date', firstItem);// list
           that.rangeElements = [chooseItem, [], chooseItem];
         } else {
           that.range = moment(firstItem).isBefore(chooseItem) ? moment.range([firstItem, chooseItem]) : moment.range([chooseItem, firstItem]);
@@ -63,14 +62,16 @@ module.exports = {
       var {range, config, rangeElements, el, firstItem, targetElements, interval} = that;
       var hoverItem = getter.getDate(target);
       if(!el) return;
-      getEBA(el, 'date', hoverItem).forEach((item) => {
-        if(item !== target) {
-          CB.addClass(item, 'hover');
-          target.addEventListener('mouseout', () => {
-            CB.removeClass(item, 'hover');
-          });
-        }
-      });
+      if(config.type === 'single') {
+        getEBA(el, 'date', hoverItem).forEach((item) => {
+          if(item !== target) {
+            item.classList.add('hover');
+            target.addEventListener('mouseout', () => {
+              item.classList.remove('hover');
+            });
+          }
+        });
+      }
       if(config.type === 'range' && firstItem) {
         if(moment(firstItem).isBefore(hoverItem)) {
           that.rangeElements = EL.choose(rangeElements, firstItem, hoverItem, el, firstItem);

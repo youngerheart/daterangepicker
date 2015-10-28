@@ -23,8 +23,20 @@ class TimePicker {
       timeBox.appendChild(this.createInput(false, that.date));
     } else if(type === 'range' || type === 'terminal') {
       this.secondTimeText = createElement('div', 'drp-time-text');
-      timeBox.appendChild(this.insertItemBox(this.timeText, this.createInput(true, that.range.start, true), this.createInput(false, that.range.start, true)));
-      timeBox.appendChild(this.insertItemBox(this.secondTimeText, this.createInput(true, that.range.end, false), this.createInput(false, that.range.end, false)));
+      timeBox.appendChild(
+        this.insertItemBox(
+          this.timeText,
+          this.createInput(true, that.range.start, true),
+          this.createInput(false, that.range.start, true)
+        )
+      );
+      timeBox.appendChild(
+        this.insertItemBox(
+          this.secondTimeText,
+          this.createInput(true, that.range.end, false),
+          this.createInput(false, that.range.end, false)
+        )
+      );
     }
     this.el.appendChild(timeBox);
   };
