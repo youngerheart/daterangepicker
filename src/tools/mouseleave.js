@@ -27,4 +27,4 @@ module.exports = {
   setTarget(target) {
     targetBox = target;
   }
-}
+};
