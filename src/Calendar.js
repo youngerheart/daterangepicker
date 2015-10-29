@@ -130,7 +130,7 @@ class Calendar{
   }
 
   drawWeekDays(el) {
-    this.weekDays = createElement('div', 'drp-week-days')
+    this.weekDays = createElement('div', 'drp-week-days');
     // 获取一个星期的每一天
     var weekdays = [];
     for(var i = 0; i < 7; i++) {
@@ -139,7 +139,7 @@ class Calendar{
     weekdays.forEach((weekday) => {
       var day = createElement('span', 'drp-day', weekday);
       this.weekDays.appendChild(day);
-    })
+    });
     this.el.appendChild(this.weekDays);
   }
 

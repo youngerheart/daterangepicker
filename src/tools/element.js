@@ -7,7 +7,7 @@ const containsAll = (el, classNameArr) => {
     if(!el.classList.contains(className)) pass = false;
   });
   return pass;
-}
+};
 
 const removeAll = (el, classNameArr) => {
   var list = el.classList;
@@ -23,7 +23,7 @@ const removeAll = (el, classNameArr) => {
       list.remove(...classNameArr);
     } 
   }
-}
+};
 
 module.exports = {
   hasChild(parent, child) {
@@ -36,7 +36,7 @@ module.exports = {
         walk(node.childNodes[0]);
       }
       if(node.nextSibling) {
-        walk(node.nextSibling)
+        walk(node.nextSibling);
       }
     };
     walk(parent);

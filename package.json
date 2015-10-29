@@ -1,6 +1,6 @@
 {
   "name": "date-range-picker",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "a simple daterangepicker",
   "main": "src/DateRangePicker.js",
   "scripts": {
@@ -21,7 +21,6 @@
   "homepage": "https://github.com/ElemeFE/daterangepicker",
   "devDependencies": {
     "gulp": "^3.8.11",
-    "gulp-concat": "^2.5.2",
     "gulp-eslint": ">=0.14.0",
     "gulp-browserify": "^0.5.1",
     "gulp-minify-css": "^0.5.1",
