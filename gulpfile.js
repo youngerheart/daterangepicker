@@ -39,6 +39,17 @@ gulp.task('compile.js', function() {
   .pipe(gulp.dest('dist'));
 });
 
+gulp.task('require.js', function() {
+  return gulp
+  .src('./src/DateRangePicker.js')
+  .pipe(browserify({
+    transform: [babelify]
+  }))
+  .pipe(uglify())
+  .pipe(rename('index.js'))
+  .pipe(gulp.dest('dist'));
+});
+
 gulp.task('compilelint.js', function(done) {
   runSequence([
     'compile.js',
@@ -75,7 +86,8 @@ gulp.task('watch', function(done) {
 
 gulp.task('build', function(done) {
   runSequence([
-    'compile'
+    'compile',
+    'require.js'
     ],  done);
 });
 

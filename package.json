@@ -1,8 +1,8 @@
 {
   "name": "date-range-picker",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "a simple daterangepicker",
-  "main": "src/DateRangePicker.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
