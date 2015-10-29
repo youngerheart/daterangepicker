@@ -84,6 +84,7 @@
 
 .drp-day-number {
   position: absolute;
+  -webkit-user-select: none;
   top: 5px;
   left: 0;
   line-height: 26px;

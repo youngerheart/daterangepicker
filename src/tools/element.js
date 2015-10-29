@@ -107,7 +107,7 @@ module.exports = {
     return newRangeElements;
   },
 
-  clear(target, range){
+  clear(el, range){
     var i = null;
     var els = null;
     var momentStr = null;
@@ -124,9 +124,9 @@ module.exports = {
           i = 1;
           break;
       }
-      els = getEBA(target, 'date', momentStr);
+      els = getEBA(el, 'date', momentStr);
       els.forEach((item) => {
-        removeAll(item, ['focus', classArr[i]]);
+        item.classList.remove('focus', classArr[i]);
       });
     });
   },
