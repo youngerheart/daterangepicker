@@ -29,13 +29,11 @@ module.exports = {
       } else if(config.type === 'range') {
         if(!firstItem) {
           // 清除已经focus的
-          if(range) {
-            EL.clear(el, range);
-          }
+          EL.clear(el, range);
           that.range = null;
           that.firstItem = chooseItem;
           that.targetElements = EL.exchangeClass(targetElements, chooseItem, el, ['active']);
-          chooseItem = getEBA(target, 'date', firstItem);// list
+          chooseItem = getEBA(el, 'date', that.firstItem);
           that.rangeElements = [chooseItem, [], chooseItem];
         } else {
           that.range = moment(firstItem).isBefore(chooseItem) ? moment.range([firstItem, chooseItem]) : moment.range([chooseItem, firstItem]);
