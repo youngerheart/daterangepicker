@@ -18,6 +18,8 @@ class DateRangePicker {
     this.date = date || null;
     this.interval = null;
     this.time = null;
+    this.maxDate = null;
+    this.minDate = null;
     this.selectFunc = onSelect ? (date) => {
       if(!this.time) {
         onSelect(date);
@@ -60,6 +62,14 @@ class DateRangePicker {
 
     reload(this, true);
   };
+
+  // 动态设置值的接口
+  set(key, value) {
+    if(this[key]) {
+      this[key] = value;
+      reload(this);
+    }
+  }
 }
 
 
