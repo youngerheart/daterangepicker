@@ -59,7 +59,7 @@ class TimePicker {
     el.defaultValue = current;
     this.setParams(isHour, now, isStart);
     
-    el.addEventListener('change', (e) => {
+    el.addEventListener('input', (e) => {
       now = isHour ? now.hours(e.target.value) : now.minutes(e.target.value);
       this.setParams(isHour, now, isStart);
       this.selectFunc(null);
