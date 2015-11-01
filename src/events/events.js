@@ -26,10 +26,13 @@ module.exports = {
   click: {
     'drp-day-number'(target, that) {
       var {range, config, rangeElements, el, firstItem, targetElements, interval, selectFunc} = that;
+      var {maxDate, minDate} = config;
       // 直接返回这个时间的moment对象并设置class
       var chooseItem = getter.getDate(target);
+      var chooseMoment = moment(chooseItem);
+      if((maxDate && chooseMoment.isAfter(maxDate)) || (minDate && chooseMoment.isBefore(minDate))) return;
       if(config.type === 'single') {
-        that.date = moment(chooseItem);
+        that.date = chooseMoment;
         if(selectFunc) selectFunc(that.date);
         that.targetElements = EL.exchangeClass(targetElements, chooseItem, el, ['focus']);
       } else if(config.type === 'range') {
@@ -63,7 +66,10 @@ module.exports = {
   hover: {
     'drp-day-number'(target, that) {
       var {range, config, rangeElements, el, firstItem, targetElements, interval} = that;
+      var {maxDate, minDate} = config;
       var hoverItem = getter.getDate(target);
+      var chooseMoment = interval ? moment(hoverItem).add(interval, 'days') : moment(hoverItem);
+      if((maxDate && chooseMoment.isAfter(maxDate)) || (minDate && chooseMoment.isBefore(minDate))) return;
       if(!el) return;
       getEBA(el, 'date', hoverItem).forEach((item) => {
         if(item !== target) {
@@ -81,7 +87,7 @@ module.exports = {
         }
       }
       if(config.type === 'terminal') {
-        that.firstItem = getter.format(moment(hoverItem).add(interval, 'days'));
+        that.firstItem = getter.format(chooseMoment);
         that.rangeElements = EL.choose(rangeElements, hoverItem, that.firstItem, el, that.firstItem);
       }
     }

@@ -18,8 +18,6 @@ class DateRangePicker {
     this.date = date || null;
     this.interval = null;
     this.time = null;
-    this.maxDate = null;
-    this.minDate = null;
     this.selectFunc = onSelect ? (date) => {
       if(!this.time) {
         onSelect(date);

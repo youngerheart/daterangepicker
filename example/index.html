@@ -56,6 +56,7 @@ var configs1 = {
   type: 'single',
   time: true,
   date: moment('2015-10-01'),
+  maxDate: moment(),
   onSelect: function(date) {
     // ...
   }
@@ -78,6 +79,7 @@ var configs2 = {
   type: 'range',
   time: true,
   date: moment.range(['2015-10-01', '2015-10-04']),
+  minDate: moment('2015-09-30'),
   onSelect: function(date) {
     // ...
   }
@@ -99,6 +101,7 @@ var configs3 = {
   numberOfCalendars: 3,
   type: 'terminal',
   range: moment.range(['2015-10-03', '2015-10-07']),
+  maxDate: moment(),
   onSelect: function(date) {
     // ...
   }
@@ -127,6 +130,7 @@ var drp3 = new DateRangePicker(el3, configs3);
       time: true,
       type: 'single', // single, range, terminal 是单选，选择时间区域，还是规定时间区域改变时间起止
       date: moment('2015-10-01'), // 已经选定的momentrange区间，仅在range与terminal时有效
+      maxDate: moment(),
       onSelect: function(date) {
         setValue(input1, date);
       }
@@ -137,6 +141,7 @@ var drp3 = new DateRangePicker(el3, configs3);
       time: true,
       type: 'range',
       range: moment.range(['2015-10-01', '2015-10-04']),
+      minDate: moment('2015-09-30'),
       onSelect: function(range) {
         setValue(input2, range);
       }
@@ -146,6 +151,7 @@ var drp3 = new DateRangePicker(el3, configs3);
       numberOfCalendars: 3,
       type: 'terminal',
       range: moment.range(['2015-10-03', '2015-10-07']),
+      maxDate: moment(),
       onSelect: function(range) {
         setValue(input3, range);
       }

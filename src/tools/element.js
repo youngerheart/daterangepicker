@@ -19,7 +19,7 @@ const removeAll = (el, classNameArr) => {
     });
     if((list.contains('hover') && nameArr.length === 3) || (!list.contains('hover') && nameArr.length === 2)) {
       list.remove('active');
-    } else{
+    } else {
       list.remove(...classNameArr);
     } 
   }
