@@ -5,32 +5,40 @@ const getter = require('./../tools/getter');
 module.exports = {
   reload(that, isInit) {
     var {date, range, config, rangeElements, interval, el, firstItem, targetElements} = that;
-    if(isInit && config.type !== 'single') {
-      that.interval = that.range.diff('days');
-      that.date = null;
-    } else if (isInit && config.type === 'range' || config.type === 'terminal') {
-      that.range = null;
-    }
-    if(config.type === 'range' || config.type === 'terminal') {
-      that.rangeElements = EL.choose(rangeElements, getter.format(that.range.start), getter.format(that.range.end), el, firstItem);
-    } else {
-      that.targetElements = EL.exchangeClass(targetElements, getter.format(that.date), el, ['focus']);
+    switch(config.type) {
+      case 'single':
+        if(isInit) that.range = null;
+        that.targetElements = EL.exchangeClass(targetElements, getter.format(that.date), el, ['focus']);
+        break;
+      case 'range':
+        if(isInit) that.date = null;
+        that.rangeElements = EL.choose(that.rangeElements, getter.format(that.range.start), getter.format(that.range.end), el, firstItem);
+        break;
+      case 'terminal':
+        if(isInit) {
+          that.date = null;
+          that.interval = that.range.diff('days');
+        }
+        that.rangeElements = EL.choose(that.rangeElements, getter.format(that.range.start), getter.format(that.range.end), el);
+        break;
     }
   },
   click: {
     'drp-day-number'(target, that) {
       var {range, config, rangeElements, el, firstItem, targetElements, interval, selectFunc} = that;
+      var {maxDate, minDate} = config;
       // 直接返回这个时间的moment对象并设置class
       var chooseItem = getter.getDate(target);
+      var chooseMoment = moment(chooseItem);
+      if((maxDate && chooseMoment.isAfter(maxDate)) || (minDate && chooseMoment.isBefore(minDate))) return;
       if(config.type === 'single') {
-        that.date = moment(chooseItem);
+        that.date = chooseMoment;
         if(selectFunc) selectFunc(that.date);
         that.targetElements = EL.exchangeClass(targetElements, chooseItem, el, ['focus']);
       } else if(config.type === 'range') {
         if(!firstItem) {
           // 清除已经focus的
           EL.clear(el, range);
-          that.range = null;
           that.firstItem = chooseItem;
           that.targetElements = EL.exchangeClass(targetElements, chooseItem, el, ['active']);
           chooseItem = getEBA(el, 'date', that.firstItem);
@@ -58,18 +66,19 @@ module.exports = {
   hover: {
     'drp-day-number'(target, that) {
       var {range, config, rangeElements, el, firstItem, targetElements, interval} = that;
+      var {maxDate, minDate} = config;
       var hoverItem = getter.getDate(target);
+      var chooseMoment = interval ? moment(hoverItem).add(interval, 'days') : moment(hoverItem);
+      if((maxDate && chooseMoment.isAfter(maxDate)) || (minDate && chooseMoment.isBefore(minDate))) return;
       if(!el) return;
-      if(config.type === 'single') {
-        getEBA(el, 'date', hoverItem).forEach((item) => {
-          if(item !== target) {
-            item.classList.add('hover');
-            target.addEventListener('mouseout', () => {
-              item.classList.remove('hover');
-            });
-          }
-        });
-      }
+      getEBA(el, 'date', hoverItem).forEach((item) => {
+        if(item !== target) {
+          item.classList.add('hover');
+          target.addEventListener('mouseout', () => {
+            item.classList.remove('hover');
+          });
+        }
+      });
       if(config.type === 'range' && firstItem) {
         if(moment(firstItem).isBefore(hoverItem)) {
           that.rangeElements = EL.choose(rangeElements, firstItem, hoverItem, el, firstItem);
@@ -78,7 +87,7 @@ module.exports = {
         }
       }
       if(config.type === 'terminal') {
-        that.firstItem = getter.format(moment(hoverItem).add(interval, 'days'));
+        that.firstItem = getter.format(chooseMoment);
         that.rangeElements = EL.choose(rangeElements, hoverItem, that.firstItem, el, that.firstItem);
       }
     }

@@ -53,6 +53,7 @@ gulp.task('require.js', function() {
 gulp.task('compilelint.js', function(done) {
   runSequence([
     'compile.js',
+    'require.js',
     'lint'
   ], done);
 });
@@ -61,6 +62,7 @@ gulp.task('compile', function(done) {
   runSequence([
     'compile.css',
     'compile.js',
+    'require.js',
     'lint'
   ], done);
 });
@@ -86,8 +88,7 @@ gulp.task('watch', function(done) {
 
 gulp.task('build', function(done) {
   runSequence([
-    'compile',
-    'require.js'
+    'compile'
     ],  done);
 });
 

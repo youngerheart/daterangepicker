@@ -60,6 +60,14 @@ class DateRangePicker {
 
     reload(this, true);
   };
+
+  // 动态设置值的接口
+  set(key, value) {
+    if(this[key]) {
+      this[key] = value;
+      reload(this);
+    }
+  }
 }
 
 

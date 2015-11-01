@@ -11,7 +11,7 @@ class Calendar{
     this.calNum = config.numberOfCalendars;
     this.current = that.range
                    ? moment(that.range.start)
-                   : this.date ? moment(this.date) : moment();// if
+                   : that.date ? moment(that.date) : moment();
     this.reload = callback;
     this.lang = config.lang;
     this.draw();

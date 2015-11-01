@@ -17,9 +17,9 @@ const removeAll = (el, classNameArr) => {
       let index = nameArr.indexOf(item);
       if(index !== -1) nameArr.splice(index, 1);
     });
-    if(nameArr.length === 2) {
+    if((list.contains('hover') && nameArr.length === 3) || (!list.contains('hover') && nameArr.length === 2)) {
       list.remove('active');
-    } else{
+    } else {
       list.remove(...classNameArr);
     } 
   }
@@ -135,18 +135,7 @@ module.exports = {
     var className;
     rangeElements.forEach((els, i) => {
       els.forEach((item) => {
-        switch(i) {
-          case 0:
-            className = ['active', 'start'];
-            break;
-          case 1:
-            className = ['active', 'segment'];
-            break;
-          case 2:
-            className = ['active', 'end'];
-            break;
-        }
-        removeAll(item, className);
+        removeAll(item, ['active', classArr[i]]);
       });
     });
     targetElements.forEach((item) => {
@@ -155,11 +144,10 @@ module.exports = {
   },
 
   exChange(rangeElements) {
-    var name = '';
-    rangeElements.forEach((els) => {
+    rangeElements.forEach((els, i) => {
       els.forEach((item) => {
-        name = item.className.replace('active', 'focus').replace('active', '').trim();
-        item.className = name;
+        item.classList.remove('active');
+        item.classList.add('focus', classArr[i]);
       });
     });
     return rangeElements;
