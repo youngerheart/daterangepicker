@@ -43,7 +43,8 @@ gulp.task('require.js', function() {
   return gulp
   .src('./src/DateRangePicker.js')
   .pipe(browserify({
-    transform: [babelify]
+    transform: [babelify],
+    standalone: 'DateRangePicker'
   }))
   .pipe(uglify({mangle: {except: ['module', 'exports']}}))
   .pipe(rename('index.js'))
