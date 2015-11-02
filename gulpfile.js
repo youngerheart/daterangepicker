@@ -45,7 +45,7 @@ gulp.task('require.js', function() {
   .pipe(browserify({
     transform: [babelify]
   }))
-  .pipe(uglify())
+  .pipe(uglify({mangle: {except: ['module', 'exports']}}))
   .pipe(rename('index.js'))
   .pipe(gulp.dest('dist'));
 });
