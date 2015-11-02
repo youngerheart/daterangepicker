@@ -6,16 +6,20 @@ const leaveEvent = require('./tools/mouseleave');
 
 class DateRangePicker {
   constructor(el, config) {
-    var {type, date, range, onSelect} = config;
-    moment.locale(config.lang || 'zh-cn');
+    var {type, date, range, onSelect, lang} = config;
+    lang = lang || 'zh-cn';
     // 保留有用的信息
     this.el = el;
     this.config = config;
     this.targetElements = []; // single时储存的点击元素
     this.rangeElements = [[], [], []]; // range，terminal时储存的元素
     this.firstItem = null;
-    this.range = range || null;
-    this.date = date || null;
+    this.range = range ? (() => {
+      range.start = range.start.locale(lang);
+      range.end = range.end.locale(lang);
+      return range;
+    })() : null;
+    this.date = date ? date.locale(lang) : null;
     this.interval = null;
     this.time = null;
     this.selectFunc = onSelect ? (date) => {
@@ -44,6 +48,7 @@ class DateRangePicker {
     new Calendar(this, () => {
       reload(this);
     });
+
     if(config.time) this.time = new TimePicker(this);
 
     el.className = 'drp';

@@ -7,7 +7,7 @@ class Calendar{
   constructor(that, callback) {
     // 渲染header, 再渲染多个月份的日历
     var {el, config} = that;
-    this.el = el;
+    this.el = createElement('div', 'drp-calendar');
     this.calNum = config.numberOfCalendars;
     this.current = that.range
                    ? moment(that.range.start)
@@ -15,14 +15,15 @@ class Calendar{
     this.reload = callback;
     this.lang = config.lang;
     this.draw();
+    el.appendChild(this.el);
   }
 
   draw() {
-    // 清空之前的数据
-    this.month = [];
-    this.el.innerHTML = '';
-    this.current = this.current.subtract(Math.ceil(this.calNum / 2), 'month');
     moment.locale(this.lang || 'zh-cn');
+    // 清空之前的数据
+    this.el.innerHTML = '';
+    this.month = [];
+    this.current = this.current.subtract(Math.ceil(this.calNum / 2), 'month');
     for(var i = 0; i < this.calNum; i++) {
       this.current = this.current.date(1).add(1, 'month');
       this.drawHeader(i);
