@@ -36,14 +36,17 @@ Include js and css in `/dist` by tag , you can also require js by `require('date
           //...
         } // callback after select, return date or range with moment and moment-range object
       }
-      /**
-      * Get a dom object named such as el1 first
-      */
+
+      /* Get a dom object named such as el1 first */
       var drp1 = new DateRangePicker(el1, configs1);
-      console.log(drp1.date) // current date for type
-      console.log(drp1.range) // current range for type range and terminal
-      console.log(drp1.time.hours) // current hours array
-      console.log(drp1.time.minutes) // current minutes array
+      console.log(drp1.date); // current date for type
+      console.log(drp1.range); // current range for type range and terminal
+      console.log(drp1.time.hours); // current hours array
+      console.log(drp1.time.minutes); // current minutes array
+
+      /* set a value and reload daterangepicker */
+      drp1.set('range', moment.range());
+
 
 
 ## Develop
