@@ -27,8 +27,8 @@ Include js and css in `/dist` by tag , you can also require js by `require('date
         lang: 'zh-cn', // using language
         numberOfCalendars: 1, // displaying month number
         type: 'single', // single, range, terminal
-        time: true, // display hours and minutes or not
-        date: moment('2015-10-01'), // default date for type single
+        time: true, // want display & ctrl hours and minutes or not
+        date: moment('2015-10-01 23:33'), // default date for type single
         range: moment.range(['2015-10-01', '2015-10-08']), // default range for type range or terminal
         minDate: moment('2015-09-30'), // limit minDate
         maxDate: moment(), // limit maxDate
