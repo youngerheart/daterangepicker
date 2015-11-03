@@ -111,13 +111,16 @@ module.exports = {
     var i = null;
     var els = null;
     var momentStr = null;
-    range.by('days', (moment) => {
+    // 复制一个新的range
+    var thatRange = moment.range([moment(range.start), moment(range.end)]);
+    thatRange.start.set({'hour': 0, 'minute': 0, 'second': 0});
+    thatRange.by('days', (moment) => {
       momentStr = format(moment);
       switch(momentStr) {
-        case format(range.start):
+        case format(thatRange.start):
           i = 0;
           break;
-        case format(range.end):
+        case format(thatRange.end):
           i = 2;
           break;
         default:
