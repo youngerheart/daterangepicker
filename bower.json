@@ -1,0 +1,26 @@
+{
+  "name": "react-daterangepicker",
+  "version": "0.0.1",
+  "homepage": "https://github.com/youngerheart/react-daterangepicker",
+  "authors": [
+    "youngerheart"
+  ],
+  "description": "simple react-daterangepicker base on daterangepicker",
+  "main": "server.js",
+  "keywords": [
+    "react",
+    "daterangepicker"
+  ],
+  "license": "PRIVATE",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "moment": "^2.2.6",
+    "moment-range": "^2.0.3"
+  }
+}
