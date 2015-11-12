@@ -19,6 +19,8 @@ a simple daterangepicker
 
 This component relies on moment and moment-range, so you should include them first
 
+      $ npm install date-range-picker
+
 Include js and css in `/dist` by tag , you can also require js by `require('date-range-picker')`
 
 
