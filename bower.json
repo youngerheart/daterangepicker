@@ -1,6 +1,6 @@
 {
-  "name": "daterangepicker",
-  "version": "0.0.1",
+  "name": "date-range-picker",
+  "version": "0.0.10",
   "homepage": "https://github.com/youngerheart/daterangepicker",
   "authors": [
     "youngerheart"
@@ -10,13 +10,20 @@
   "keywords": [
     "daterangepicker"
   ],
+  "ignore": [
+    "README.md",
+    "dist/"
+  ],
   "license": "PRIVATE",
   "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    ".eslintrc",
+    "gulpfile.js",
+    "Makefile",
+    "package.json",
+    "src",
+    "example",
+    ".DS_Store",
+    ".sass-cache"
   ],
   "dependencies": {
     "moment": "^2.2.6",
