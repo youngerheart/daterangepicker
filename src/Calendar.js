@@ -19,7 +19,7 @@ class Calendar{
   }
 
   draw(current) {
-    if(current) this.current = current;
+    if(current) this.current = moment(current);
     moment.locale(this.lang || 'zh-cn');
     // 清空之前的数据
     this.el.innerHTML = '';

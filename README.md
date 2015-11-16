@@ -25,7 +25,6 @@ This component relies on moment and moment-range, so you should include them fir
 Include js and css in `/dist` by tag , you can also require js by `require('date-range-picker')`
 
 
-
       var configs1 = {
         lang: 'zh-cn', // using language
         numberOfCalendars: 1, // displaying month number
@@ -48,13 +47,15 @@ Include js and css in `/dist` by tag , you can also require js by `require('date
       console.log(drp1.time.minutes); // current minutes array
 
       /* set a value and reload daterangepicker */
-      drp1.set('range', moment.range());
-
+      drp1.set('range', moment.range()); // support: date and range, and I'm not ensure set other props are useful. 
 
 
 ## Develop
 
       $ git clone && make dev
+
+## bug && suggestion?
+Give me [issue](https://github.com/ElemeFE/daterangepicker/issues/new) please~
 
 ## TODO
 

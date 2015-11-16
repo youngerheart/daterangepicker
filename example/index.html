@@ -23,7 +23,7 @@
       .item-desc pre {font-family: Menlo,Monaco,Consolas,"Courier New",monospace;}
       .drp-day-number.focus {color: #fff; background-color: #ed5434;}
       .drp-day-number.active {color: #fff; background-color: #8cace2;}
-      .item-title-settimebtn {height: 30px; font-size: 20px; color: #fff; font-weight: bold; background-color: #8cace2; border: 0;}
+      .item-title-settimebtn {height: 30px; font-size: 20px; color: #fff; font-weight: bold; cursor: pointer; background-color: #8cace2; border: 0; margin-left: 20px;}
     </style>
   </head>
   <body>
@@ -47,7 +47,7 @@
       <div class="item-title">
         <span class='item-title-text'>date-single-picker</span>
         <span id='drp-single-value' class="item-title-value"></span>
-        <button class="item-title-settimebtn" onclick="setTime()">set time to now</button>
+        <button class="item-title-settimebtn" onclick="setSingleTime()">set time</button>
       </div>
       <div id="drp-single"></div>
       <div class="item-desc">
@@ -63,7 +63,12 @@ var configs1 = {
     // ...
   }
 }
+
 var drp1 = new DateRangePicker(el1, configs1);
+
+var setSingleTime = function() {
+  drp1.set('date', moment());
+};
         </pre>
       </div>
     </div>
@@ -71,6 +76,7 @@ var drp1 = new DateRangePicker(el1, configs1);
       <div class="item-title">
         <span class='item-title-text'>date-range-picker</span>
         <span id='drp-range-value' class="item-title-value"></span>
+        <button class="item-title-settimebtn" onclick="setRangeTime()">set time</button>
       </div>
       <div id="drp-range"></div>
       <div class="item-desc">
@@ -86,7 +92,12 @@ var configs2 = {
     // ...
   }
 }
+
 var drp2 = new DateRangePicker(el2, configs2);
+
+var setRangeTime = function() {
+  drp2.set('range', moment.range(['2015-10-11 11:11', '2015-11-11 23:33']));
+};
         </pre>
       </div>
     </div>
@@ -108,6 +119,7 @@ var configs3 = {
     // ...
   }
 }
+
 var drp3 = new DateRangePicker(el3, configs3);
         </pre>
       </div>
@@ -173,8 +185,12 @@ var drp3 = new DateRangePicker(el3, configs3);
     setValue(input2, drp2.range);
     setValue(input3, drp3.range);
 
-    var setTime = function() {
+    var setSingleTime = function() {
       drp1.set('date', moment());
+    };
+
+    var setRangeTime = function() {
+      drp2.set('range', moment.range(['2015-10-11 11:11', '2015-11-11 23:33']));
     };
   </script>
 </html>
