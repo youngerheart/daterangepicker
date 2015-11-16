@@ -23,6 +23,7 @@
       .item-desc pre {font-family: Menlo,Monaco,Consolas,"Courier New",monospace;}
       .drp-day-number.focus {color: #fff; background-color: #ed5434;}
       .drp-day-number.active {color: #fff; background-color: #8cace2;}
+      .item-title-settimebtn {height: 30px; font-size: 20px; color: #fff; font-weight: bold; background-color: #8cace2; border: 0;}
     </style>
   </head>
   <body>
@@ -46,6 +47,7 @@
       <div class="item-title">
         <span class='item-title-text'>date-single-picker</span>
         <span id='drp-single-value' class="item-title-value"></span>
+        <button class="item-title-settimebtn" onclick="setTime()">set time to now</button>
       </div>
       <div id="drp-single"></div>
       <div class="item-desc">
@@ -171,5 +173,8 @@ var drp3 = new DateRangePicker(el3, configs3);
     setValue(input2, drp2.range);
     setValue(input3, drp3.range);
 
+    var setTime = function() {
+      drp1.set('date', moment());
+    };
   </script>
 </html>

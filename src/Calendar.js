@@ -18,7 +18,8 @@ class Calendar{
     el.appendChild(this.el);
   }
 
-  draw() {
+  draw(current) {
+    if(current) this.current = current;
     moment.locale(this.lang || 'zh-cn');
     // 清空之前的数据
     this.el.innerHTML = '';

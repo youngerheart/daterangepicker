@@ -22,6 +22,7 @@ class DateRangePicker {
     this.date = date ? date.locale(lang) : null;
     this.interval = null;
     this.time = null;
+    this.calendar = null;
     this.selectFunc = onSelect ? (date) => {
       if(!this.time) {
         onSelect(date);
@@ -45,7 +46,7 @@ class DateRangePicker {
   init() {
     // 绘制Calendar
     var {el, config} = this;
-    new Calendar(this, () => {
+    this.calendar = new Calendar(this, () => {
       reload(this);
     });
 
@@ -68,9 +69,24 @@ class DateRangePicker {
 
   // 动态设置值的接口
   set(key, value) {
-    if(this[key]) {
-      this[key] = value;
-      reload(this);
+    if(!this[key]) return;
+    var {type, onSelect, lang} = this.config;
+    this[key] = value;
+    if(this.time) {
+      if(key === 'date') {
+        value = value.locale(lang);
+      } else if(key === 'range' || type === 'terminal') {
+        value.start = value.start.locale(lang);
+        value.end = value.end.locale(lang);
+      }
+      this.time.setTime(value);
+      this.calendar.draw(value.start || value);
+    }
+    reload(this);
+    if(type === 'single')  {
+      onSelect(this.date);
+    } else if (type === 'range' || type === 'terminal') {
+      onSelect(this.range);
     }
   }
 }
