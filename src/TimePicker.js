@@ -10,6 +10,7 @@ class TimePicker {
     this.minutes = [];
     this.timeText = null;
     this.secondTimeText = null;
+    this.input = [];
     this.init(that);
   }
 
@@ -52,13 +53,11 @@ class TimePicker {
 
   createInput(isHour, now, isStart) {
     var el = createElement('input', 'drp-time-input');
-    var current = isHour ? now.hours() : now.minutes();
     el.type = 'range';
     el.min = 0;
     el.max = isHour ? 23 : 59;
-    el.defaultValue = current;
+    this.input.push(el);
     this.setParams(isHour, now, isStart);
-    
     el.addEventListener('input', (e) => {
       now = isHour ? now.hours(e.target.value) : now.minutes(e.target.value);
       this.setParams(isHour, now, isStart);
@@ -71,18 +70,31 @@ class TimePicker {
     var type = this.config.type;
     if(type === 'single') {
       this.timeText.innerHTML = now.format('LT');
-      if(isHour) this.hours[0] = now.format('HH');
-      else this.minutes[0] = now.format('mm');
+      if(isHour) this.input[0].value = this.hours[0] = now.format('HH');
+      else this.input[1].value = this.minutes[0] = now.format('mm');
     } else if(type === 'range' || type === 'terminal') {
       if(isStart) {
         this.timeText.innerHTML = now.format('LT');
-        if(isHour) this.hours[0] = now.format('HH');
-        else this.minutes[0] = now.format('mm');
+        if(isHour)  this.input[0].value =this.hours[0] = now.format('HH');
+        else this.input[1].value = this.minutes[0] = now.format('mm');
       } else {
         this.secondTimeText.innerHTML = now.format('LT');
-        if(isHour) this.hours[1] = now.format('HH');
-        else this.minutes[1] = now.format('mm');
+        if(isHour) this.input[2].value = this.hours[1] = now.format('HH');
+        else this.input[3].value = this.minutes[1] = now.format('mm');
       }
+    }
+  };
+
+  setTime(time) {
+    var type = this.config.type;
+    if(type === 'single') {
+      this.setParams(true, time);
+      this.setParams(false, time);
+    } else if(type === 'range' || type === 'terminal') {
+      this.setParams(true, time.start, true);
+      this.setParams(false, time.start, true);
+      this.setParams(true, time.end, false);
+      this.setParams(false, time.end, false);
     }
   };
 }
