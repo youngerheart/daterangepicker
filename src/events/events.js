@@ -8,18 +8,18 @@ module.exports = {
     switch(config.type) {
       case 'single':
         if(isInit) that.range = null;
-        that.targetElements = EL.exchangeClass(targetElements, getter.format(that.date), el, ['focus']);
+        if(that.date) that.targetElements = EL.exchangeClass(targetElements, getter.format(that.date), el, ['focus']);
         break;
       case 'range':
         if(isInit) that.date = null;
-        that.rangeElements = EL.choose(that.rangeElements, getter.format(that.range.start), getter.format(that.range.end), el, firstItem);
+        if(that.range) that.rangeElements = EL.choose(that.rangeElements, getter.format(that.range.start), getter.format(that.range.end), el, firstItem);
         break;
       case 'terminal':
         if(isInit) {
           that.date = null;
           that.interval = that.range.diff('days');
         }
-        that.rangeElements = EL.choose(that.rangeElements, getter.format(that.range.start), getter.format(that.range.end), el);
+        if(that.range) that.rangeElements = EL.choose(that.rangeElements, getter.format(that.range.start), getter.format(that.range.end), el);
         break;
     }
   },
