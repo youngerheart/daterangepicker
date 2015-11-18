@@ -83,7 +83,7 @@ class DateRangePicker {
       this.calendar.draw(value.start || value);
     }
     reload(this);
-    if(type === 'single')  {
+    if(type === 'single') {
       onSelect(this.date);
     } else if (type === 'range' || type === 'terminal') {
       onSelect(this.range);
