@@ -48,6 +48,9 @@ Include js and css in `/dist` by tag , you can also require js by `require('date
 
       /* set a value and reload daterangepicker */
       drp1.set('range', moment.range()); // support: date and range, and I'm not ensure set other props are useful. 
+      
+      /* clear daterangepicker */
+      drp1.clear();
 
 
 ## Develop
