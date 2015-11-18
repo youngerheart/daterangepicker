@@ -1,3 +1,4 @@
+
 module.exports = {
   classArr: ['start', 'segment', 'end'],
 
@@ -11,5 +12,7 @@ module.exports = {
 
   classFunc(firstItem, classStr) {
     return (firstItem ? 'active ' : 'focus ') + classStr;
-  }
+  },
+
+  zero: '2000-01-01 00:00'
 };

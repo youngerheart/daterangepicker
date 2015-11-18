@@ -1,4 +1,5 @@
 const createElement = require('./tools/element').create;
+const {zero} = require('./tools/getter');
 
 class TimePicker {
   constructor(that) {
@@ -18,24 +19,27 @@ class TimePicker {
     var type = this.config.type;
     var timeBox = createElement('div', 'drp-time');
     this.timeText = createElement('div', 'drp-time-text');
+    var thatZero = moment(zero);
     if(type === 'single') {
       timeBox.appendChild(this.timeText);
-      timeBox.appendChild(this.createInput(true, that.date));
-      timeBox.appendChild(this.createInput(false, that.date));
+      timeBox.appendChild(this.createInput(true, that.date || thatZero));
+      timeBox.appendChild(this.createInput(false, that.date || thatZero));
     } else if(type === 'range' || type === 'terminal') {
       this.secondTimeText = createElement('div', 'drp-time-text');
+      var start = that.range ? that.range.start : thatZero;
+      var end = that.range ? that.range.end : thatZero;
       timeBox.appendChild(
         this.insertItemBox(
           this.timeText,
-          this.createInput(true, that.range.start, true),
-          this.createInput(false, that.range.start, true)
+          this.createInput(true, start, true),
+          this.createInput(false, start, true)
         )
       );
       timeBox.appendChild(
         this.insertItemBox(
           this.secondTimeText,
-          this.createInput(true, that.range.end, false),
-          this.createInput(false, that.range.end, false)
+          this.createInput(true, end, false),
+          this.createInput(false, end, false)
         )
       );
     }

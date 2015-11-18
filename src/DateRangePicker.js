@@ -3,6 +3,8 @@ const TimePicker = require('./TimePicker');
 const bind = require('./events/bind');
 const {click, hover, reload, leave} = require('./events/events');
 const leaveEvent = require('./tools/mouseleave');
+const EL = require('./tools/element');
+const {zero} = require('./tools/getter');
 
 class DateRangePicker {
   constructor(el, config) {
@@ -69,24 +71,36 @@ class DateRangePicker {
 
   // 动态设置值的接口
   set(key, value) {
-    if(!this[key]) return;
+    if(typeof this[key] === 'undefined' || !value) return;
     var {type, onSelect, lang} = this.config;
     this[key] = value;
-    if(this.time) {
-      if(key === 'date') {
-        value = value.locale(lang);
-      } else if(key === 'range' || type === 'terminal') {
-        value.start = value.start.locale(lang);
-        value.end = value.end.locale(lang);
-      }
-      this.time.setTime(value);
-      this.calendar.draw(value.start || value);
+    if(key === 'date') {
+      value = value.locale(lang);
+    } else if(key === 'range' || type === 'terminal') {
+      value.start = value.start.locale(lang);
+      value.end = value.end.locale(lang);
     }
+    if(this.time) this.time.setTime(value);
+    this.calendar.draw(value.start || value);
     reload(this);
     if(type === 'single') {
       onSelect(this.date);
     } else if (type === 'range' || type === 'terminal') {
       onSelect(this.range);
+    }
+  }
+
+  clear() {
+    var {el, date, range, config} = this;
+    if(range) {
+      EL.clear(el, range);
+      this.range = null;
+      if(this.time) this.time.setTime(moment.range([zero, zero]));
+    }
+    if(date) {
+      EL.exchangeClass(this.targetElements, '', el, ['focus']);
+      this.date = null;
+      if(this.time) this.time.setTime(moment(zero));
     }
   }
 }
