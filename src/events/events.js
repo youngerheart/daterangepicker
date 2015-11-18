@@ -30,6 +30,26 @@ module.exports = {
       // 直接返回这个时间的moment对象并设置class
       var chooseItem = getter.getDate(target);
       var chooseMoment = moment(chooseItem);
+      
+      // terminal的兼容性处理
+      if(interval) {
+        if(maxDate) {
+          var max = moment(maxDate).subtract(interval, 'days');
+          if(chooseMoment.isAfter(max)) {
+            chooseMoment = max;
+            chooseItem = getter.format(chooseMoment);
+            firstItem = getter.format(moment(maxDate));
+          }
+        }
+        if(minDate) {
+          var min = moment(minDate);
+          if(chooseMoment.isBefore(min)) {
+            chooseMoment = min;
+            chooseItem = getter.format(chooseMoment);
+            firstItem = getter.format(moment(chooseMoment).add(interval, 'days'));
+          }
+        }
+      }
       if((maxDate && chooseMoment.isAfter(maxDate)) || (minDate && chooseMoment.isBefore(minDate))) return;
       if(config.type === 'single') {
         that.date = chooseMoment;
@@ -68,8 +88,20 @@ module.exports = {
       var {range, config, rangeElements, el, firstItem, targetElements, interval} = that;
       var {maxDate, minDate} = config;
       var hoverItem = getter.getDate(target);
+
+      if(maxDate) {
+        var max = interval ? moment(maxDate).subtract(interval, 'days') : moment(maxDate);
+        if(moment(hoverItem).isAfter(max)) hoverItem = getter.format(max);
+      }
+      
+      if(minDate && moment(hoverItem).isBefore(minDate)) {
+        hoverItem = getter.format(moment(minDate));
+      }
+
+
+
       var chooseMoment = interval ? moment(hoverItem).add(interval, 'days') : moment(hoverItem);
-      if((maxDate && chooseMoment.isAfter(maxDate)) || (minDate && chooseMoment.isBefore(minDate))) return;
+
       if(!el) return;
       getEBA(el, 'date', hoverItem).forEach((item) => {
         if(item !== target) {
