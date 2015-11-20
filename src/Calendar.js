@@ -8,6 +8,7 @@ class Calendar{
     // 渲染header, 再渲染多个月份的日历
     var {el, config} = that;
     this.el = createElement('div', 'drp-calendar');
+    this.parent = el;
     this.calNum = config.numberOfCalendars;
     this.current = that.range
                    ? moment(that.range.start)
@@ -25,6 +26,7 @@ class Calendar{
     this.el.innerHTML = '';
     this.month = [];
     this.current = this.current.subtract(Math.ceil(this.calNum / 2), 'month');
+    this.drawPointer();
     for(var i = 0; i < this.calNum; i++) {
       this.current = this.current.date(1).add(1, 'month');
       this.drawHeader(i);
@@ -32,28 +34,25 @@ class Calendar{
     }
   }
 
+  drawPointer() {
+    var right = createElement('div', 'drp-right');
+    right.addEventListener('click', () => {
+      this.nextMonth();
+    });
+
+    var left = createElement('div', 'drp-left');
+    left.addEventListener('click', () => {
+      this.prevMonth();
+    });
+    this.parent.appendChild(right);
+    this.parent.appendChild(left);
+  }
+
   drawHeader(i) {
-    this.header = createElement('div', 'drp-header');
-    this.title = createElement('div', 'drp-month', this.current.format('MMM YYYY'));
-    if(!i) {
-      var right = createElement('div', 'drp-right');
-      right.addEventListener('click', () => {
-        this.nextMonth();
-      });
-
-      var left = createElement('div', 'drp-left');
-      left.addEventListener('click', () => {
-        this.prevMonth();
-      });
-      this.header.appendChild(right);
-      this.header.appendChild(left);
-    }
-
-    this.header.appendChild(this.title);
-    
+    this.header = createElement('div', 'drp-header', this.current.format('MMM YYYY'));
     this.el.appendChild(this.header);
     this.drawWeekDays();
-    this.title.innerHTML = this.current.format('MMM YYYY');
+    this.header.innerHTML = this.current.format('MMM YYYY');
   }
 
   drawMonth(num) {
