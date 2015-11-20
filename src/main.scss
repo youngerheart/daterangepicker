@@ -4,13 +4,15 @@
   overflow: hidden;
   box-sizing: border-box;
   display: inline-block;
+  position: relative;
+  -webkit-user-select: none;
 }
 
 .drp-header {
-  height: 32px;
+  line-height: 32px;
   text-align: center;
-  position: relative;
-  padding-top: 12px;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .drp-month {
@@ -28,7 +30,7 @@
 
 .drp-left, .drp-right {
   position: absolute;
-  top: 4px;
+  top: 1px;
   height: 30px;
   width: 30px;
   cursor: pointer;
