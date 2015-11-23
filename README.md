@@ -36,6 +36,7 @@ Include js and css in `/dist` by tag , you can also require js by `require('date
         maxDate: moment(), // limit maxDate
         onSelect: function(date/range) {
           //...
+          drp2.set('range', range); // set range in onSelect is no use
         } // callback after select, return date or range with moment and moment-range object
       }
 

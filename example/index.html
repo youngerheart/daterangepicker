@@ -94,6 +94,7 @@ var configs2 = {
   minDate: moment('2015-09-30'),
   onSelect: function(date) {
     // ...
+    drp2.set('range', range); // set range in onSelect is no use
   }
 }
 
@@ -165,6 +166,7 @@ var drp3 = new DateRangePicker(el3, configs3);
       minDate: moment('2015-09-30'),
       onSelect: function(range) {
         setValue(input2, range);
+        drp2.set('range', range); // set range in onSelect is no use
       }
     }
     var configs3 = {
