@@ -80,6 +80,9 @@ class DateRangePicker {
       if(this.range.isSame(value)) return;
       value.start = value.start.locale(lang);
       value.end = value.end.locale(lang);
+      if(type === 'terminal') {
+        this.interval = value.diff('days');
+      }
     }
     this[key] = value;
     if(this.time) this.time.setTime(value);
