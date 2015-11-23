@@ -73,13 +73,15 @@ class DateRangePicker {
   set(key, value) {
     if(typeof this[key] === 'undefined' || !value) return;
     var {type, onSelect, lang} = this.config;
-    this[key] = value;
     if(key === 'date') {
+      if(this.date.isSame(value)) return;
       value = value.locale(lang);
     } else if(key === 'range' || type === 'terminal') {
+      if(this.range.isSame(value)) return;
       value.start = value.start.locale(lang);
       value.end = value.end.locale(lang);
     }
+    this[key] = value;
     if(this.time) this.time.setTime(value);
     this.calendar.draw(value.start || value);
     reload(this);
