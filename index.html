@@ -50,6 +50,8 @@
         <button class="item-title-settimebtn" onclick="setSingleTime()">set time</button>
         <button class="item-title-settimebtn" onclick="clearSingleTime()">clear</button>
       </div>
+      <div id="drp-single-shortcuts"></div>
+      <div id="drp-single-dimension"></div>
       <div id="drp-single"></div>
       <div class="item-desc">
         <pre>
@@ -61,13 +63,10 @@ var configs1 = {
   date: moment('2015-10-01 23:33'),
   maxDate: moment(),
   minDate: moment('2015-09-30'),
-  onSelect: function(date) {
-    // ...
-  }
+  shortcuts: {el: elObj},
+  onSelect: function(date) {}
 }
-
 var drp1 = new DateRangePicker(el1, configs1);
-
 var setSingleTime = function() {
   drp1.set('date', moment());
 };
@@ -81,6 +80,8 @@ var setSingleTime = function() {
         <button class="item-title-settimebtn" onclick="setRangeTime()">set time</button>
         <button class="item-title-settimebtn" onclick="clearRangeTime()">clear</button>
       </div>
+      <div id="drp-range-shortcuts"></div>
+      <div id="drp-range-dimension"></div>
       <div id="drp-range"></div>
       <div class="item-desc">
         <pre>
@@ -92,8 +93,12 @@ var configs2 = {
   range: moment.range(['2015-10-01 23:33', '2015-10-04']),
   maxDate: moment(),
   minDate: moment('2015-09-30'),
+  shortcuts: {
+    el: elObj
+  },
   onSelect: function(date) {
     // ...
+    drp2.set('range', range); // set range in onSelect is no use
   }
 }
 
@@ -109,23 +114,37 @@ var setRangeTime = function() {
       <div class="item-title">
         <span class='item-title-text'>date-terminal-picker</span>
         <span id='drp-terminal-value' class="item-title-value"></span>
+        <button class="item-title-settimebtn" onclick="setTerminalTime()">set time</button>
+        <button class="item-title-settimebtn" onclick="clearTerminalTime()">clear</button>
       </div>
+      <div id="drp-terminal-shortcuts"></div>
+      <div id="drp-terminal-dimension"></div>
       <div id="drp-terminal"></div>
       <div class="item-desc">
         <pre>
 var configs3 = {
-  lang: 'fr',
+  lang: 'ja',
   numberOfCalendars: 3,
   type: 'terminal',
   range: moment.range(['2015-10-03', '2015-10-07']),
   maxDate: moment(),
   minDate: moment('2015-09-30'),
+  shortcuts: {
+    el: elObj
+  },
   onSelect: function(date) {
     // ...
   }
 }
 
 var drp3 = new DateRangePicker(el3, configs3);
+var setTerminalTime = function() {
+  drp3.set('range', moment.range(['2015-10-11 11:11', '2015-11-11 23:33']));
+};
+
+var clearTerminalTime = function() {
+  drp3.clear();
+};
         </pre>
       </div>
     </div>
@@ -142,7 +161,6 @@ var drp3 = new DateRangePicker(el3, configs3);
         el.innerHTML = 'Total: ' + moment.format('YYYY-MM-DD HH:mm');
       }
     };
-
     var configs1 = {
       lang: 'zh-cn', // 当前使用语言
       numberOfCalendars: 1, // 显示多少个月的日历
@@ -151,6 +169,9 @@ var drp3 = new DateRangePicker(el3, configs3);
       date: moment('2015-10-01 23:33'), // 已经选定的momentrange区间，仅在range与terminal时有效
       maxDate: moment(),
       minDate: moment('2015-09-30'),
+      shortcuts: {
+        el: el('drp-single-shortcuts')
+      },
       onSelect: function(date) {
         setValue(input1, date);
       }
@@ -163,17 +184,27 @@ var drp3 = new DateRangePicker(el3, configs3);
       range: moment.range(['2015-10-01 23:33', '2015-10-04']),
       maxDate: moment(),
       minDate: moment('2015-09-30'),
+      shortcuts: {
+        el: el('drp-range-shortcuts')
+      },
       onSelect: function(range) {
         setValue(input2, range);
+        drp2.set('range', range); // set range in onSelect is no use
       }
     }
     var configs3 = {
-      lang: 'fr',
+      lang: 'ja',
       numberOfCalendars: 3,
       type: 'terminal',
       range: moment.range(['2015-10-03', '2015-10-07']),
       maxDate: moment(),
       minDate: moment('2015-09-30'),
+      shortcuts: {
+        el: el('drp-terminal-shortcuts')
+      },
+      dimension: {
+        el: el('drp-terminal-shortcuts')
+      },
       onSelect: function(range) {
         setValue(input3, range);
       }
@@ -184,29 +215,29 @@ var drp3 = new DateRangePicker(el3, configs3);
     var drp2 = new DateRangePicker(el2, configs2);
     var el3 = el('drp-terminal');
     var drp3 = new DateRangePicker(el3, configs3);
-
     var input1 = el('drp-single-value');
     var input2 = el('drp-range-value');
     var input3 = el('drp-terminal-value');
-
     setValue(input1, drp1.date);
     setValue(input2, drp2.range);
     setValue(input3, drp3.range);
-
     var setSingleTime = function() {
       drp1.set('date', moment());
     };
-
     var clearSingleTime = function() {
       drp1.clear();
     };
-
     var setRangeTime = function() {
       drp2.set('range', moment.range(['2015-10-11 11:11', '2015-11-11 23:33']));
     };
-
     var clearRangeTime = function() {
       drp2.clear();
+    };
+    var setTerminalTime = function() {
+      drp3.set('range', moment.range(['2015-10-11 11:11', '2015-11-11 23:33']));
+    };
+    var clearTerminalTime = function() {
+      drp3.clear();
     };
   </script>
 </html>
