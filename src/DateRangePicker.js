@@ -74,10 +74,10 @@ class DateRangePicker {
     if(typeof this[key] === 'undefined' || !value) return;
     var {type, onSelect, lang} = this.config;
     if(key === 'date') {
-      if(this.date.isSame(value)) return;
+      if(this.date && this.date.isSame(value)) return;
       value = value.locale(lang);
     } else if(key === 'range' || type === 'terminal') {
-      if(this.range.isSame(value)) return;
+      if(this.range && this.range.isSame(value)) return;
       value.start = value.start.locale(lang);
       value.end = value.end.locale(lang);
       if(type === 'terminal') {
