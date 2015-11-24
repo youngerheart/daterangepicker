@@ -7,14 +7,17 @@ class Calendar{
   constructor(that, callback) {
     // 渲染header, 再渲染多个月份的日历
     var {el, config} = that;
+    var {numberOfCalendars, lang, maxDate, minDate} = config;
     this.el = createElement('div', 'drp-calendar');
     this.parent = el;
-    this.calNum = config.numberOfCalendars;
+    this.calNum = numberOfCalendars;
     this.current = that.range
                    ? moment(that.range.start)
                    : that.date ? moment(that.date) : moment();
     this.reload = callback;
-    this.lang = config.lang;
+    this.lang = lang;
+    if(maxDate) this.maxDate = maxDate;
+    if(minDate) this.minDate = minDate;
     this.draw();
     el.appendChild(this.el);
   }
@@ -112,9 +115,11 @@ class Calendar{
 
     //Outer Day
     var outer = createElement('div', this.getDayClass(day));
-
+    var className = 'drp-day-number';
+    if((this.minDate && day.isBefore(this.minDate))
+      || (this.maxDate && day.isAfter(this.maxDate))) className = 'drp-day-static';
     //Day Number
-    var number = createElement('div', 'drp-day-number', day.format('DD'));
+    var number = createElement('div', className, day.format('DD'));
     number.setAttribute('date', day.format('YYYY-MM-DD'));
     outer.appendChild(number);
     this.week.appendChild(outer);
