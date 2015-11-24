@@ -9,7 +9,7 @@ const {zero} = require('./tools/getter');
 class DateRangePicker {
   constructor(el, config) {
     var {type, date, range, onSelect, lang} = config;
-    lang = lang || 'zh-cn';
+    config.lang = lang = lang || 'zh-cn';
     // 保留有用的信息
     this.el = el;
     this.config = config;

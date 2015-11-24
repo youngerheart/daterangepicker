@@ -84,15 +84,22 @@
   position: relative;
 }
 
-.drp-day-number {
+.drp-day-number, .drp-day-static {
   position: absolute;
   -webkit-user-select: none;
   top: 5px;
   left: 0;
   line-height: 26px;
   width: 44px;
-  cursor: pointer;
+}
+
+.drp-day-static {
+  color: #999;
+}
+
+.drp-day-number {
   border-radius: 3px;
+  cursor: pointer;
   &.hover, &:hover {
     background-color: #eee;
   }
