@@ -16,7 +16,7 @@ class Calendar{
                    : that.date ? moment(that.date) : moment();
     this.reload = callback;
     this.lang = lang;
-    if(maxDate) this.maxDate = maxDate.add(1, 'days').startOf('day');
+    if(maxDate) this.maxDate = maxDate.endOf('day');
     if(minDate) this.minDate = minDate.startOf('day');
     this.draw();
     el.appendChild(this.el);
