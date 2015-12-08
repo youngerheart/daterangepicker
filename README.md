@@ -1,4 +1,5 @@
-# daterangepicker
+daterangepicker [![Build Status](https://travis-ci.org/ElemeFE/daterangepicker.svg)](https://travis-ci.org/ElemeFE/daterangepicker)
+=========
 a simple daterangepicker
 
 ## DEMO

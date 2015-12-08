@@ -14,9 +14,6 @@ build: install
 dev: install
 	@gulp dev
 
-deploy: install
-	@rm -rf ./min && gulp deploy; \
-
 install:
 	@hash="cache-daterangepicker-$$(cat Makefile package.json bower.json | openssl sha1 | tail -c33)"; \
 	path="/tmp/$$hash"; \
@@ -27,12 +24,12 @@ install:
 	    cp -R $$path/* $$src; \
 	  fi; \
 	else \
+	  bower install; \
 	  if which cnpm > /dev/null; then \
 	    cnpm install; \
 	  else \
 	    npm install; \
 	  fi; \
-	  bower install; \
 	  mkdir -p $$path; \
 	  cp -R $$src/node_modules $$path; \
 	  cp -R $$src/bower_components $$path; \
