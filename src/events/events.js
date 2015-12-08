@@ -75,11 +75,10 @@ module.exports = {
         if(range) {
           EL.clear(el, range);
         }
-        that.range = moment.range([chooseItem, firstItem]);
+        that.range = moment.range([chooseItem, firstItem || chooseItem]);
         // 更换样式
         EL.exChange(rangeElements);
         if(selectFunc) selectFunc(that.range);
-        that.firstItem = null;
       }
     }
   },

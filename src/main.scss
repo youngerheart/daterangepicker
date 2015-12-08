@@ -118,6 +118,12 @@
       border-bottom-left-radius: 0;
     }
   }
+  &.focus.start.end, &.active.start.end {
+    border-radius: 3px;
+  }
+  &.active.focus.start.end {
+    border-radius: 0;
+  }
 }
 
 .drp-day.drp-other {
@@ -221,4 +227,43 @@
     background: #ffffff;
     cursor: pointer;
   }
+}
+
+.drp-shortcuts-input {
+  line-height: 24px;
+  padding: 0 4px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 1px #ccc;
+  width: 100px;
+  font-size: 12px;
+  margin-right: 5px;
+  outline: 0;
+}
+
+.drp-shortcuts-selectbtn {
+  line-height: 24px;
+  padding: 0 4px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  outline: 0;
+}
+
+.drp-shortcuts-btn {
+  display: inline-block;
+  padding: 0 5px;
+  background: #eee;
+  line-height: 24px;
+  border-radius: 3px;
+  margin-right: 4px;
+  cursor: pointer;
+  &.focus {
+    background-color: #337ab7;
+    color: #fff;
+  }
+}
+
+.drp-shortcuts-form {
+  margin-top: 5px;
 }

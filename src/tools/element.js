@@ -19,6 +19,7 @@ const removeAll = (el, classNameArr) => {
     });
     if((list.contains('hover') && nameArr.length === 3) || (!list.contains('hover') && nameArr.length === 2)) {
       list.remove('active');
+      if(!list.contains('focus')) list.remove('start', 'end');
     } else {
       list.remove(...classNameArr);
     } 
@@ -49,7 +50,8 @@ module.exports = {
       element.className = className;
     }
     if (innerText) {
-      element.innderText = element.textContent = innerText;
+      if(tagName !== 'input') element.innderText = element.textContent = innerText;
+      else element.value = innerText;
     }
     return element;
   },
@@ -74,15 +76,16 @@ module.exports = {
         newStartEls.push(...arr);
       }
     });
+
+    // 如果起止重合
+    if(!newEndEls[0]) {
+      newStartEls.forEach((item) => {
+        if(newEndEls.indexOf(item) === -1) newEndEls.push(item);
+      });
+    }
     // 去除老的，增加新的，最后赋值
     var newRangeElements = [newStartEls, newSegmentEls, newEndEls];
     rangeElements = this.change(rangeElements, newRangeElements, firstItem);
-    // 如果起始重合
-    if(newStartEls[0] === newEndEls[0]) {
-      newStartEls.forEach((item) => {
-        item.classList.add('start', 'end', 'segment');
-      });
-    }
     return rangeElements;
   },
 

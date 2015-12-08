@@ -50,6 +50,7 @@
         <button class="item-title-settimebtn" onclick="setSingleTime()">set time</button>
         <button class="item-title-settimebtn" onclick="clearSingleTime()">clear</button>
       </div>
+      <div id="drp-single-shortcuts"></div>
       <div id="drp-single"></div>
       <div class="item-desc">
         <pre>
@@ -109,11 +110,13 @@ var setRangeTime = function() {
         <button class="item-title-settimebtn" onclick="setTerminalTime()">set time</button>
         <button class="item-title-settimebtn" onclick="clearTerminalTime()">clear</button>
       </div>
+      <div id="drp-terminal-shortcuts"></div>
+      <div id="drp-terminal-dimension"></div>
       <div id="drp-terminal"></div>
       <div class="item-desc">
         <pre>
 var configs3 = {
-  lang: 'fr',
+  lang: 'ja',
   numberOfCalendars: 3,
   type: 'terminal',
   range: moment.range(['2015-10-03', '2015-10-07']),
@@ -157,6 +160,9 @@ var clearTerminalTime = function() {
       date: moment('2015-10-01 23:33'), // 已经选定的momentrange区间，仅在range与terminal时有效
       maxDate: moment(),
       minDate: moment('2015-09-30'),
+      shortcuts: {
+        el: el('drp-single-shortcuts')
+      },
       onSelect: function(date) {
         setValue(input1, date);
       }
@@ -175,12 +181,18 @@ var clearTerminalTime = function() {
       }
     }
     var configs3 = {
-      lang: 'fr',
+      lang: 'ja',
       numberOfCalendars: 3,
       type: 'terminal',
       range: moment.range(['2015-10-03', '2015-10-07']),
       maxDate: moment(),
       minDate: moment('2015-09-30'),
+      shortcuts: {
+        el: el('drp-terminal-shortcuts')
+      },
+      dimension: {
+        el: el('drp-terminal-dimension')
+      },
       onSelect: function(range) {
         setValue(input3, range);
       }
