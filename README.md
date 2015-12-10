@@ -54,6 +54,36 @@ Include js and css in `/dist` by tag , you can also require js by `require('date
       /* clear daterangepicker */
       drp1.clear();
 
+      /* support for shortcuts */
+      config.shortcuts = {
+        el: shortcutsEl, // default: null
+        btns: ['today', ...] // sort and which btn will be shown, 
+        // default and only those option ['today', 'yesterday', 'lastWeek', 'custom']
+      }
+      // only support chinese and english, you can give me a pr for your language.
+      // in src/lang.js
+      {
+        today: 'todayStr', // such as: '今天'
+        yesterday: 'yesterdayStr', // such as: '昨天'
+        lastWeek: 'lastWeekStr', // for range and terminal. such as: '最近一周'
+        lastMonth: 'lastMonthStr', // for range and terminal. such as: '最近一月'
+        custom: 'customStr' // such as: '自定义'
+      };
+
+      /* support for dimension in terminal(developing) */
+      config.dimension = {
+        el: shortcutsEl, // default: null
+        btns: ['days', ...] // sort and which btn will be shown, 
+        // default and only those option ['days', 'weeks', 'months']
+      }
+      // only support chinese, english and japanese, you can give me a pr for your language.
+      // in src/lang.js
+      {
+        days: 'daysStr', // such as: '日'
+        weeks: 'weeksStr', // such as: '周'
+        months: 'monthsStr' // such as: '月'
+      };
+
 
 ## Develop
 

@@ -75,11 +75,10 @@ module.exports = {
         if(range) {
           EL.clear(el, range);
         }
-        that.range = moment.range([chooseItem, firstItem]);
+        that.range = moment.range([chooseItem, firstItem || chooseItem]);
         // 更换样式
         EL.exChange(rangeElements);
         if(selectFunc) selectFunc(that.range);
-        that.firstItem = null;
       }
     }
   },
@@ -125,11 +124,11 @@ module.exports = {
     }
   },
   leave(that) {
-    var {config, rangeElements, targetElements} = that;
-    if(config.type === 'range' || config.type === 'terminal') {
-      // 清除active的元素
+    var {config, rangeElements, targetElements, el, range} = that;
+    if(config.type === 'range') {
+      // 回到之前的状态
       EL.clearRange(rangeElements, targetElements);
-      that.rangeElements = [[], [], []];
+      if(range) that.rangeElements = EL.choose(rangeElements, getter.format(range.start), getter.format(range.end), el);
       that.targetElements = [];
       that.firstItem = null;
     }
