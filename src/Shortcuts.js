@@ -12,7 +12,7 @@ class Shortcuts {
     this.rangeStartEL = null;
     this.rangeEndEL = null;
     this.formEL = null;
-    if(!this.btns || !this.btns.length) this.btns = ['today', 'yesterday', 'lastWeek', 'custom'];
+    if(!this.btns || !this.btns.length) this.btns = ['today', 'yesterday', 'lastWeek', 'lastMonth', 'custom'];
     // 生成各个按钮
     this.btns.forEach((item) => {
       if(this.lang[item]) this.setBtn(that, this.lang[item]);
@@ -67,7 +67,7 @@ class Shortcuts {
   }
 
   setBtn(that, str) {
-    if(that.config.type === 'single' && str === this.lang.lastWeek) return;
+    if(that.config.type === 'single' && (str === this.lang.lastWeek || str === this.lang.lastMonth)) return;
     var btn = createElement('a', 'drp-shortcuts-btn', str);
 
     btn.addEventListener('click', (e) => {
@@ -76,8 +76,10 @@ class Shortcuts {
       var today = moment().startOf('day');
       var yesterday = moment().startOf('day').subtract(1, 'days');
       var pass = (this.btns.indexOf('today') !== -1 && this.btns.indexOf('yesterday') === -1);
-      var lastWeek = moment.range(pass ? moment().startOf('day').subtract(7, 'days')
-        : moment().startOf('day').subtract(6, 'days'), pass ? yesterday : today);
+      var lastWeek = moment.range(pass ? moment(yesterday).subtract(1, 'days')
+        : moment(today).subtract(6, 'days'), pass ? yesterday : today);
+      var lastMonth = moment.range(pass ? moment(yesterday).subtract(1, 'months').add(1, 'days')
+        : moment(today).subtract(1, 'months').add(1, 'days'), pass ? yesterday : today);
       this.exchangeButton(e.target);
       this.formEL.style.display = 'none';
       switch(e.target.innerHTML) {
@@ -93,6 +95,10 @@ class Shortcuts {
           break;
         case this.lang.lastWeek:
           if(!isSingle) that.set('range', lastWeek);
+          that.selectFunc();
+          break;
+        case this.lang.lastMonth:
+          if(!isSingle) that.set('range', lastMonth);
           that.selectFunc();
           break;
         case this.lang.custom:

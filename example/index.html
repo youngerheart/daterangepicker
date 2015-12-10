@@ -51,6 +51,7 @@
         <button class="item-title-settimebtn" onclick="clearSingleTime()">clear</button>
       </div>
       <div id="drp-single-shortcuts"></div>
+      <div id="drp-single-dimension"></div>
       <div id="drp-single"></div>
       <div class="item-desc">
         <pre>
@@ -62,6 +63,7 @@ var configs1 = {
   date: moment('2015-10-01 23:33'),
   maxDate: moment(),
   minDate: moment('2015-09-30'),
+  shortcuts: {el: elObj},
   onSelect: function(date) {}
 }
 var drp1 = new DateRangePicker(el1, configs1);
@@ -78,6 +80,8 @@ var setSingleTime = function() {
         <button class="item-title-settimebtn" onclick="setRangeTime()">set time</button>
         <button class="item-title-settimebtn" onclick="clearRangeTime()">clear</button>
       </div>
+      <div id="drp-range-shortcuts"></div>
+      <div id="drp-range-dimension"></div>
       <div id="drp-range"></div>
       <div class="item-desc">
         <pre>
@@ -89,6 +93,9 @@ var configs2 = {
   range: moment.range(['2015-10-01 23:33', '2015-10-04']),
   maxDate: moment(),
   minDate: moment('2015-09-30'),
+  shortcuts: {
+    el: elObj
+  },
   onSelect: function(date) {
     // ...
     drp2.set('range', range); // set range in onSelect is no use
@@ -122,6 +129,9 @@ var configs3 = {
   range: moment.range(['2015-10-03', '2015-10-07']),
   maxDate: moment(),
   minDate: moment('2015-09-30'),
+  shortcuts: {
+    el: elObj
+  },
   onSelect: function(date) {
     // ...
   }
@@ -175,6 +185,9 @@ var clearTerminalTime = function() {
       range: moment.range(['2015-10-01 23:33', '2015-10-04']),
       maxDate: moment(),
       minDate: moment('2015-09-30'),
+      shortcuts: {
+        el: el('drp-range-shortcuts')
+      },
       onSelect: function(range) {
         setValue(input2, range);
         drp2.set('range', range); // set range in onSelect is no use
@@ -191,7 +204,7 @@ var clearTerminalTime = function() {
         el: el('drp-terminal-shortcuts')
       },
       dimension: {
-        el: el('drp-terminal-dimension')
+        el: el('drp-terminal-shortcuts')
       },
       onSelect: function(range) {
         setValue(input3, range);
