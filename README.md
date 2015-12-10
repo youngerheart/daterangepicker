@@ -60,7 +60,7 @@ Include js and css in `/dist` by tag , you can also require js by `require('date
         btns: ['today', ...] // sort and which btn will be shown, 
         // default and only those option ['today', 'yesterday', 'lastWeek', 'custom']
       }
-      // only support chinese and english, you can give me a pr for your language.
+      // only support chinese, english and japanese , you can give me a PR for your language.
       // in src/lang.js
       {
         today: 'todayStr', // such as: '今天'
@@ -76,7 +76,7 @@ Include js and css in `/dist` by tag , you can also require js by `require('date
         btns: ['days', ...] // sort and which btn will be shown, 
         // default and only those option ['days', 'weeks', 'months']
       }
-      // only support chinese, english and japanese, you can give me a pr for your language.
+      // only support chinese, english and japanese, you can give me a PR for your language.
       // in src/lang.js
       {
         days: 'daysStr', // such as: '日'
