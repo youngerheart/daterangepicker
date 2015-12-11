@@ -34,5 +34,17 @@ module.exports = {
     month: '月',
     select: '選択',
     cancel: 'キャンセル'
+  },
+  'guichu': {
+    today: '昨日',
+    yesterday: '上周',
+    lastWeek: '今日',
+    lastMonth: '去年',
+    custom: '你猜',
+    day: '月',
+    week: '日',
+    month: '周',
+    select: '取消',
+    cancel: '确定'
   }
 };
