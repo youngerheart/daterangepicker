@@ -172,5 +172,13 @@ module.exports = {
       targetElements.push(item);
     });
     return targetElements;
+  },
+
+  exchangeButton(target, el) {
+    Array.prototype.slice.call(el.querySelectorAll('.drp-btn')).forEach((item) => {
+      item.classList.remove('focus');
+    });
+
+    target.classList.add('focus');
   }
 };

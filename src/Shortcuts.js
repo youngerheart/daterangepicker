@@ -1,4 +1,5 @@
 const createElement = require('./tools/element').create;
+const exchangeButton = require('./tools/element').exchangeButton;
 const Lang = require('./lang');
 const format = require('./tools/getter').format;
 
@@ -18,14 +19,14 @@ class Shortcuts {
       if(this.lang[item]) this.setBtn(that, this.lang[item]);
     });
     // 生成自定义表单
-    this.formEL = createElement('form', 'drp-shortcuts-form');
+    this.formEL = createElement('form', 'drp-form');
     this.formEL.style.display = 'none';
-    var selectBtnEL = createElement('button', 'drp-shortcuts-selectbtn', this.lang.select);
+    var selectBtnEL = createElement('button', 'drp-selectbtn', this.lang.select);
     selectBtnEL.type = 'button';
     if(this.btns.indexOf('custom') !== -1) {
       var {minDate, maxDate, type} = that.config;
       if(type === 'single') {
-        this.dateEL = createElement('input', 'drp-shortcuts-input', format(that.date));
+        this.dateEL = createElement('input', 'drp-input', format(that.date));
         this.formEL.appendChild(this.dateEL);
         this.formEL.appendChild(selectBtnEL);
         selectBtnEL.addEventListener('click', (e) => {
@@ -41,8 +42,8 @@ class Shortcuts {
           this.dateEL.value = format(that.date);
         });
       } else {
-        this.rangeStartEL = createElement('input', 'drp-shortcuts-input', format(that.range.start));
-        this.rangeEndEL = createElement('input', 'drp-shortcuts-input', format(that.range.end));
+        this.rangeStartEL = createElement('input', 'drp-input', format(that.range.start));
+        this.rangeEndEL = createElement('input', 'drp-input', format(that.range.end));
         this.formEL.appendChild(this.rangeStartEL);
         this.formEL.appendChild(this.rangeEndEL);
         this.formEL.appendChild(selectBtnEL);
@@ -68,7 +69,7 @@ class Shortcuts {
 
   setBtn(that, str) {
     if(that.config.type === 'single' && (str === this.lang.lastWeek || str === this.lang.lastMonth)) return;
-    var btn = createElement('a', 'drp-shortcuts-btn', str);
+    var btn = createElement('a', 'drp-btn', str);
 
     btn.addEventListener('click', (e) => {
 
@@ -80,7 +81,7 @@ class Shortcuts {
         : moment(today).subtract(6, 'days'), pass ? yesterday : today);
       var lastMonth = moment.range(pass ? moment(yesterday).subtract(1, 'months').add(1, 'days')
         : moment(today).subtract(1, 'months').add(1, 'days'), pass ? yesterday : today);
-      this.exchangeButton(e.target);
+      exchangeButton(e.target, this.el);
       this.formEL.style.display = 'none';
       switch(e.target.innerHTML) {
         case this.lang.today:
@@ -116,14 +117,6 @@ class Shortcuts {
       this.rangeStartEL.value = format(date.start);
       this.rangeEndEL.value = format(date.end);
     }
-  };
-
-  exchangeButton(target) {
-    Array.prototype.slice.call(this.el.querySelectorAll('.drp-shortcuts-btn')).forEach((item) => {
-      item.classList.remove('focus');
-    });
-
-    target.classList.add('focus');
   };
 }
 
