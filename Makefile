@@ -9,13 +9,16 @@ help:
 	@echo "   \033[35mmake deploy\033[0m\t---  发布模式（在 build 的基础上压缩各种文件，并给文件添加 hash）"
 
 build: install
-	rm -rf ./dist && @npm run build
+	@rm -rf ./dist && npm run build
 
 dev: install
 	@npm run watch
 
-deploy: install
+deploy: build
 	@npm run deploy
+
+test: build
+	@NODE_ENV=test node server.js
 
 install:
 	@hash="cache-daterangepicker-$$(cat Makefile package.json bower.json | openssl sha1 | tail -c33)"; \

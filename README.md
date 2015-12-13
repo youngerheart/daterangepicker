@@ -1,4 +1,4 @@
-daterangepicker [![Build Status](https://travis-ci.org/ElemeFE/daterangepicker.svg)](https://travis-ci.org/ElemeFE/daterangepicker)
+daterangepicker [![Build Status](https://travis-ci.org/ElemeFE/daterangepicker.svg)](https://travis-ci.org/ElemeFE/daterangepicker) [![npm package](https://img.shields.io/npm/v/date-range-picker.svg)](https://www.npmjs.com/package/date-range-picker)
 =========
 a simple daterangepicker
 

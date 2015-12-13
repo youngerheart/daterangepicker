@@ -2,16 +2,16 @@ const chai = require('chai');
 chai.should();
 chai.use(require('sinon-chai'));
 
-describe('Baidu searching', function() {
+describe('searching', function() {
   
   before(function() {
-    casper.start('http://www.baidu.com/')
+    casper.start('http://localhost:8888/');
   })
 
-  it('should retrieve title', function() {
+  it('should recieve title', function() {
     casper.then(function() {
-      //this.echo(this.getTitle());
-      '百度一下，你就知道'.should.equal(this.getTitle());
+      this.echo('title is ' + this.getTitle());
+      'daterangepicker demo'.should.equal(this.getTitle());
     });
   });
 });

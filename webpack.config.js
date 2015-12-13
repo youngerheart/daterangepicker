@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const isProduction = process.env.NODE_ENV === 'production';
 const isWatch = process.env.NODE_ENV === 'watch';
-const port = 8888;
 
 module.exports = {
   entry: {
@@ -43,12 +42,5 @@ if (isProduction) {
   ];
 } else {
   // 启动服务
-  if(isWatch) {
-    var express = require('express');
-    var app = express();
-    app.use('/static', express.static(__dirname));
-    app.use('/', express.static(__dirname + '/example'));
-    app.listen(port);
-    console.log('Magic happens on port ' + port);
-  }
+  if(isWatch) require('./server');
 }
