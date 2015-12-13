@@ -23,7 +23,7 @@ This component relies on moment and moment-range, so you should include them fir
       $ npm install date-range-picker
       $ bower install date-range-picker // or use bower
 
-Include js and css in `/dist` by tag , you can also require js by `require('date-range-picker')`
+Include js in `/dist` by tag , you can also require js by `require('date-range-picker')`
 
 
       var configs1 = {
@@ -87,7 +87,7 @@ Include js and css in `/dist` by tag , you can also require js by `require('date
 
 ## Develop
 
-      $ git clone && make dev
+      $ git clone && make dev && view localhost:8888
 
 ## bug && suggestion?
 Give me [issue](https://github.com/ElemeFE/daterangepicker/issues/new) please~

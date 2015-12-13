@@ -1,3 +1,4 @@
+require('./main.css');
 const Calendar = require('./Calendar');
 const TimePicker = require('./TimePicker');
 const Shortcuts = require('./Shortcuts');
@@ -121,5 +122,5 @@ class DateRangePicker {
   }
 }
 
-
+if(window) window.DateRangePicker = DateRangePicker;
 module.exports = DateRangePicker;

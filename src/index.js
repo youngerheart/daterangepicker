@@ -1,1 +1,0 @@
-window.DateRangePicker = require('./DateRangePicker');
