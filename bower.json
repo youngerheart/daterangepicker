@@ -24,9 +24,5 @@
     "example",
     ".DS_Store",
     ".sass-cache"
-  ],
-  "dependencies": {
-    "moment": "^2.2.6",
-    "moment-range": "^2.0.3"
-  }
+  ]
 }

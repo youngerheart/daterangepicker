@@ -2,5 +2,8 @@ language: node_js
 node_js:
   - "4.1"
 before_script:
-  - npm install -g bower
-  - gem install sass
+  - command -v webpack >/dev/null 2>&1 || npm install -g webpack
+  - command -v phantomjs >/dev/null 2>&1 || npm install -g phantomjs
+  - command -v casperjs >/dev/null 2>&1 || npm install -g casperjs
+  - command -v mocha-casperjs >/dev/null 2>&1 || npm install -g mocha-casperjs
+  - command -v sass >/dev/null 2>&1 || gem install sass
