@@ -20,8 +20,8 @@
       .item-desc {overflow: auto; position: absolute; top: 70px; left: 400px; right: 20px; vertical-align: top; padding: 10px; border: 3px #fff solid; color: #fff; background-color: #333;}
       .item-desc-fix {top: 20px;}
       .item-desc pre {font-family: Menlo,Monaco,Consolas,"Courier New",monospace;}
-      .drp-day-number.focus {color: #fff; background-color: #ed5434;}
-      .drp-day-number.active {color: #fff; background-color: #8cace2;}
+      .drp .drp-day-number.focus {color: #fff; background-color: #ed5434;}
+      .drp .drp-day-number.active {color: #fff; background-color: #8cace2;}
       .item-title-settimebtn {height: 30px; font-size: 20px; color: #fff; font-weight: bold; cursor: pointer; background-color: #8cace2; border: 0; margin-left: 20px;}
     </style>
   </head>
@@ -36,8 +36,8 @@
       <div class='item-tag'>You should add basic stylesheet first, for focus (such as orange) and active (such as blue) items.</div>
       <div class="item-desc item-desc-fix">
         <pre>
-.drp-day-number.focus {color: #fff; background-color: #ed5434;}
-.drp-day-number.active {color: #fff; background-color: #8cace2;}
+.drp .drp-day-number.focus {color: #fff; background-color: #ed5434;}
+.drp .drp-day-number.active {color: #fff; background-color: #8cace2;}
         </pre>
       </div>
     </div>
@@ -63,6 +63,7 @@ var configs1 = {
   maxDate: moment(),
   minDate: moment('2015-09-30'),
   shortcuts: {el: elObj},
+  dimension: {el: elObj},
   onSelect: function(date) {}
 }
 var drp1 = new DateRangePicker(el1, configs1);
@@ -92,9 +93,7 @@ var configs2 = {
   range: moment.range(['2015-10-01 23:33', '2015-10-04']),
   maxDate: moment(),
   minDate: moment('2015-09-30'),
-  shortcuts: {
-    el: elObj
-  },
+  shortcuts: {el: elObj},
   onSelect: function(date) {
     // ...
     drp2.set('range', range); // set range in onSelect is no use
@@ -128,9 +127,7 @@ var configs3 = {
   range: moment.range(['2015-10-03', '2015-10-07']),
   maxDate: moment(),
   minDate: moment('2015-09-30'),
-  shortcuts: {
-    el: elObj
-  },
+  shortcuts: {el: elObj},
   onSelect: function(date) {
     // ...
   }
@@ -148,7 +145,7 @@ var clearTerminalTime = function() {
       </div>
     </div>
   </body>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-range/2.0.3/moment-range.min.js"></script>
   <script type="text/javascript" src="dist/daterangepicker.min.js"></script>
   <script type="text/javascript">
@@ -170,6 +167,9 @@ var clearTerminalTime = function() {
       minDate: moment('2015-09-30'),
       shortcuts: {
         el: el('drp-single-shortcuts')
+      },
+      dimension: {
+        el: el('drp-single-dimension')
       },
       onSelect: function(date) {
         setValue(input1, date);
@@ -199,9 +199,6 @@ var clearTerminalTime = function() {
       maxDate: moment(),
       minDate: moment('2015-09-30'),
       shortcuts: {
-        el: el('drp-terminal-shortcuts')
-      },
-      dimension: {
         el: el('drp-terminal-shortcuts')
       },
       onSelect: function(range) {
