@@ -58,7 +58,7 @@ module.exports = {
       } else if(config.type === 'range') {
         if(!firstItem) {
           // 清除已经focus的
-          EL.clear(el, range);
+          if(range) EL.clear(el, range);
           that.firstItem = chooseItem;
           that.targetElements = EL.exchangeClass(targetElements, chooseItem, el, ['active']);
           chooseItem = getEBA(el, 'date', that.firstItem);
@@ -72,9 +72,7 @@ module.exports = {
         }
       } else if(config.type === 'terminal') {
         // 清除已经focus的
-        if(range) {
-          EL.clear(el, range);
-        }
+        if(range) EL.clear(el, range);
         that.range = moment.range([chooseItem, firstItem || chooseItem]);
         // 更换样式
         EL.exChange(rangeElements);

@@ -1,5 +1,10 @@
-daterangepicker [![Build Status](https://travis-ci.org/ElemeFE/daterangepicker.svg)](https://travis-ci.org/ElemeFE/daterangepicker)
+daterangepicker
 =========
+
+[![NPM version](https://img.shields.io/npm/v/date-range-picker.svg)](https://www.npmjs.com/package/date-range-picker) [![Downloads](https://img.shields.io/npm/dm/date-range-picker.svg)](http://badge.fury.io/js/date-range-picker)
+
+build [![Build Status](https://travis-ci.org/ElemeFE/daterangepicker.svg)](https://travis-ci.org/ElemeFE/daterangepicker) [![Coverage Status](https://img.shields.io/coveralls/ElemeFE/daterangepicker.svg)](https://coveralls.io/r/ElemeFE/daterangepicker/)
+
 a simple daterangepicker
 
 ## DEMO
