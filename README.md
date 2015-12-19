@@ -1,5 +1,10 @@
-daterangepicker [![Build Status](https://travis-ci.org/ElemeFE/daterangepicker.svg)](https://travis-ci.org/ElemeFE/daterangepicker)
+daterangepicker
 =========
+
+[![NPM version](https://img.shields.io/npm/v/date-range-picker.svg)](https://www.npmjs.com/package/date-range-picker) [![Downloads](https://img.shields.io/npm/dm/date-range-picker.svg)](http://badge.fury.io/js/date-range-picker)
+
+build [![Build Status](https://travis-ci.org/ElemeFE/daterangepicker.svg)](https://travis-ci.org/ElemeFE/daterangepicker) [![Coverage Status](https://img.shields.io/coveralls/ElemeFE/daterangepicker.svg)](https://coveralls.io/r/ElemeFE/daterangepicker/)
+
 a simple daterangepicker
 
 ## DEMO
@@ -70,18 +75,18 @@ Include js in `/dist` by tag , you can also require js by `require('date-range-p
         custom: 'customStr' // such as: '自定义'
       };
 
-      /* support for dimension in terminal(developing) */
+      /* support for dimension in single(developing) */
       config.dimension = {
-        el: shortcutsEl, // default: null
-        btns: ['days', ...] // sort and which btn will be shown, 
-        // default and only those option ['days', 'weeks', 'months']
+        el: dimensionEl, // default: null
+        btns: ['day', ...] // sort and which btn will be shown, 
+        // default and only those option ['day', 'week', 'month']
       }
       // only support chinese, english and japanese, you can give me a PR for your language.
       // in src/lang.js
       {
-        days: 'daysStr', // such as: '日'
-        weeks: 'weeksStr', // such as: '周'
-        months: 'monthsStr' // such as: '月'
+        day: 'dayStr', // such as: '日'
+        week: 'weekStr', // such as: '周'
+        month: 'monthStr' // such as: '月'
       };
 
 

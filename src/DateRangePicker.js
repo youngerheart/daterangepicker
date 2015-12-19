@@ -33,10 +33,9 @@ class DateRangePicker {
     if(shortcuts && shortcuts.el) {
       this.shortcuts = new Shortcuts(this, shortcuts);
     }
-
     // 绑定dimension
-    if(dimension && dimension.el && type === 'terminal') {
-      this.dimension = new Dimension(this, shortcuts);
+    if(dimension && dimension.el && type === 'single') {
+      this.dimension = new Dimension(this, dimension);
     }
 
     this.selectFunc = onSelect ? (date) => {
@@ -119,6 +118,10 @@ class DateRangePicker {
       this.date = null;
       if(this.time) this.time.setTime(moment(zero));
     }
+  }
+
+  setCalendar(value, config) {
+    this.calendar.draw(value.start || value, config);
   }
 }
 

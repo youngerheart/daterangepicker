@@ -1,4 +1,5 @@
 const createElement = require('./tools/element').create;
+const Lang = require('./lang');
 // 传入元素，参数，初始化之
 
 const today = moment();
@@ -7,15 +8,17 @@ class Calendar{
   constructor(that, callback) {
     // 渲染header, 再渲染多个月份的日历
     var {el, config} = that;
-    var {numberOfCalendars, lang, maxDate, minDate} = config;
+    var {numberOfCalendars, lang, maxDate, minDate, calendar} = config;
     this.el = createElement('div', 'drp-calendar');
     this.parent = el;
     this.calNum = numberOfCalendars;
+    this.type = calendar || 'day';
     this.current = that.range
                    ? moment(that.range.start)
                    : that.date ? moment(that.date) : moment();
     this.reload = callback;
     this.lang = lang;
+    this.langObj = Lang[lang];
     if(maxDate) this.maxDate = maxDate.endOf('day');
     if(minDate) this.minDate = minDate.startOf('day');
     this.draw();
@@ -28,12 +31,19 @@ class Calendar{
     // 清空之前的数据
     this.el.innerHTML = '';
     this.month = [];
+    this.quarter = [];
+    this.year = [];
+    this.week = null;
+    this.isMonth = this.type === 'month';
+    this.isWeek = this.type === 'week';
+    if(this.isMonth) this.current = this.current.startOf('year');
+    if(this.isWeek) this.current = this.current.startOf('month');
     this.current = this.current.subtract(Math.ceil(this.calNum / 2), 'month');
     this.drawPointer();
     for(var i = 0; i < this.calNum; i++) {
       this.current = this.current.date(1).add(1, 'month');
       this.drawHeader(i);
-      this.drawMonth(i);
+      this.type === 'month' ? this.drawYear() : this.drawMonth();
     }
   }
 
@@ -52,18 +62,23 @@ class Calendar{
   }
 
   drawHeader(i) {
-    this.header = createElement('div', 'drp-header', this.current.format('MMM YYYY'));
+    this.header = createElement('div', 'drp-header', this.current.format(this.isMonth ? 'YYYY' : 'YYYY MMM'));
     this.el.appendChild(this.header);
-    this.drawWeekDays();
-    this.header.innerHTML = this.current.format('MMM YYYY');
+    if(!this.isMonth && !this.isWeek) this.drawWeekDays();
   }
 
-  drawMonth(num) {
+  drawMonth() {
     this.month.push(createElement('div', 'drp-month'));
-    this.backFill();
+    !this.isWeek && this.backFill();
     this.currentMonth();
-    this.fowardFill();
+    !this.isWeek && this.fowardFill();
     this.el.appendChild(this.month[this.month.length - 1]);
+  }
+
+  drawYear() {
+    this.year.push(createElement('div', 'drp-month'));
+    this.currentYear();
+    this.el.appendChild(this.year[this.year.length - 1]);
   }
 
   backFill() {
@@ -96,33 +111,70 @@ class Calendar{
 
   currentMonth() {
     var clone = this.current.clone();
-
     while (clone.month() === this.current.month()) {
-      this.drawDay(clone);
-      clone.add(1, 'days');
+      this.drawDay(clone, this.isMonth, 'sadfas');
+      clone.add(1, this.isWeek ? 'weeks' : 'days');
+    }
+  }
+
+  // 绘制年-月图
+  currentYear() {
+    var clone = this.current.clone();
+    while(clone.year() === this.current.year()) {
+      this.drawSingleMonth(clone);
+      clone.add(1, 'months');
     }
   }
 
   getWeek(day) {
-    if (!this.week || day.day() === 0) {
+    if(!this.week || day.day() === 0) {
       this.week = createElement('div', 'drp-week');
       this.month[this.month.length - 1].appendChild(this.week);
     }
   }
 
   drawDay(day) {
-    this.getWeek(day);
-
+    if(this.isWeek) {
+      if(!this.week) this.week = createElement('div', 'drp-week'); 
+      this.month[this.month.length - 1].appendChild(this.week);
+    } else {
+      this.getWeek(day);
+    }
+    day = this.fixDateStr(day.clone());
     //Outer Day
     var outer = createElement('div', this.getDayClass(day));
     var className = 'drp-day-number';
+    //Day Number
     if((this.minDate && day.isBefore(this.minDate))
       || (this.maxDate && day.isAfter(this.maxDate))) className = 'drp-day-static';
-    //Day Number
-    var number = createElement('div', className, day.format('DD'));
+    var number = createElement('div', className, day.format(this.isWeek ? 'WW' + this.langObj.week : 'DD'));
     number.setAttribute('date', day.format('YYYY-MM-DD'));
     outer.appendChild(number);
     this.week.appendChild(outer);
+  }
+
+  fixDateStr(day) {
+    if(!this.isWeek) return day;
+    day = day.startOf('week');
+    return day;
+  }
+
+  // 绘制年-月图
+  drawSingleMonth(month) {
+    if([0, 3, 6, 9].indexOf(month.month()) !== -1) {
+      this.quarter = createElement('div', 'drp-week');
+      this.year[this.year.length - 1].appendChild(this.quarter);
+    }
+
+    var outer = createElement('div', 'drp-day');
+    var className = 'drp-day-number';
+    if((this.minDate && month.isBefore(this.minDate))
+      || (this.maxDate && month.isAfter(this.maxDate))) className = 'drp-day-static';
+
+    var number = createElement('div', className, month.format('MMM'));
+    number.setAttribute('date', month.format('YYYY-MM-DD'));
+    outer.appendChild(number);
+    this.quarter.appendChild(outer);
   }
 
   getDayClass(day) {
@@ -150,14 +202,14 @@ class Calendar{
   }
 
   nextMonth() {
-    this.current.subtract(Math.floor(this.calNum / 2) - 1, 'months');
+    this.current.subtract(Math.floor(this.calNum / 2) - 1, this.isMonth ? 'years' : 'months');
     this.next = true;
     this.draw();
     this.reload();
   }
 
   prevMonth() {
-    this.current.subtract(Math.floor(this.calNum / 2) + 1, 'months');
+    this.current.subtract(Math.floor(this.calNum / 2) + 1, this.isMonth ? 'years' : 'months');
     this.next = false;
     this.draw();
     this.reload();

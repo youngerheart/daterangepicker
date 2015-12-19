@@ -229,7 +229,7 @@
   }
 }
 
-.drp-shortcuts-input {
+.drp-input {
   line-height: 24px;
   padding: 0 4px;
   border-radius: 3px;
@@ -241,7 +241,7 @@
   outline: 0;
 }
 
-.drp-shortcuts-selectbtn {
+.drp-selectbtn {
   line-height: 24px;
   padding: 0 4px;
   background-color: #fff;
@@ -250,7 +250,7 @@
   outline: 0;
 }
 
-.drp-shortcuts-btn {
+.drp-btn {
   display: inline-block;
   padding: 0 5px;
   background: #eee;
@@ -264,6 +264,6 @@
   }
 }
 
-.drp-shortcuts-form {
+.drp-form {
   margin-top: 5px;
 }
