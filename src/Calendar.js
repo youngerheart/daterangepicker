@@ -10,6 +10,7 @@ class Calendar{
     var {el, config} = that;
     var {numberOfCalendars, lang, maxDate, minDate, calendar} = config;
     this.el = createElement('div', 'drp-calendar');
+    this.unitEl = null;
     this.parent = el;
     this.calNum = numberOfCalendars;
     this.type = calendar || 'day';
@@ -41,9 +42,11 @@ class Calendar{
     this.current = this.current.subtract(Math.ceil(this.calNum / 2), 'month');
     this.drawPointer();
     for(var i = 0; i < this.calNum; i++) {
+      this.unitEl = createElement('div', 'drp-unit');
       this.current = this.current.date(1).add(1, 'month');
       this.drawHeader(i);
-      this.type === 'month' ? this.drawYear() : this.drawMonth();
+      this.isMonth ? this.drawYear() : this.drawMonth();
+      this.el.appendChild(this.unitEl);
     }
   }
 
@@ -63,7 +66,7 @@ class Calendar{
 
   drawHeader(i) {
     this.header = createElement('div', 'drp-header', this.current.format(this.isMonth ? 'YYYY' : 'YYYY MMM'));
-    this.el.appendChild(this.header);
+    this.unitEl.appendChild(this.header);
     if(!this.isMonth && !this.isWeek) this.drawWeekDays();
   }
 
@@ -72,13 +75,13 @@ class Calendar{
     !this.isWeek && this.backFill();
     this.currentMonth();
     !this.isWeek && this.fowardFill();
-    this.el.appendChild(this.month[this.month.length - 1]);
+    this.unitEl.appendChild(this.month[this.month.length - 1]);
   }
 
   drawYear() {
     this.year.push(createElement('div', 'drp-month'));
     this.currentYear();
-    this.el.appendChild(this.year[this.year.length - 1]);
+    this.unitEl.appendChild(this.year[this.year.length - 1]);
   }
 
   backFill() {
@@ -196,7 +199,7 @@ class Calendar{
       var day = createElement('span', 'drp-day', weekday);
       this.weekDays.appendChild(day);
     });
-    this.el.appendChild(this.weekDays);
+    this.unitEl.appendChild(this.weekDays);
   }
 
   nextMonth() {
