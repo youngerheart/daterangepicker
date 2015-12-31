@@ -28,6 +28,10 @@
   font-size: 1.5em;
 }
 
+.drp-calendar {
+  text-align: center;
+}
+
 .drp-left, .drp-right {
   position: absolute;
   top: 1px;
