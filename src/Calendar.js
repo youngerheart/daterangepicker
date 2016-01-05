@@ -26,8 +26,8 @@ class Calendar{
   }
 
   draw(current) {
-    if(current) this.current = moment(current);
     moment.locale(this.lang || 'zh-cn');
+    if(current) this.current = moment(current);
     // 清空之前的数据
     this.el.innerHTML = '';
     this.month = [];
@@ -113,7 +113,6 @@ class Calendar{
     var clone = this.current.clone();
     while (clone.month() === this.current.month()) {
       this.drawDay(clone, this.isMonth, 'sadfas');
-      //TODO
       clone.add(1, this.isWeek ? 'weeks' : 'days');
     }
   }
@@ -128,19 +127,15 @@ class Calendar{
   }
 
   getWeek(day) {
+    if(this.isWeek) this.week = null;
     if(!this.week || day.day() === 0) {
-      this.week = createElement('div', 'drp-week');
+      this.week = createElement('div', 'drp-week' + (this.isWeek ? ' longer' : ''));
       this.month[this.month.length - 1].appendChild(this.week);
     }
   }
 
   drawDay(day) {
-    if(this.isWeek) {
-      if(!this.week) this.week = createElement('div', 'drp-week'); 
-      this.month[this.month.length - 1].appendChild(this.week);
-    } else {
-      this.getWeek(day);
-    }
+    this.getWeek(day);
     day = this.fixDateStr(day.clone());
     //Outer Day
     var outer = createElement('div', this.getDayClass(day));
@@ -148,7 +143,9 @@ class Calendar{
     //Day Number
     if((this.minDate && day.isBefore(this.minDate))
       || (this.maxDate && day.isAfter(this.maxDate))) className = 'drp-day-static';
-    var number = createElement('div', className, day.format(this.isWeek ? 'WW' + this.langObj.week : 'DD'));
+    var dayStr = day.format('DD');
+    var weekStr = day.format('WW') + this.langObj.week + ' (' + day.format('MM-DD') + '~' + moment(day).add(1, 'weeks').format('MM-DD') + ')';
+    var number = createElement('div', className, this.isWeek ? weekStr : dayStr);
     number.setAttribute('date', day.format('YYYY-MM-DD'));
     outer.appendChild(number);
     this.week.appendChild(outer);

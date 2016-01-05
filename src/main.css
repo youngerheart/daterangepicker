@@ -70,6 +70,13 @@
   right: 9px;
 }
 
+.drp-week.longer .drp-day {
+  width: 155px;
+  .drp-day-number, .drp-day-static {
+    width: 100%;
+  }
+}
+
 .drp-week-days {
   text-align: center;
   font-weight: bold;
