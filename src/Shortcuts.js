@@ -32,8 +32,8 @@ class Shortcuts {
         selectBtnEL.addEventListener('click', (e) => {
           var date = moment(this.dateEL.value);
           if(date.isValid()) {
-            if(date.isBefore(minDate)) date = minDate;
-            if(date.isAfter(maxDate)) date = maxDate;
+            if(minDate && date.isBefore(minDate)) date = minDate;
+            if(maxDate && date.isAfter(maxDate)) date = maxDate;
             if(!date.isSame(that.date)) {
               that.set('date', date);
               that.selectFunc();
@@ -52,8 +52,8 @@ class Shortcuts {
           var end = moment(this.rangeEndEL.value);
           if(start.isValid() && end.isValid) {
             if(start.isAfter(end)) start = end;
-            if(start.isBefore(minDate)) start = minDate;
-            if(end.isAfter(maxDate)) end = maxDate;
+            if(minDate && start.isBefore(minDate)) start = minDate;
+            if(maxDate && end.isAfter(maxDate)) end = maxDate;
             if(!moment.range(start, end).isSame(that.range)) {
               that.set('range', moment.range(start, end));
               that.selectFunc();

@@ -41,7 +41,7 @@ class Dimension {
     that.calendar.type = type;
     var date = moment(that.date);
     date = date.startOf(type);
-    if(date.isBefore(that.config.minDate)) date.add(1, 'week');
+    if(that.config.minDate && date.isBefore(that.config.minDate)) date.add(1, 'week');
     if(date.isSame(that.date)) {
       that.calendar.draw(date);
       reload(that);
