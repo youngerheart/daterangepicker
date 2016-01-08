@@ -88,6 +88,7 @@ var setSingleTime = function() {
 var configs2 = {
   lang: 'en',
   numberOfCalendars: 2,
+  calendarType: 'month',
   type: 'range',
   time: true,
   range: moment.range(['2015-10-01 23:33', '2015-10-04']),
@@ -147,7 +148,7 @@ var clearTerminalTime = function() {
   </body>
   <script type="text/javascript" src="http://cdn.bootcss.com/moment.js/2.10.6/moment-with-locales.min.js"></script>
   <script type="text/javascript" src="http://cdn.bootcss.com/moment-range/2.1.0/moment-range.min.js"></script>
-  <script type="text/javascript" src="dist/daterangepicker.min.js"></script>
+  <script type="text/javascript" src="dist/daterangepicker.js"></script>
   <script type="text/javascript">
     var el = function(name) {return document.getElementById(name);};
     var setValue = function(el, moment) {
@@ -178,6 +179,7 @@ var clearTerminalTime = function() {
     var configs2 = {
       lang: 'en',
       numberOfCalendars: 2,
+      calendarType: 'month',
       time: true,
       type: 'range',
       sidewards: true,
