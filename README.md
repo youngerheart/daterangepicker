@@ -34,6 +34,7 @@ Include js in `/dist` by tag , you can also require js by `require('date-range-p
       var configs1 = {
         lang: 'zh-cn', // using language
         numberOfCalendars: 1, // displaying month number
+        calendarType: 'day', // type of calendar, day, week or month, dafault 'day'
         type: 'single', // single, range, terminal
         time: true, // want display & ctrl hours and minutes or not
         date: moment('2015-10-01 23:33'), // default date for type single

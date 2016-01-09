@@ -8,12 +8,12 @@ class Calendar{
   constructor(that, callback) {
     // 渲染header, 再渲染多个月份的日历
     var {el, config} = that;
-    var {numberOfCalendars, lang, maxDate, minDate, calendar} = config;
+    var {numberOfCalendars, lang, maxDate, minDate, calendarType} = config;
     this.el = createElement('div', 'drp-calendar');
     this.unitEl = null;
     this.parent = el;
     this.calNum = numberOfCalendars;
-    this.type = calendar || 'day';
+    this.type = calendarType || 'day';
     this.current = that.range
                    ? moment(that.range.start)
                    : that.date ? moment(that.date) : moment();
@@ -43,7 +43,8 @@ class Calendar{
     this.drawPointer();
     for(var i = 0; i < this.calNum; i++) {
       this.unitEl = createElement('div', 'drp-unit');
-      this.current = this.current.date(1).add(1, 'month');
+      if(!this.isMonth) this.current = this.current.date(1).add(1, 'month');
+      else this.current = this.current.month(0).date(1).add(1, 'year');
       this.drawHeader(i);
       this.isMonth ? this.drawYear() : this.drawMonth();
       this.el.appendChild(this.unitEl);

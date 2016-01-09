@@ -75,7 +75,7 @@
 }
 
 .drp-week.longer .drp-day {
-  width: 155px;
+  width: 175px;
   .drp-day-number, .drp-day-static {
     width: 100%;
   }
@@ -281,4 +281,5 @@
 
 .drp-unit {
   display: inline-block;
+  width: 100%;
 }
