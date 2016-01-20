@@ -6,6 +6,7 @@ const format = require('./tools/getter').format;
 // 快速选择按钮逻辑
 class Shortcuts {
   constructor(that, config) {
+    var initMoment = moment();
     this.lang = Lang[that.config.lang];
     this.el = config.el;
     this.btns = config.btns;
@@ -26,7 +27,7 @@ class Shortcuts {
     if(this.btns.indexOf('custom') !== -1) {
       var {minDate, maxDate, type} = that.config;
       if(type === 'single') {
-        this.dateEL = createElement('input', 'drp-input', format(that.date));
+        this.dateEL = createElement('input', 'drp-input', format(that.date || initMoment));
         this.formEL.appendChild(this.dateEL);
         this.formEL.appendChild(selectBtnEL);
         selectBtnEL.addEventListener('click', (e) => {
@@ -39,11 +40,11 @@ class Shortcuts {
               that.selectFunc();
             }
           }
-          this.dateEL.value = format(that.date);
+          this.dateEL.value = format(that.date || initMoment);
         });
       } else {
-        this.rangeStartEL = createElement('input', 'drp-input', format(that.range.start));
-        this.rangeEndEL = createElement('input', 'drp-input', format(that.range.end));
+        this.rangeStartEL = createElement('input', 'drp-input', format(that.range ? that.range.start : initMoment));
+        this.rangeEndEL = createElement('input', 'drp-input', format(that.range ? that.range.end : initMoment));
         this.formEL.appendChild(this.rangeStartEL);
         this.formEL.appendChild(this.rangeEndEL);
         this.formEL.appendChild(selectBtnEL);
@@ -59,8 +60,8 @@ class Shortcuts {
               that.selectFunc();
             }
           }
-          this.rangeStartEL.value = format(that.range.start);
-          this.rangeEndEL.value = format(that.range.end);
+          this.rangeStartEL.value = format(that.range ? that.range.start : initMoment);
+          this.rangeEndEL.value = format(that.range ? that.range.end : initMoment);
         });
       }
     }
