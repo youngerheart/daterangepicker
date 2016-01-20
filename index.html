@@ -59,7 +59,7 @@ var configs1 = {
   numberOfCalendars: 1,
   type: 'single',
   time: true,
-  date: moment('2015-10-01 23:33'),
+  date: null,
   maxDate: moment(),
   minDate: moment('2015-09-30'),
   shortcuts: {el: elObj},
@@ -152,6 +152,7 @@ var clearTerminalTime = function() {
   <script type="text/javascript">
     var el = function(name) {return document.getElementById(name);};
     var setValue = function(el, moment) {
+      if(!moment) return el.innerHTML = 'Total: empty';
       if(moment.start) {
         el.innerHTML = 'Total: ' + moment.start.format('YYYY-MM-DD HH:mm') + '~' + moment.end.format('YYYY-MM-DD HH:mm');
       } else {
@@ -163,7 +164,7 @@ var clearTerminalTime = function() {
       numberOfCalendars: 1, // 显示多少个月的日历
       time: true,
       type: 'single', // single, range, terminal 是单选，选择时间区域，还是规定时间区域改变时间起止
-      date: moment('2015-10-01 23:33'), // 已经选定的momentrange区间，仅在range与terminal时有效
+      date: null, // 已经选定的momentrange区间，仅在range与terminal时有效
       maxDate: moment(),
       minDate: moment('2015-09-30'),
       shortcuts: {
