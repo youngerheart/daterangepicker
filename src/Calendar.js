@@ -14,6 +14,7 @@ class Calendar{
     this.parent = el;
     this.calNum = numberOfCalendars;
     this.type = calendarType || 'day';
+    moment.locale(this.lang || 'zh-cn');
     this.current = that.range
                    ? moment(that.range.start)
                    : that.date ? moment(that.date) : moment();
