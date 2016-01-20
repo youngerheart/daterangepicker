@@ -30,6 +30,7 @@ class Calendar{
   draw(current) {
     moment.locale(this.lang || 'zh-cn');
     if(current) this.current = moment(current);
+    if(!this.current) this.current = moment();
     // 清空之前的数据
     this.el.innerHTML = '';
     this.month = [];

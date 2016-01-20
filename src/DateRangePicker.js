@@ -43,6 +43,7 @@ class DateRangePicker {
         date = date || this.date;
         if(this.shortcuts) this.shortcuts.setInput(type, date);
         if(!this.time) return onSelect(date);
+        else this.time.setStatus(true);
         var {hours, minutes} = this.time;
         this.date = date.hours(hours[0]).minutes(minutes[0]);
         onSelect(this.date);
@@ -50,6 +51,7 @@ class DateRangePicker {
         date = date || this.range;
         if(this.shortcuts) this.shortcuts.setInput(type, date);
         if(!this.time) return onSelect(date);
+        else this.time.setStatus(true);
         var {hours, minutes} = this.time;
         this.range.start = date.start.hours(hours[0]).minutes(minutes[0]);
         this.range.end = date.end.hours(hours[1]).minutes(minutes[1]);
@@ -66,8 +68,10 @@ class DateRangePicker {
       reload(this);
     });
 
-    if(config.time) this.time = new TimePicker(this);
-
+    if(config.time) {
+      this.time = new TimePicker(this);
+      if((config.type === 'single' && !this.date) || (config.type !== 'single' && !this.range)) this.time.setStatus(false);
+    }
     el.className = 'drp';
     el.addEventListener('click', (e) => {
       bind(e, click, this);
@@ -101,7 +105,10 @@ class DateRangePicker {
       if(this.shortcuts) this.shortcuts.setInput(type, value);
     }
     this[key] = value;
-    if(this.time) this.time.setTime(value);
+    if(this.time) {
+      this.time.setTime(value);
+      this.time.setStatus(true);
+    }
     this.calendar.draw(value.start || value);
     reload(this);
   }
@@ -111,12 +118,18 @@ class DateRangePicker {
     if(range) {
       EL.clear(el, range);
       this.range = null;
-      if(this.time) this.time.setTime(moment.range([zero, zero]));
+      if(this.time) {
+        this.time.setStatus(false);
+        this.time.setTime(moment.range([zero, zero]));
+      }
     }
     if(date) {
       EL.exchangeClass(this.targetElements, '', el, ['focus']);
       this.date = null;
-      if(this.time) this.time.setTime(moment(zero));
+      if(this.time) {
+        this.time.setStatus(false);
+        this.time.setTime(moment(zero));
+      }
     }
   }
 

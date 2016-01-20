@@ -112,6 +112,7 @@ class Shortcuts {
   };
 
   setInput(type, date) {
+    if(!date) return;
     if(type === 'single') {
       this.dateEL.value = format(date);
     } else {

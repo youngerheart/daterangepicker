@@ -101,6 +101,12 @@ class TimePicker {
       this.setParams(false, time.end, false);
     }
   };
+
+  setStatus(enabled) {
+    this.input.forEach((input) => {
+      input.disabled = !enabled;
+    });
+  }
 }
 
 module.exports = TimePicker;
