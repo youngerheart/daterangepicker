@@ -167,6 +167,9 @@
   width: 100px;
   -webkit-appearance: none;
   margin: 18px 2px;
+  &:disabled {
+    opacity: .6;
+  }
   &:focus {
     outline: none;
   }
