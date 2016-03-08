@@ -12,7 +12,7 @@ class Calendar{
     this.el = createElement('div', 'drp-calendar');
     this.unitEl = null;
     this.parent = el;
-    this.calNum = numberOfCalendars;
+    this.calNum = numberOfCalendars || 1;
     this.type = calendarType || 'day';
     moment.locale(this.lang || 'zh-cn');
     this.current = that.range
@@ -42,7 +42,7 @@ class Calendar{
     if(this.isMonth) this.current = this.current.startOf('year');
     if(this.isWeek) this.current = this.current.startOf('month');
     this.current = this.current.subtract(Math.ceil(this.calNum / 2), 'month');
-    this.drawPointer();
+    if(!this.unitEl) this.drawPointer();
     for(var i = 0; i < this.calNum; i++) {
       this.unitEl = createElement('div', 'drp-unit');
       if(!this.isMonth) this.current = this.current.date(1).add(1, 'month');
