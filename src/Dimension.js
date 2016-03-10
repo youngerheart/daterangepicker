@@ -17,6 +17,7 @@ class Dimension {
   };
 
   setBtn(that, str, index) {
+    if(!this.el) return;
     var btn = createElement('a', 'drp-btn' + (!index ? ' focus' : ''), str);
     var date = moment(that.date);
     var minDate = that.config.minDate;
