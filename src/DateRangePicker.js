@@ -34,7 +34,7 @@ class DateRangePicker {
       this.shortcuts = new Shortcuts(this, shortcuts);
     }
     // 绑定dimension
-    if(dimension && dimension.el && type === 'single') {
+    if(dimension) {
       this.dimension = new Dimension(this, dimension);
     }
 
