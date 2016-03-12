@@ -1,6 +1,6 @@
 {
   "name": "date-range-picker",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "a simple daterangepicker",
   "main": "dist/daterangepicker.min.js",
   "scripts": {
