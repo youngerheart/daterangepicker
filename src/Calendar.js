@@ -198,7 +198,7 @@ class Calendar{
     // 获取一个星期的每一天
     var weekdays = [];
     for(var i = 0; i < 7; i++) {
-      weekdays.push(moment().weekday(i - 1).format('ddd'));
+      weekdays.push(moment().weekday(this.lang.indexOf('cn') === -1 ? i : i - 1).format('ddd'));
     }
     weekdays.forEach((weekday) => {
       var day = createElement('span', 'drp-day', weekday);
