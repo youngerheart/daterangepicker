@@ -37,6 +37,7 @@ Include js in `/dist` by tag , you can also require js by `require('date-range-p
         calendarType: 'day', // type of calendar, day, week or month, dafault 'day'
         type: 'single', // single, range, terminal
         time: true, // want display & ctrl hours and minutes or not
+        noCalendars: false, // want not display & ctrl calandar, default false
         date: moment('2015-10-01 23:33'), // default date for type single
         range: moment.range(['2015-10-01', '2015-10-08']), // default range for type range or terminal
         minDate: moment('2015-09-30'), // limit minDate
