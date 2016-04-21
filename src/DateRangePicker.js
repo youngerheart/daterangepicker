@@ -64,9 +64,11 @@ class DateRangePicker {
   init() {
     // 绘制Calendar
     var {el, config} = this;
-    this.calendar = new Calendar(this, () => {
-      reload(this);
-    });
+    if(!config.noCalendars) {
+      this.calendar = new Calendar(this, () => {
+        reload(this);
+      });
+    }
 
     if(config.time) {
       this.time = new TimePicker(this);
@@ -109,7 +111,7 @@ class DateRangePicker {
       this.time.setTime(value);
       this.time.setStatus(true);
     }
-    this.calendar.draw(value.start || value);
+    if(this.calendar) this.calendar.draw(value.start || value);
     reload(this);
   }
 
