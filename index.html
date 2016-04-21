@@ -145,6 +145,39 @@ var clearTerminalTime = function() {
         </pre>
       </div>
     </div>
+    <div class="item">
+      <div class="item-title">
+        <span class='item-title-text'>time-picker</span>
+        <span id='drp-time-value' class="item-title-value"></span>
+        <button id="settimetime" class="item-title-settimebtn" onclick="setTimeTime()">set time</button>
+        <button id="cleartimetime" class="item-title-settimebtn" onclick="clearTimeTime()">clear</button>
+      </div>
+      <div id="drp-time-shortcuts"></div>
+      <div id="drp-time-dimension"></div>
+      <div id="drp-time"></div>
+      <div class="item-desc">
+        <pre>
+var configs4 = {
+  lang: 'zh-cn',
+  noCalendars: true,
+  date: moment(),
+  time: true,
+  onSelect: function(date) {
+    setValue(input4, date);
+  }
+}
+
+var drp4 = new DateRangePicker(el4, configs4);
+var setTerminalTime = function() {
+  drp4.set('date', moment());
+};
+
+var clearTerminalTime = function() {
+  drp4.clear();
+};
+        </pre>
+      </div>
+    </div>
   </body>
   <script type="text/javascript" src="http://cdn.bootcss.com/moment.js/2.10.6/moment-with-locales.min.js"></script>
   <script type="text/javascript" src="http://cdn.bootcss.com/moment-range/2.1.0/moment-range.min.js"></script>
@@ -183,7 +216,6 @@ var clearTerminalTime = function() {
       calendarType: 'month',
       time: true,
       type: 'range',
-      sidewards: true,
       range: moment.range(['2015-10-01 23:33', '2015-10-04']),
       maxDate: moment(),
       minDate: moment('2015-09-30'),
@@ -209,18 +241,31 @@ var clearTerminalTime = function() {
         setValue(input3, range);
       }
     }
+    var configs4 = {
+      type: 'single',
+      noCalendars: true,
+      date: moment(),
+      time: true,
+      onSelect: function(date) {
+        setValue(input4, date);
+      }
+    }
     var el1 = el('drp-single');
     var drp1 = new DateRangePicker(el1, configs1);
     var el2 = el('drp-range');
     var drp2 = new DateRangePicker(el2, configs2);
     var el3 = el('drp-terminal');
     var drp3 = new DateRangePicker(el3, configs3);
+    var el4 = el('drp-time');
+    var drp4 = new DateRangePicker(el4, configs4);
     var input1 = el('drp-single-value');
     var input2 = el('drp-range-value');
     var input3 = el('drp-terminal-value');
+    var input4 = el('drp-time-value');
     setValue(input1, drp1.date);
     setValue(input2, drp2.range);
     setValue(input3, drp3.range);
+    setValue(input4, drp4.date);
     var setSingleTime = function() {
       drp1.set('date', moment());
     };
@@ -238,6 +283,12 @@ var clearTerminalTime = function() {
     };
     var clearTerminalTime = function() {
       drp3.clear();
+    };
+    var setTimeTime = function() {
+      drp4.set('date', moment());
+    };
+    var clearTimeTime = function() {
+      drp4.clear();
     };
   </script>
 </html>
