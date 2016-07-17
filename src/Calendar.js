@@ -152,7 +152,7 @@ class Calendar{
     if((this.minDate && day.isBefore(this.minDate))
       || (this.maxDate && day.isAfter(this.maxDate))) className = 'drp-day-static';
     var dayStr = day.format('DD');
-    var weekStr = day.format('WW') + this.langObj.week + ' (' + day.format('MM-DD') + '~' + moment(day).add(1, 'weeks').format('MM-DD') + ')';
+    var weekStr = day.format('WW') + this.langObj.week + ' (' + day.format('MM-DD') + '~' + moment(day).add(6, 'days').format('MM-DD') + ')';
     var number = createElement('div', className, this.isWeek ? weekStr : dayStr);
     number.setAttribute('date', day.format('YYYY-MM-DD'));
     outer.appendChild(number);
